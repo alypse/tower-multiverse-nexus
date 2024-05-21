@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "sass": "^1.77.2",
+    "tower-idle-toolkit": "^0.21.21-1"
+  }
+}

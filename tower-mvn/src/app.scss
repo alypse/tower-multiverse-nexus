@@ -1,0 +1,149 @@
+@import 'variables.scss';
+
+$font: 'Palanquin', sans-serif;
+
+html,
+body {
+  background-color: $background;
+  color: $white;
+  font-family: $font;
+}
+
+#main {
+  @include container($secondary);
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  justify-content: flex-start;
+  align-items: stretch;
+  .nav {
+    @include container($secondary);
+    display: flex;
+    button {
+      width: 8rem;
+      margin: 5px;
+    }
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
+  }
+  .list {
+    @include container($primary);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    .item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5px;
+      margin: 5px;
+      .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px;
+        .expander {
+          cursor: pointer;
+          color: $secondary;
+          font-weight: bolder;
+        }
+      }
+      .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: start;
+        padding: 0 5px;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0,1,0,1);
+      }
+      .content.show {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: start;
+        padding: 0 5px;
+        max-height: 1000px;
+        transition: all 0.5s cubic-bezier(1,0,1,0);
+        .details {
+          color: $secondary;
+          font-weight: lighter;
+          padding: 5px 0;
+        }
+      }
+    }
+  }
+}
+
+.controls {
+  @include container($primary);
+  display: flex;
+  flex-wrap: wrap;
+  .control {
+    @include container($primary);
+    margin:5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    input, select {
+      margin-left: 10px;
+      width: 5rem;
+    }
+    input[type='checkbox'] {
+      width: auto;
+    }
+  }
+}
+
+button {
+  font-family: $font;
+  font-weight: 600;
+  font-size: 14px;
+  outline: none;
+  border: 1px solid $primary;
+  background-color: transparent;
+  color: $white;
+  border-radius: 3px;
+  padding: 0.5rem 0.25rem;
+  width: 10rem;
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover:enabled {
+    background-color: $secondary;
+    border-color: $secondary;
+    &:active {
+      background-color: $primary;
+      border-color: $primary;
+    }
+  }
+  &:disabled {
+    border-color: $disabled;
+    background-color: $disabled;
+    cursor: not-allowed;
+  }
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: underline;
+  color: $secondary;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:visited {
+  color: $secondary;
+}
+
