@@ -8,7 +8,6 @@ const dwCooldowns = DEATH_WAVE.upgrades.Cooldown.values;
 const bhCooldowns = BLACK_HOLE.upgrades.Cooldown.values;
 
 export function Calculator() {
-    const [expanded, setExpanded] = useState(null);
     const [gtCooldown, setGtCooldown] = useState(gtCooldowns[gtCooldowns.length - 1].value);
     const [dwCooldown, setDwCooldown] = useState(dwCooldowns[dwCooldowns.length - 1].value);
     const [bhCooldown, setBhCooldown] = useState(bhCooldowns[bhCooldowns.length - 1].value);
