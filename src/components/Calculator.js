@@ -25,42 +25,26 @@ export function Calculator() {
     const dwCooldownActual = getSum(dwCooldown, dwCooldownSubstat);
     const bhCooldownActual = getSum(bhCooldown, bhCooldownSubstat);
 
-    const totalCooldown = gtCooldownActual + dwCooldownActual + bhCooldownActual;
+    const totalCooldown = getSum(getSum(gtCooldownActual,dwCooldownActual), bhCooldownActual);
     const averageCooldown = totalCooldown / 3;
-    const totalCooldownWithEffect = getSum(totalCooldown, mnEffect);
+    const totalCooldownWithEffect = getSum(averageCooldown, mnEffect);
 
     return (
         <div className="main">
             <div className="controls">
                 <div className="control">
-                    <label>GT Cooldown</label>
-                    <select value={gtCooldown} onChange={e => setGtCooldown(e.target.value)}>
-                        {gtCooldownValues.map((value, index) => (
-                            <option key={index} value={value}>{value}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="control">
-                    <label>DW Cooldown</label>
-                    <select value={dwCooldown} onChange={e => setDwCooldown(e.target.value)}>
-                        {dwCooldownValues.map((value, index) => (
-                            <option key={index} value={value}>{value}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="control">
-                    <label>BH Cooldown</label>
-                    <select value={bhCooldown} onChange={e => setBhCooldown(e.target.value)}>
-                        {bhCooldownValues.map((value, index) => (
-                            <option key={index} value={value}>{value}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="control">
                     <label>MN Effect</label>
                     <select value={mnEffect} onChange={e => setMnEffect(e.target.value)}>
                         {Object.values(MULTIVERSE_NEXUS_EFFECT).map((effect, index) => (
                             <option key={index} value={effect}>{effect}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="control">
+                    <label>GT Cooldown</label>
+                    <select value={gtCooldown} onChange={e => setGtCooldown(e.target.value)}>
+                        {gtCooldownValues.map((value, index) => (
+                            <option key={index} value={value}>{value}</option>
                         ))}
                     </select>
                 </div>
@@ -73,10 +57,26 @@ export function Calculator() {
                     </select>
                 </div>
                 <div className="control">
+                    <label>DW Cooldown</label>
+                    <select value={dwCooldown} onChange={e => setDwCooldown(e.target.value)}>
+                        {dwCooldownValues.map((value, index) => (
+                            <option key={index} value={value}>{value}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="control">
                     <label>DW Cooldown Substat</label>
                     <select value={dwCooldownSubstat} onChange={e => setDwCooldownSubstat(e.target.value)}>
                         {Object.values(DEATH_WAVE_SUBSTATS_COOLDOWN).map((substat, index) => (
                             <option key={index} value={substat}>{substat}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="control">
+                    <label>BH Cooldown</label>
+                    <select value={bhCooldown} onChange={e => setBhCooldown(e.target.value)}>
+                        {bhCooldownValues.map((value, index) => (
+                            <option key={index} value={value}>{value}</option>
                         ))}
                     </select>
                 </div>
@@ -100,7 +100,7 @@ export function Calculator() {
                     <p>{averageCooldown.toFixed(2)} seconds</p>
                 </div>
                 <div className="result">
-                    <p>Total Cooldown with Effect</p>
+                <p>Total Cooldown with Effect</p>
                     <p>{totalCooldownWithEffect.toFixed(2)} seconds</p>
                 </div>
             </div>
