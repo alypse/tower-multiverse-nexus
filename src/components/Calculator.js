@@ -2,6 +2,7 @@ import { useState } from "react";
 import './Calculator.scss';
 import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_COOLDOWN } from "../utils/Values.js";
 import { DEATH_WAVE, BLACK_HOLE, GOLDEN_TOWER} from "tower-idle-toolkit";
+import { getSum } from "../utils/utils";
 
 const gtCooldowns = GOLDEN_TOWER.upgrades.Cooldown.values;
 const dwCooldowns = DEATH_WAVE.upgrades.Cooldown.values;
@@ -20,13 +21,13 @@ export function Calculator() {
     const dwCooldownValues = dwCooldowns.map((levels, index) => {return levels.value});
     const bhCooldownValues = bhCooldowns.map((levels, index) => {return levels.value});
 
-    const gtCooldownActual = gtCooldown - gtCooldownSubstat
-    const dwCooldownActual = dwCooldown - dwCooldownSubstat;
-    const bhCooldownActual = bhCooldown - bhCooldownSubstat;
+    const gtCooldownActual = getSum(gtCooldown, gtCooldownSubstat);
+    const dwCooldownActual = getSum(dwCooldown, dwCooldownSubstat);
+    const bhCooldownActual = getSum(bhCooldown, bhCooldownSubstat);
 
     const totalCooldown = gtCooldownActual + dwCooldownActual + bhCooldownActual;
     const averageCooldown = totalCooldown / 3;
-    const totalCooldownWithEffect = parseInt(averageCooldown) + parseInt(mnEffect);
+    const totalCooldownWithEffect = getSum(totalCooldown, mnEffect);
 
     return (
         <div className="main">
@@ -88,7 +89,8 @@ export function Calculator() {
                     </select>
                 </div>
             </div>
-            <div className="results"> Results
+            <div className="results">
+                Results
                 <div className="result">
                     <p>Total Cooldown</p>
                     <p>{totalCooldown.toFixed(2)} seconds</p>
