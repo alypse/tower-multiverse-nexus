@@ -81,7 +81,14 @@ body {
 .controls {
   @include container($primary);
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
+  .controlGroup {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
   .control {
     @include container($primary);
     margin:5px;

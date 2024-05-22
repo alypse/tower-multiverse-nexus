@@ -32,6 +32,7 @@ export function Calculator() {
     return (
         <div className="main">
             <div className="controls">
+                <div className="controlGroup">
                 <div className="control">
                     <label>MN Effect</label>
                     <select value={mnEffect} onChange={e => setMnEffect(e.target.value)}>
@@ -40,8 +41,10 @@ export function Calculator() {
                         ))}
                     </select>
                 </div>
+                </div>
+                <div className="controlGroup">
                 <div className="control">
-                    <label>GT Cooldown</label>
+                    <label>GT CD</label>
                     <select value={gtCooldown} onChange={e => setGtCooldown(e.target.value)}>
                         {gtCooldownValues.map((value, index) => (
                             <option key={index} value={value}>{value}</option>
@@ -49,15 +52,17 @@ export function Calculator() {
                     </select>
                 </div>
                 <div className="control">
-                    <label>GT Cooldown Substat</label>
+                    <label>GT CD Substat</label>
                     <select value={gtCooldownSubstat} onChange={e => setGtCooldownSubstat(e.target.value)}>
                         {Object.values(GOLDEN_TOWER_SUBSTATS_COOLDOWN).map((substat, index) => (
                             <option key={index} value={substat}>{substat}</option>
                         ))}
                     </select>
                 </div>
+                </div>
+                <div className="controlGroup">
                 <div className="control">
-                    <label>DW Cooldown</label>
+                    <label>DW CD</label>
                     <select value={dwCooldown} onChange={e => setDwCooldown(e.target.value)}>
                         {dwCooldownValues.map((value, index) => (
                             <option key={index} value={value}>{value}</option>
@@ -65,15 +70,17 @@ export function Calculator() {
                     </select>
                 </div>
                 <div className="control">
-                    <label>DW Cooldown Substat</label>
+                    <label>DW CD Substat</label>
                     <select value={dwCooldownSubstat} onChange={e => setDwCooldownSubstat(e.target.value)}>
                         {Object.values(DEATH_WAVE_SUBSTATS_COOLDOWN).map((substat, index) => (
                             <option key={index} value={substat}>{substat}</option>
                         ))}
                     </select>
                 </div>
+                </div>
+                <div className="controlGroup">
                 <div className="control">
-                    <label>BH Cooldown</label>
+                    <label>BH CD</label>
                     <select value={bhCooldown} onChange={e => setBhCooldown(e.target.value)}>
                         {bhCooldownValues.map((value, index) => (
                             <option key={index} value={value}>{value}</option>
@@ -81,13 +88,14 @@ export function Calculator() {
                     </select>
                 </div>
                 <div className="control">
-                    <label>BH Cooldown Substat</label>
+                    <label>BH CD Substat</label>
                     <select value={bhCooldownSubstat} onChange={e => setBhCooldownSubstat(e.target.value)}>
                         {Object.values(BLACK_HOLE_SUBSTATS_COOLDOWN).map((substat, index) => (
                             <option key={index} value={substat}>{substat}</option>
                         ))}
                     </select>
                 </div>
+            </div>
             </div>
             <div className="results">
                 Results
