@@ -1,2 +1,28 @@
 @import '../variables.scss';
 
+.results {
+  @include container($primary);
+  display: flex;
+  flex-direction: column;
+  .result {
+    @include container($primary);
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    p { margin-right: 10px; }
+    .title { margin-left: 10px; font-weight: bold; }
+    .data {
+      @include container($secondary);
+      display: flex;
+      flex-direction: column;
+      .stats, .quantiles {
+        display: flex;
+        flex-wrap: wrap;
+        > div {
+          margin: 5px;
+        }
+      }
+    }
+  }
+}

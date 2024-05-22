@@ -88,18 +88,18 @@ export function Calculator() {
                     </select>
                 </div>
             </div>
-            <div className="results">
+            <div className="results"> Results
                 <div className="result">
-                    <h3>Total Cooldown</h3>
-                    <p>{totalCooldown}</p>
+                    <p>Total Cooldown</p>
+                    <p>{totalCooldown.toFixed(2)} seconds</p>
                 </div>
                 <div className="result">
-                    <h3>Average Cooldown</h3>
-                    <p>{averageCooldown}</p>
+                    <p>Average Cooldown</p>
+                    <p>{averageCooldown.toFixed(2)} seconds</p>
                 </div>
                 <div className="result">
-                    <h3>Total Cooldown with Effect</h3>
-                    <p>{totalCooldownWithEffect}</p>
+                    <p>Total Cooldown with Effect</p>
+                    <p>{totalCooldownWithEffect.toFixed(2)} seconds</p>
                 </div>
             </div>
         </div>
