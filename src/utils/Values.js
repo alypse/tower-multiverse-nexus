@@ -9,9 +9,9 @@ export const DEATH_WAVE_SUBSTATS_COOLDOWN = {
     "Common": 0,
     "Rare": 0,
     "Epic": 0,
-    "Legendary": -4,
-    "Mythic": -7,
-    "Ancestral": -10,
+    "Legendary": -6,
+    "Mythic": -10,
+    "Ancestral": -13,
 };
 
 export const GOLDEN_TOWER_SUBSTATS_COOLDOWN = {
