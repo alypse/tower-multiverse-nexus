@@ -2,7 +2,8 @@ import { useState } from "react";
 import './Calculator.scss';
 import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_COOLDOWN } from "../utils/Values.js";
 import { DEATH_WAVE, BLACK_HOLE, GOLDEN_TOWER} from "tower-idle-toolkit";
-import { getSum, average } from "../utils/utils";
+import { sum, average } from "../utils/utils";
+import { useCheckboxState, useIntegerState } from "../utils/hooks";
 
 const gtCooldowns = GOLDEN_TOWER.upgrades.Cooldown.values;
 const dwCooldowns = DEATH_WAVE.upgrades.Cooldown.values;
@@ -10,28 +11,34 @@ const bhCooldowns = BLACK_HOLE.upgrades.Cooldown.values;
 
 export function Calculator() {
     const [gtCooldown, setGtCooldown] = useState(gtCooldowns[gtCooldowns.length - 1].value);
+    const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'gtEnabled');
     const [dwCooldown, setDwCooldown] = useState(dwCooldowns[dwCooldowns.length - 1].value);
+    const [dwEnabled, setDwEnabled] = useCheckboxState(true, 'dwEnabled');
     const [bhCooldown, setBhCooldown] = useState(bhCooldowns[bhCooldowns.length - 1].value);
+    const [bhEnabled, setBhEnabled] = useCheckboxState(true, 'bhEnabled');
     const [mnEffect, setMnEffect] = useState(MULTIVERSE_NEXUS_EFFECT.Ancestral);
     const [gtCooldownSubstat, setGtCooldownSubstat] = useState(0);
     const [dwCooldownSubstat, setDwCooldownSubstat] = useState(0);
     const [bhCooldownSubstat, setBhCooldownSubstat] = useState(0);
 
     const gtCooldownValues = gtCooldowns.map((levels, index) => {return levels.value});
-    gtCooldownValues.push(0);
     const dwCooldownValues = dwCooldowns.map((levels, index) => {return levels.value});
-    dwCooldownValues.push(0);
     const bhCooldownValues = bhCooldowns.map((levels, index) => {return levels.value});
-    bhCooldownValues.push(0);
 
-    const gtCooldownActual = getSum(gtCooldown, gtCooldownSubstat);
-    const dwCooldownActual = getSum(dwCooldown, dwCooldownSubstat);
-    const bhCooldownActual = getSum(bhCooldown, bhCooldownSubstat);
+    const gtCooldownActual = parseInt(sum(gtCooldown, gtCooldownSubstat));
+    console.log("gt cooldown actual",gtCooldownActual);
+    const dwCooldownActual = parseInt(sum(dwCooldown, dwCooldownSubstat));
+    console.log("dw cooldown actual",dwCooldownActual);
+    const bhCooldownActual = parseInt(sum(bhCooldown, bhCooldownSubstat));
 
-    const totalCooldown = getSum(getSum(gtCooldownActual,dwCooldownActual), bhCooldownActual);
-    const averageCooldown = 50;
+    const totalCooldown = sum(sum(gtCooldownActual,dwCooldownActual), bhCooldownActual);
+    // const totalCooldown = sum(gtCooldownActual, dwCooldownActual);
+    console.log("total cooldown",totalCooldown);
+    const averageCooldown = average([gtCooldownActual, dwCooldownActual, bhCooldownActual]);
+    console.log("average cooldown",averageCooldown);
 
-    const totalCooldownWithEffect = getSum(averageCooldown, mnEffect);
+    const totalCooldownWithEffect = averageCooldown + parseInt(mnEffect);
+    console.log("total cooldown with effect",totalCooldownWithEffect);
 
     return (
         <div className="main">
@@ -47,17 +54,18 @@ export function Calculator() {
                 </div>
                 </div>
                 <div className="controlGroup">
-                <div className="control">
-                    <label>GT CD</label>
-                    <select value={gtCooldown} onChange={e => setGtCooldown(e.target.value)}>
-                        {gtCooldownValues.map((value, index) => (
-                            <option key={index} value={value}>{value}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="control">
-                    <label>GT CD Stat</label>
-                    <select value={gtCooldownSubstat} onChange={e => setGtCooldownSubstat(e.target.value)}>
+                    <div className="control">
+                        <label>GT CD</label>
+                        <select value={gtCooldown} onChange={e => setGtCooldown(e.target.value)}>
+                            {gtCooldownValues.map((value, index) => (
+                                <option key={index} value={value}>{value}</option>
+                            ))}
+                        </select>
+                        <input type="checkbox" checked={gtEnabled} onChange={setGtEnabled}/>
+                    </div>
+                    <div className="control">
+                        <label>GT CD Stat</label>
+                        <select value={gtCooldownSubstat} onChange={e => setGtCooldownSubstat(e.target.value)}>
                         {Object.values(GOLDEN_TOWER_SUBSTATS_COOLDOWN).map((substat, index) => (
                             <option key={index} value={substat}>{substat}</option>
                         ))}
@@ -72,6 +80,7 @@ export function Calculator() {
                             <option key={index} value={value}>{value}</option>
                         ))}
                     </select>
+                    <input type="checkbox" checked={dwEnabled} onChange={setDwEnabled}/>
                 </div>
                 <div className="control">
                     <label>DW CD Stat</label>
@@ -90,6 +99,7 @@ export function Calculator() {
                             <option key={index} value={value}>{value}</option>
                         ))}
                     </select>
+                    <input type="checkbox" value={bhEnabled} onChange={setBhEnabled}/>
                 </div>
                 <div className="control">
                     <label>BH CD Stat</label>
@@ -105,7 +115,7 @@ export function Calculator() {
                 Results
                 <div className="result">
                     <p>Total Cooldown</p>
-                    <p>{totalCooldown.toFixed(2)} seconds</p>
+                    <p>{totalCooldown} seconds</p>
                 </div>
                 <div className="result">
                     <p>Average Cooldown</p>

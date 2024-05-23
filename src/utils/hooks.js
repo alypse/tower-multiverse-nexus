@@ -39,5 +39,28 @@ export const useInputState = (initial, key) => {
     return [state, updateState, setState];
 };
 
-export const capitalize = string => (!string?.length ? '' : string.charAt(0).toUpperCase() + string.substring(1).toLowerCase());
-export const capitalizeAll = string => (!string?.length ? '' : string.split(' ').map(capitalize).join(' '));
+export const useCheckboxEvent = setState => useCallback(({ target: { checked } }) => setState(checked), [setState]);
+
+export const useCheckboxState = (initial, key) => {
+    const [state, setState] = useUpdatedState(initial, key);
+    const updateState = useCheckboxEvent(setState);
+    return [state, updateState, setState];
+};
+
+export const useIntegerEvent = (setState, min, max) =>
+useCallback(
+    ({ target: { value } }) => {
+        let newValue = value ? parseInt(value, 10) : 0;
+        if (min != null && newValue < min) newValue = min;
+        if (max != null && newValue > max) newValue = max;
+        setState(newValue);
+    },
+    [setState, min, max],
+);
+
+export const useIntegerState = (initial, key, min, max) => {
+    const [state, setState] = useUpdatedState(initial, key);
+    const updateState = useIntegerEvent(setState, min, max);
+    return [state, updateState, setState];
+};
+

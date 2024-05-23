@@ -1,6 +1,7 @@
 import './Main.scss';
-import { useInputState, capitalizeAll } from "../utils/hooks";
-import { Calculator } from "../components/Calculator.js";
+import { useInputState } from "../utils/hooks";
+import { capitalizeAll } from "../utils/utils";
+import { Calculator } from "../components/Calculator.jsx";
 import React from "react";
 
 
