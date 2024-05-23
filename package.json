@@ -13,6 +13,9 @@
     "tower-idle-toolkit": "^0.21.21-1",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "@babel/plugin-transform-private-property-in-object": "^7.24.5"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
