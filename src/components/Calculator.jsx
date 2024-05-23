@@ -3,7 +3,7 @@ import './Calculator.scss';
 import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_COOLDOWN } from "../utils/Values.js";
 import { DEATH_WAVE, BLACK_HOLE, GOLDEN_TOWER} from "tower-idle-toolkit";
 import { sum, average } from "../utils/utils";
-import { useCheckboxState, useIntegerState } from "../utils/hooks";
+import { useCheckboxState } from "../utils/hooks";
 
 const gtCooldowns = GOLDEN_TOWER.upgrades.Cooldown.values;
 const dwCooldowns = DEATH_WAVE.upgrades.Cooldown.values;
