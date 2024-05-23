@@ -2,7 +2,7 @@ import { useState } from "react";
 import './Calculator.scss';
 import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_COOLDOWN } from "../utils/Values.js";
 import { DEATH_WAVE, BLACK_HOLE, GOLDEN_TOWER} from "tower-idle-toolkit";
-import { getSum } from "../utils/utils";
+import { getSum, average } from "../utils/utils";
 
 const gtCooldowns = GOLDEN_TOWER.upgrades.Cooldown.values;
 const dwCooldowns = DEATH_WAVE.upgrades.Cooldown.values;
@@ -18,15 +18,19 @@ export function Calculator() {
     const [bhCooldownSubstat, setBhCooldownSubstat] = useState(0);
 
     const gtCooldownValues = gtCooldowns.map((levels, index) => {return levels.value});
+    gtCooldownValues.push(0);
     const dwCooldownValues = dwCooldowns.map((levels, index) => {return levels.value});
+    dwCooldownValues.push(0);
     const bhCooldownValues = bhCooldowns.map((levels, index) => {return levels.value});
+    bhCooldownValues.push(0);
 
     const gtCooldownActual = getSum(gtCooldown, gtCooldownSubstat);
     const dwCooldownActual = getSum(dwCooldown, dwCooldownSubstat);
     const bhCooldownActual = getSum(bhCooldown, bhCooldownSubstat);
 
     const totalCooldown = getSum(getSum(gtCooldownActual,dwCooldownActual), bhCooldownActual);
-    const averageCooldown = totalCooldown / 3;
+    const averageCooldown = 50;
+
     const totalCooldownWithEffect = getSum(averageCooldown, mnEffect);
 
     return (
@@ -52,7 +56,7 @@ export function Calculator() {
                     </select>
                 </div>
                 <div className="control">
-                    <label>GT CD Substat</label>
+                    <label>GT CD Stat</label>
                     <select value={gtCooldownSubstat} onChange={e => setGtCooldownSubstat(e.target.value)}>
                         {Object.values(GOLDEN_TOWER_SUBSTATS_COOLDOWN).map((substat, index) => (
                             <option key={index} value={substat}>{substat}</option>
@@ -70,7 +74,7 @@ export function Calculator() {
                     </select>
                 </div>
                 <div className="control">
-                    <label>DW CD Substat</label>
+                    <label>DW CD Stat</label>
                     <select value={dwCooldownSubstat} onChange={e => setDwCooldownSubstat(e.target.value)}>
                         {Object.values(DEATH_WAVE_SUBSTATS_COOLDOWN).map((substat, index) => (
                             <option key={index} value={substat}>{substat}</option>
@@ -88,7 +92,7 @@ export function Calculator() {
                     </select>
                 </div>
                 <div className="control">
-                    <label>BH CD Substat</label>
+                    <label>BH CD Stat</label>
                     <select value={bhCooldownSubstat} onChange={e => setBhCooldownSubstat(e.target.value)}>
                         {Object.values(BLACK_HOLE_SUBSTATS_COOLDOWN).map((substat, index) => (
                             <option key={index} value={substat}>{substat}</option>
