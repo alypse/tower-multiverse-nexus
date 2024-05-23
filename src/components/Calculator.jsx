@@ -112,7 +112,6 @@ export function Calculator() {
             </div>
             </div>
             <div className="results">
-                Results
                 <div className="result">
                     <p>Total Cooldown</p>
                     <p>{totalCooldown} seconds</p>
