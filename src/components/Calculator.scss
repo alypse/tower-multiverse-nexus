@@ -7,12 +7,17 @@
   .result {
     @include container($primary);
     margin: 5px;
+    padding: 5px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    p { margin-right: 10px; border-right: 1px solid $secondary; padding-right: 10px; padding-left: 10px; }
-    .title { margin-left: 10px; font-weight: bold; }
+    p {
+      margin: 5px;
+      padding: 5px 10px 5px 0px;
+      border-right: 1px solid $secondary;
+    }
+    .title { font-weight: bold; }
     .data {
       @include container($secondary);
       display: flex;
@@ -21,7 +26,7 @@
         display: flex;
         flex-wrap: wrap;
         > div {
-          margin: 5px;
+          margin: 100px;
         }
       }
     }

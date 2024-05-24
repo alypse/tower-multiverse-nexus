@@ -17,7 +17,7 @@ export function Calculator() {
     const [dwCooldown, setDwCooldown] = useState(dwCooldowns[dwCooldowns.length - 1].value);
     const [dwEnabled, setDwEnabled] = useCheckboxState(true, 'dw');
     const [bhCooldown, setBhCooldown] = useState(bhCooldowns[bhCooldowns.length - 1].value);
-    const [bhEnabled, setBhEnabled] = useCheckboxState(true, 'bg');
+    const [bhEnabled, setBhEnabled] = useCheckboxState(true, 'bh');
     const [gtCooldownSubstat, setGtCooldownSubstat] = useState(0);
     const [dwCooldownSubstat, setDwCooldownSubstat] = useState(0);
     const [bhCooldownSubstat, setBhCooldownSubstat] = useState(0);
@@ -30,9 +30,17 @@ export function Calculator() {
     if (gtEnabled) cds.push(gtCooldown - gtCooldownSubstat)
     if (dwEnabled) cds.push(dwCooldown - dwCooldownSubstat)
     if (bhEnabled) cds.push(bhCooldown - bhCooldownSubstat)
-    const totalCooldown = cds.reduce((curr, next) => curr + next, 0)
-    const averageCooldown = avg(cds)
-    const averageCooldownwithMN = sum([averageCooldown, parseInt(mnEffect)]);
+    const totalCooldown = cds.reduce((curr, next) => curr + next, 0);
+
+    let averageCooldown = 0;
+    let averageCooldownwithMN = 0;
+    if (cds.length > 0) {
+        averageCooldown = avg(cds);
+        averageCooldownwithMN = sum([averageCooldown, parseInt(mnEffect)]);
+    }
+
+    // For his skyeness
+    if (totalCooldown === 300) { console.log("cds nutz. gottem."); }
 
     return (
         <div className="main">
