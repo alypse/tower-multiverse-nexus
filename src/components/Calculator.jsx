@@ -2,21 +2,22 @@ import { useState } from "react";
 import './Calculator.scss';
 import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_COOLDOWN } from "../utils/Values.js";
 import { DEATH_WAVE, BLACK_HOLE, GOLDEN_TOWER} from "tower-idle-toolkit";
-import { sum, average } from "../utils/utils";
+import { sum, avg } from "../utils/utils";
 import { useCheckboxState } from "../utils/hooks";
 
 const gtCooldowns = GOLDEN_TOWER.upgrades.Cooldown.values;
 const dwCooldowns = DEATH_WAVE.upgrades.Cooldown.values;
 const bhCooldowns = BLACK_HOLE.upgrades.Cooldown.values;
+const mnEffects = Object.values(MULTIVERSE_NEXUS_EFFECT);
 
 export function Calculator() {
+    const [mnEffect, setMnEffect] = useState(mnEffects[mnEffects.length - 1]);
     const [gtCooldown, setGtCooldown] = useState(gtCooldowns[gtCooldowns.length - 1].value);
-    const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'gtEnabled');
+    const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'gt');
     const [dwCooldown, setDwCooldown] = useState(dwCooldowns[dwCooldowns.length - 1].value);
-    const [dwEnabled, setDwEnabled] = useCheckboxState(true, 'dwEnabled');
+    const [dwEnabled, setDwEnabled] = useCheckboxState(true, 'dw');
     const [bhCooldown, setBhCooldown] = useState(bhCooldowns[bhCooldowns.length - 1].value);
-    const [bhEnabled, setBhEnabled] = useCheckboxState(true, 'bhEnabled');
-    const [mnEffect, setMnEffect] = useState(MULTIVERSE_NEXUS_EFFECT.Ancestral);
+    const [bhEnabled, setBhEnabled] = useCheckboxState(true, 'bg');
     const [gtCooldownSubstat, setGtCooldownSubstat] = useState(0);
     const [dwCooldownSubstat, setDwCooldownSubstat] = useState(0);
     const [bhCooldownSubstat, setBhCooldownSubstat] = useState(0);
@@ -25,20 +26,13 @@ export function Calculator() {
     const dwCooldownValues = dwCooldowns.map((levels, index) => {return levels.value});
     const bhCooldownValues = bhCooldowns.map((levels, index) => {return levels.value});
 
-    const gtCooldownActual = parseInt(sum(gtCooldown, gtCooldownSubstat));
-    console.log("gt cooldown actual",gtCooldownActual);
-    const dwCooldownActual = parseInt(sum(dwCooldown, dwCooldownSubstat));
-    console.log("dw cooldown actual",dwCooldownActual);
-    const bhCooldownActual = parseInt(sum(bhCooldown, bhCooldownSubstat));
-
-    const totalCooldown = sum(sum(gtCooldownActual,dwCooldownActual), bhCooldownActual);
-    // const totalCooldown = sum(gtCooldownActual, dwCooldownActual);
-    console.log("total cooldown",totalCooldown);
-    const averageCooldown = average([gtCooldownActual, dwCooldownActual, bhCooldownActual]);
-    console.log("average cooldown",averageCooldown);
-
-    const totalCooldownWithEffect = averageCooldown + parseInt(mnEffect);
-    console.log("total cooldown with effect",totalCooldownWithEffect);
+    const cds = []
+    if (gtEnabled) cds.push(gtCooldown - gtCooldownSubstat)
+    if (dwEnabled) cds.push(dwCooldown - dwCooldownSubstat)
+    if (bhEnabled) cds.push(bhCooldown - bhCooldownSubstat)
+    const totalCooldown = cds.reduce((curr, next) => curr + next, 0)
+    const averageCooldown = avg(cds)
+    const averageCooldownwithMN = sum([averageCooldown, parseInt(mnEffect)]);
 
     return (
         <div className="main">
@@ -121,11 +115,10 @@ export function Calculator() {
                     <p>{averageCooldown.toFixed(2)} seconds</p>
                 </div>
                 <div className="result">
-                <p>Total Cooldown with Effect</p>
-                    <p>{totalCooldownWithEffect.toFixed(2)} seconds</p>
+                <p>Average Cooldown with Effect</p>
+                    <p>{averageCooldownwithMN.toFixed(2)} seconds</p>
                 </div>
             </div>
         </div>
     );
 }
-
