@@ -1,7 +1,7 @@
 // Maths //
-export const sum = (a, b) => b ? sum(a ^ b, (a & b) << 1) : a;
+export const sum = (array) => array.reduce((curr, next) => curr + next, 0);
 
-export const average = array => array.reduce((a, b) => a + b) / array.length;
+export const avg = (array) => sum(array) / array.length;
 
 // Strings //
 export const capitalize = string => (!string?.length ? '' : string.charAt(0).toUpperCase() + string.substring(1).toLowerCase());

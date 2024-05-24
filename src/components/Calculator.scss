@@ -10,7 +10,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    p { margin-right: 10px; }
+    justify-content: flex-start;
+    p { margin-right: 10px; border-right: 1px solid $secondary; padding-right: 10px; padding-left: 10px; }
     .title { margin-left: 10px; font-weight: bold; }
     .data {
       @include container($secondary);
