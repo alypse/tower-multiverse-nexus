@@ -13,11 +13,11 @@ const mnEffects = Object.values(MULTIVERSE_NEXUS_EFFECT);
 export function Calculator() {
     const [mnEffect, setMnEffect] = useState(mnEffects[mnEffects.length - 1]);
     const [gtCooldown, setGtCooldown] = useState(gtCooldowns[gtCooldowns.length - 1].value);
-    const [gtEnabled, setGtEnabled] = useCheckboxState(false, 'gt');
+    const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'gt');
     const [dwCooldown, setDwCooldown] = useState(dwCooldowns[dwCooldowns.length - 1].value);
-    const [dwEnabled, setDwEnabled] = useCheckboxState(false, 'dw');
+    const [dwEnabled, setDwEnabled] = useCheckboxState(true, 'dw');
     const [bhCooldown, setBhCooldown] = useState(bhCooldowns[bhCooldowns.length - 1].value);
-    const [bhEnabled, setBhEnabled] = useCheckboxState(false, 'bh');
+    const [bhEnabled, setBhEnabled] = useCheckboxState(true, 'bh');
     const [gtCooldownSubstat, setGtCooldownSubstat] = useState(0);
     const [dwCooldownSubstat, setDwCooldownSubstat] = useState(0);
     const [bhCooldownSubstat, setBhCooldownSubstat] = useState(0);
@@ -101,7 +101,7 @@ export function Calculator() {
                             <option key={index} value={value}>{value}</option>
                         ))}
                     </select>
-                    <input type="checkbox" value={bhEnabled} onChange={setBhEnabled}/>
+                    <input type="checkbox" checked={bhEnabled} onChange={setBhEnabled}/>
                 </div>
                 <div className="control">
                     <label>BH CD Stat</label>
