@@ -13,11 +13,11 @@ const mnEffects = Object.values(MULTIVERSE_NEXUS_EFFECT);
 export function Calculator() {
     const [mnEffect, setMnEffect] = useState(mnEffects[mnEffects.length - 1]);
     const [gtCooldown, setGtCooldown] = useState(gtCooldowns[gtCooldowns.length - 1].value);
-    const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'gt');
+    const [gtEnabled, setGtEnabled] = useCheckboxState(false, 'gt');
     const [dwCooldown, setDwCooldown] = useState(dwCooldowns[dwCooldowns.length - 1].value);
-    const [dwEnabled, setDwEnabled] = useCheckboxState(true, 'dw');
+    const [dwEnabled, setDwEnabled] = useCheckboxState(false, 'dw');
     const [bhCooldown, setBhCooldown] = useState(bhCooldowns[bhCooldowns.length - 1].value);
-    const [bhEnabled, setBhEnabled] = useCheckboxState(true, 'bh');
+    const [bhEnabled, setBhEnabled] = useCheckboxState(false, 'bh');
     const [gtCooldownSubstat, setGtCooldownSubstat] = useState(0);
     const [dwCooldownSubstat, setDwCooldownSubstat] = useState(0);
     const [bhCooldownSubstat, setBhCooldownSubstat] = useState(0);
