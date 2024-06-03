@@ -1,4 +1,5 @@
 export const MULTIVERSE_NEXUS_EFFECT = {
+    "None": 0,
     "Epic": 20,
     "Legendary": 10,
     "Mythic": 1,
@@ -26,4 +27,10 @@ export const BLACK_HOLE_SUBSTATS_COOLDOWN = {
     "Ancestral": 4,
 };
 
-
+export const GALAXY_COMPRESSOR_EFFECT = {
+    "None": 0,
+    "Epic": 10,
+    "Legendary": 13,
+    "Mythic": 17,
+    "Ancestral": 20,
+};
