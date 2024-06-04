@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-const versionCache = '1.0.0';
+const versionCache = '1.1.0';
 
 export const useInputEvent = setState => useCallback(({ target: { value } }) => setState(value), [setState]);
 
@@ -64,3 +64,15 @@ export const useIntegerState = (initial, key, min, max) => {
     return [state, updateState, setState];
 };
 
+export const useFloatEvent = (setState, min, max) => useCallback(({ target: { value } }) => {
+    let newValue = value ? parseFloat(value) : 0;
+    if (min != null && newValue < min) newValue = min;
+    if (max != null && newValue > max) newValue = max;
+    setState(newValue);
+}, [setState, min, max]);
+
+export const useFloatState = (initial, key, min, max) => {
+    const [state, setState] = useUpdatedState(initial, key);
+    const updateState = useFloatEvent(setState, min, max);
+    return [state, updateState, setState];
+};

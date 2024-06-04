@@ -62,69 +62,69 @@ const Main = () => {
             <div className="controls">
                 <div className="controlGroup">
                     <div className="control">
-                        <label>MN Effect</label>
+                        <label>MN Effect
                         <select value={mnEffect} onChange={e => setMnEffect(e.target.value)}>
                             {Object.entries(MULTIVERSE_NEXUS_EFFECT).map(([key, value]) => (
                                 <option key={key} value={value}>{key}</option>
                             ))}
-                        </select>
+                        </select></label>
                     </div>
                 </div>
                 <div className="controlGroup">
                     <div className="control">
-                        <label>GT CD</label>
+                        <label>GT CD
                         <select value={gtCooldown} onChange={e => setGtCooldown(e.target.value)}>
                             {gtCooldownValues.map((value, index) => (
                                 <option key={index} value={index}>{value}</option>
                             ))}
-                        </select>
+                        </select></label>
                         <input type="checkbox" checked={gtEnabled} onChange={setGtEnabled}/>
                     </div>
                     <div className="control">
-                        <label>GT CD Stat</label>
+                        <label>GT CD Stat
                         <select value={gtCooldownSubstat} onChange={e => setGtCooldownSubstat(e.target.value)}>
                             {Object.entries(GOLDEN_TOWER_SUBSTATS_COOLDOWN).map(([key,value]) => (
                                 <option key={key} value={value}>{key}</option>
                             ))}
-                        </select>
+                        </select></label>
                     </div>
                 </div>
                 <div className="controlGroup">
                     <div className="control">
-                        <label>DW CD</label>
+                        <label>DW CD
                         <select value={dwCooldown} onChange={e => setDwCooldown(e.target.value)}>
                             {dwCooldownValues.map((value, index) => (
                                 <option key={index} value={value}>{value}</option>
                             ))}
-                        </select>
+                        </select></label>
                         <input type="checkbox" checked={dwEnabled} onChange={setDwEnabled}/>
                     </div>
                     <div className="control">
-                        <label>DW CD Stat</label>
+                        <label>DW CD Stat
                         <select value={dwCooldownSubstat} onChange={e => setDwCooldownSubstat(e.target.value)}>
                             {Object.entries(DEATH_WAVE_SUBSTATS_COOLDOWN).map(([key, value]) => (
                                 <option key={key} value={value}>{key}</option>
                             ))}
-                        </select>
+                        </select></label>
                     </div>
                 </div>
                 <div className="controlGroup">
                     <div className="control">
-                        <label>BH CD</label>
+                        <label>BH CD
                         <select value={bhCooldown} onChange={e => setBhCooldown(e.target.value)}>
                             {bhCooldownValues.map((value, index) => (
                                 <option key={index} value={value}>{value}</option>
                             ))}
-                        </select>
+                        </select></label>
                         <input type="checkbox" checked={bhEnabled} onChange={setBhEnabled}/>
                     </div>
                     <div className="control">
-                        <label>BH CD Stat</label>
+                        <label>BH CD Stat
                         <select value={bhCooldownSubstat} onChange={e => setBhCooldownSubstat(e.target.value)}>
                             {Object.entries(BLACK_HOLE_SUBSTATS_COOLDOWN).map(([key,value]) => (
                                 <option key={key} value={value}>{key}</option>
                             ))}
-                        </select>
+                        </select></label>
                     </div>
                 </div>
             </div>

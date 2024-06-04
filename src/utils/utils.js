@@ -3,6 +3,8 @@ export const sum = (array) => array.reduce((curr, next) => curr + next, 0);
 
 export const avg = (array) => sum(array) / array.length;
 
+export const integerRange = (start, end) => Array.from({ length: end - start + 1 }, (_, i) => start + i);
+
 // Strings //
 export const capitalize = string => (!string?.length ? '' : string.charAt(0).toUpperCase() + string.substring(1).toLowerCase());
 
@@ -16,12 +18,12 @@ export const renderIfElse = (condition, render, elseRender) => condition ? rende
 export const DropdownFromObject = (props) => {
     return (
         <div className="control">
-            <label>{props.controlName}</label>
+            <label>{props.controlName}
             <select value={props.stateVariable} onChange={e => props.stateSetter(e.target.value)}>
                 {Object.entries(props.objectData).map(([key, value]) => (
                     <option key={value} value={value}>{key}</option>
                 ))}
-            </select>
+            </select></label>
         </div>
     )};
 
