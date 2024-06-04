@@ -6,10 +6,10 @@ import {
     maxLevel,
     WAVE_ACCELERATOR_CARD
 } from "tower-idle-toolkit";
-import {useCheckboxState, useIntegerState, useFloatState} from "../utils/hooks";
-import {DropdownFromObject, integerRange} from "../utils/utils";
-import {GALAXY_COMPRESSOR_EFFECT} from "../utils/Values";
-import {useState} from "react";
+import { useCheckboxState, useIntegerState, useFloatState } from "../utils/hooks";
+import { DropdownFromObject, integerRange } from "../utils/utils";
+import { GALAXY_COMPRESSOR_EFFECT } from "../utils/Values";
+import { useState } from "react";
 
 const GT_DURATION_STONES = GOLDEN_TOWER.upgrades["Duration"].values.map(i => i.value);
 const GT_DURATION_LAB = integerRange(1,maxLevel("Golden Tower Duration")+1).map(i => LabValues["Golden Tower Duration"](i-1));
@@ -41,15 +41,12 @@ export const PermaCalculator = ({props}) => {
     const [bhPerk, setBHPerk] = useCheckboxState(false, 'bhPerk');
 
     const packageCheck = (wave) => {
-        let Package = true;
         let rollPackage = Math.floor(Math.random() * 100);
         if (wave % 10 === 0) {
-            return Package = true;
+            return true;
         } else if (packageChance === 0) {
-            return Package = false;
-        } else if (rollPackage <= packageChance) {
-            return Package = true
-        } else return Package = false;
+            return false;
+        } else return rollPackage <= packageChance;
     };
 
     let packageCount = 0;

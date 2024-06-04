@@ -1,6 +1,5 @@
 import './Main.scss';
-import {useInputState, useIntegerState} from "../utils/hooks";
-import { capitalizeAll } from "../utils/utils";
+import { useInputState } from "../utils/hooks";
 import { Calculator } from "../components/Calculator.jsx";
 import { PermaCalculator } from "../components/PermaCalculator.jsx";
 import React, { useState } from "react";
