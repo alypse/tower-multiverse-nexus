@@ -59,6 +59,7 @@ const Main = () => {
                 ))}
             </div>
             <div className="controls">
+                {(view === VIEWS.CALCULATOR) &&
                 <div className="controlGroup">
                     <div className="control">
                         <label>MN Effect
@@ -68,7 +69,7 @@ const Main = () => {
                             ))}
                         </select></label>
                     </div>
-                </div>
+                </div>}
                 <div className="controlGroup">
                     <div className="control">
                         <label>GT CD
@@ -88,6 +89,7 @@ const Main = () => {
                         </select></label>
                     </div>
                 </div>
+                {(view === VIEWS.CALCULATOR) &&
                 <div className="controlGroup">
                     <div className="control">
                         <label>DW CD
@@ -106,7 +108,7 @@ const Main = () => {
                             ))}
                         </select></label>
                     </div>
-                </div>
+                </div> }
                 <div className="controlGroup">
                     <div className="control">
                         <label>BH CD

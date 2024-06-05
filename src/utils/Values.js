@@ -20,7 +20,21 @@ export const GOLDEN_TOWER_SUBSTATS_COOLDOWN = {
     "Ancestral": 12,
 };
 
+export const GOLDEN_TOWER_SUBSTATS_DURATION = {
+    "None": 0,
+    "Legendary": 2,
+    "Mythic": 4,
+    "Ancestral": 7,
+};
+
 export const BLACK_HOLE_SUBSTATS_COOLDOWN = {
+    "None": 0,
+    "Legendary": 2,
+    "Mythic": 3,
+    "Ancestral": 4,
+};
+
+export const BLACK_HOLE_SUBSTATS_DURATION = {
     "None": 0,
     "Legendary": 2,
     "Mythic": 3,

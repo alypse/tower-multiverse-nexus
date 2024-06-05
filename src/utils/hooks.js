@@ -76,3 +76,20 @@ export const useFloatState = (initial, key, min, max) => {
     const updateState = useFloatEvent(setState, min, max);
     return [state, updateState, setState];
 };
+
+export const useSelectEvent = setState => useCallback(({ target: { value } }) => setState(value), [setState]);
+
+export const useSelectState = (initial, key) => {
+    const [state, setState] = useUpdatedState(initial, key);
+    const updateState = useSelectEvent(setState);
+    return [state, updateState, setState];
+};
+
+export const useDropDownEvent = setState => useCallback(({ target: { value } }) => setState(value), [setState]);
+
+export const useDropDownState = (initial, key) => {
+    const [state, setState] = useUpdatedState(initial, key);
+    const updateState = useDropDownEvent(setState);
+    return [state, updateState, setState];
+};
+

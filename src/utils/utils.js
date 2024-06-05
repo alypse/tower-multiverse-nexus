@@ -19,9 +19,9 @@ export const DropdownFromObject = (props) => {
     return (
         <div className="control">
             <label>{props.controlName}
-            <select value={props.stateVariable} onChange={e => props.stateSetter(e.target.value)}>
+            <select value={props.stateVariable} onChange={props.stateSetter}>
                 {Object.entries(props.objectData).map(([key, value]) => (
-                    <option key={value} value={value}>{key}</option>
+                    <option key={key} value={value}>{key}</option>
                 ))}
             </select></label>
         </div>
