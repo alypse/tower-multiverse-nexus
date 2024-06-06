@@ -7,8 +7,12 @@ import {
     WAVE_ACCELERATOR_CARD
 } from "tower-idle-toolkit";
 import {useCheckboxState, useIntegerState, useFloatState, useDropDownState, useSelectState} from "../utils/hooks";
-import { DropdownFromObject, integerRange } from "../utils/utils";
-import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from "../utils/Values";
+import {
+    DropdownFromObjectShowKey,
+    integerRange,
+    InputFromArrayShowValue
+} from "../utils/utils";
+import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from "../utils/Values";
 import { useState } from "react";
 
 const GT_DURATION_STONES = GOLDEN_TOWER.upgrades["Duration"].values.map(i => i.value);
@@ -16,30 +20,23 @@ const GT_DURATION_LAB = integerRange(1,maxLevel("Golden Tower Duration")+1).map(
 const BH_DURATION_STONES = BLACK_HOLE.upgrades["Duration"].values.map(i => i.value);
 
 const GT_DURATION = (gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat) => {
-    return GT_DURATION_STONES[gtDurationStonesLevel] +  GT_DURATION_LAB[gtDurationLabLevel] + gtDurationSubstat; // fix me
+    return gtDurationStonesLevel +  GT_DURATION_LAB[gtDurationLabLevel] + gtDurationSubstat;
 }
 
 const BH_DURATION = (bhDurationStones, bhDurationSubstat, bhPerk) => {
-    return BH_DURATION_STONES[bhDurationStones] + parseInt(bhDurationSubstat, 10) + (bhPerk ? 12 : 0);
+    return bhDurationStones + bhDurationSubstat + (bhPerk ? 12 : 0);
 }
-
-
 
 export const PermaCalculator = ({props}) => {
     const [waveAcceleratorCard, setWaveAcceleratorCard] = useState(WAVE_ACCELERATOR_CARD["7"]);
     const [galaxyCompressorEffect, setGalaxyCompressorEffect] = useState(GALAXY_COMPRESSOR_EFFECT.Ancestral);
     const [packageChance, setPackageChance] = useFloatState(80, 'packageChance', 0, 82);
-    const [gtDurationStonesLevel, setGTDurationStonesLevel] = useIntegerState(GT_DURATION_STONES[GT_DURATION_STONES.length-1], 'gtDurationStonesLevel', 0, GT_DURATION_STONES.length-1);
+    const [gtDurationStonesLevel, setGTDurationStonesLevel] = useIntegerState(45, 'gtDurationStonesLevel',0, 45);
     const [gtDurationLabLevel, setGTDurationLabLevel] = useIntegerState(0, 'gtDurationLabLevel', 0, GT_DURATION_LAB.length-1);
     const [gtDurationSubstat, setGTDurationSubstat] = useIntegerState(GOLDEN_TOWER_SUBSTATS_DURATION.Ancestral, 'gtDurationSubstat',0, 7);
-    const [bhDurationStones, setBHDurationStones] = useIntegerState(0, 'bhDurationStones', 0, BH_DURATION_STONES.length-1);
-    const [bhDurationSubstat, setBHDurationSubstat] = useSelectState(BLACK_HOLE_SUBSTATS_DURATION.Ancestral, 'bhDurationSubstat');
+    const [bhDurationStones, setBHDurationStones] = useIntegerState(0, 'bhDurationStones', 0, 30);
+    const [bhDurationSubstat, setBHDurationSubstat] = useIntegerState(BLACK_HOLE_SUBSTATS_DURATION.Ancestral, 'bhDurationSubstat',0,4);
     const [bhPerk, setBHPerk] = useCheckboxState(false, 'bhPerk');
-
-    // console.log(gtDurationSubstat,"gtDurationSubstat");
-    // console.log(galaxyCompressorEffect,"galaxyCompressorEffect");
-    // console.log(gtCooldownSubstat,"gtCooldownSubstat");
-
 
     const packageCheck = (wave) => {
         let rollPackage = Math.floor(Math.random() * 100);
@@ -61,7 +58,7 @@ export const PermaCalculator = ({props}) => {
         }
     }
 
-    const wavesToTest = 99;
+    const wavesToTest = 999;
     rollPackagesForWaves(wavesToTest);
 
     const checkBHPermanent = (waves) => {
@@ -95,10 +92,10 @@ export const PermaCalculator = ({props}) => {
             <div className="controls">
             <div className="controlGroup">
                 <div className="controls">
-                    <DropdownFromObject controlName="GalComp Reduction" stateVariable={galaxyCompressorEffect}
-                                        stateSetter={setGalaxyCompressorEffect} objectData={GALAXY_COMPRESSOR_EFFECT}/>
-                    <DropdownFromObject controlName="Wave Accelerator Card" stateVariable={waveAcceleratorCard}
-                                        stateSetter={setWaveAcceleratorCard} objectData={WAVE_ACCELERATOR_CARD}/>
+                    <DropdownFromObjectShowKey controlName="GalComp Reduction" stateVariable={galaxyCompressorEffect}
+                                               stateSetter={setGalaxyCompressorEffect} objectData={GALAXY_COMPRESSOR_EFFECT}/>
+                    <DropdownFromObjectShowKey controlName="Wave Accelerator Card" stateVariable={waveAcceleratorCard}
+                                               stateSetter={setWaveAcceleratorCard} objectData={WAVE_ACCELERATOR_CARD}/>
                     <div className="control">
                         <label>Package Chance
                         <input type='number' min='0' max='82' step={0.2} value={packageChance} onChange={setPackageChance}/>
@@ -108,28 +105,23 @@ export const PermaCalculator = ({props}) => {
             </div>
             <div className="controlGroup">
                 <div className="controls">
-                    <DropdownFromObject controlName="GT Duration Stones" stateVariable={gtDurationStonesLevel}
-                                        stateSetter={setGTDurationStonesLevel} objectData={GT_DURATION_STONES}/>
+                    <InputFromArrayShowValue controlName="GT Duration Stones" stateVariable={gtDurationStonesLevel}
+                                                stateSetter={setGTDurationStonesLevel}/>
                     <div className="control">
                         <label>GT Duration Lab
                         <input type="number" min='0' max={GT_DURATION_LAB.length - 1}
                                value={GT_DURATION_LAB[gtDurationLabLevel]} onChange={setGTDurationLabLevel}/>
                         </label>
                     </div>
-                        <DropdownFromObject controlName="GT Duration Stat" stateVariable={gtDurationSubstat}
-                                            stateSetter={setGTDurationSubstat} objectData={GOLDEN_TOWER_SUBSTATS_DURATION}/>
+                        <DropdownFromObjectShowKey controlName="GT Duration Stat" stateVariable={gtDurationSubstat}
+                                                   stateSetter={setGTDurationSubstat} objectData={GOLDEN_TOWER_SUBSTATS_DURATION}/>
                 </div>
             </div>
             <div className="controlGroup">
                 <div className="controls">
-                    <div className="control">
-                        <label>BH Duration Stones
-                        <input type="number" min='0' max='30'
-                               value={bhDurationStones} onChange={setBHDurationStones}/>
-                        </label>
-                    </div>
-                    <DropdownFromObject controlName="BH CD Substat" stateVariable={bhDurationSubstat}
-                                        stateSetter={setBHDurationSubstat} objectData={BLACK_HOLE_SUBSTATS_COOLDOWN}/>
+                    <InputFromArrayShowValue controlName="BH Duration Stones" stateVariable={bhDurationStones} stateSetter={setBHDurationStones}/>
+                    <DropdownFromObjectShowKey controlName="BH CD Substat" stateVariable={bhDurationSubstat}
+                                               stateSetter={setBHDurationSubstat} objectData={BLACK_HOLE_SUBSTATS_COOLDOWN}/>
                     <div className="control">
                         <label>BH Perk
                         <input type="checkbox" checked={bhPerk} onChange={setBHPerk}/>
@@ -139,24 +131,21 @@ export const PermaCalculator = ({props}) => {
             </div>
         </div>
         <div className="results">
-        <span>Testing {wavesToTest} waves</span>
             <div className="result">
                 <p>Packages:</p>
-                <p>Total: {packageCount}</p>
-                <p>Per wave: {(packageCount / wavesToTest).toFixed(2)}</p>
+                <p>Total: {packageCount} from {wavesToTest} waves</p>
             </div>
             <div className="result">
                 <p>GT:</p>
-                <p>Duration: {GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat)}</p>
-                <p>Cooldown: {props.gtCooldown}</p>
-                <p>Permanent?: {checkGTPermanent(wavesToTest) ? "Yes" : "No"}</p>
+                <p>Dur: {GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat)}</p>
+                <p>CD: {props.gtCooldown}</p>
+                <p>Perma?: {checkGTPermanent(wavesToTest) ? "Yes" : "No"}</p>
             </div>
             <div className="result">
                 <p>BH:</p>
-                <p>Duration: {BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk)}</p>
-                {/*todo: include MN effect if enabled (for each of the CDs)*/}
-                <p>Cooldown: {props.bhCooldown}</p>
-                <p>Permanent?: {checkBHPermanent(wavesToTest) ? "Yes" : "No"}</p>
+                <p>Dur: {BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk)}</p>
+                <p>CD: {props.bhCooldown}</p>
+                <p>Perma?: {checkBHPermanent(wavesToTest) ? "Yes" : "No"}</p>
             </div>
         </div>
     </div>

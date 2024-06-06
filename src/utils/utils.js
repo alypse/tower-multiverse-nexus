@@ -15,7 +15,7 @@ export const renderIf = (condition, render) => condition ? render : null;
 
 export const renderIfElse = (condition, render, elseRender) => condition ? render : elseRender;
 
-export const DropdownFromObject = (props) => {
+export const DropdownFromObjectShowKey = (props) => {
     return (
         <div className="control">
             <label>{props.controlName}
@@ -27,14 +27,35 @@ export const DropdownFromObject = (props) => {
         </div>
     )};
 
-// Arrays //
+export const DropdownFromArrayShowValue = (props) => {
+    return (
+        <div className="control">
+            <label>{props.controlName}
+                <select value={props.stateVariable} onChange={props.stateSetter}>
+                    {props.objectData.map((key, value) => (
+                        <option key={key} value={value}>{value}</option>
+                    ))}
+                </select></label>
+        </div>
+    )};
+
+export const InputFromArrayShowValue = (props) => {
+    return (
+        <div className="control">
+            <label>{props.controlName}
+                <input type="number" value={props.stateVariable} onChange={props.stateSetter}/>
+            </label>
+        </div>
+    )};
+
+
 export const unique = array => [...new Set(array)];
 
 export const removeDuplicates = array => array.filter((value, index, self) => self.indexOf(value) === index);
 
 // Objects //
 
-export const objectFromEntries = entries => entries.reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+export const objectFromEntries = entries => entries.reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
 
 
 

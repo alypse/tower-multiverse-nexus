@@ -49,7 +49,6 @@ const Main = () => {
         averageCooldownwithMN = sum([averageCooldown, parseInt(mnEffect)]);
     }
 
-    console.log(gtCooldown)
 
     return (
         <div id='main'>
