@@ -1,12 +1,10 @@
 import {
-    BLACK_HOLE,
     getInGameWaveTime,
-    GOLDEN_TOWER,
     LabValues,
     maxLevel,
     WAVE_ACCELERATOR_CARD
 } from "tower-idle-toolkit";
-import {useCheckboxState, useIntegerState, useFloatState, useDropDownState, useSelectState} from "../utils/hooks";
+import { useCheckboxState, useIntegerState, useFloatState } from "../utils/hooks";
 import {
     DropdownFromObjectShowKey,
     integerRange,
@@ -15,9 +13,7 @@ import {
 import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from "../utils/Values";
 import { useState } from "react";
 
-const GT_DURATION_STONES = GOLDEN_TOWER.upgrades["Duration"].values.map(i => i.value);
 const GT_DURATION_LAB = integerRange(1,maxLevel("Golden Tower Duration")+1).map(i => LabValues["Golden Tower Duration"](i-1));
-const BH_DURATION_STONES = BLACK_HOLE.upgrades["Duration"].values.map(i => i.value);
 
 const GT_DURATION = (gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat) => {
     return gtDurationStonesLevel +  GT_DURATION_LAB[gtDurationLabLevel] + gtDurationSubstat;
