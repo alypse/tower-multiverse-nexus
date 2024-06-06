@@ -28,11 +28,11 @@ export const PermaCalculator = ({props}) => {
     const [galaxyCompressorEffect, setGalaxyCompressorEffect] = useState(GALAXY_COMPRESSOR_EFFECT.Ancestral);
     const [packageChance, setPackageChance] = useFloatState(80, 'packageChance', 0, 82);
     const [gtDurationStonesLevel, setGTDurationStonesLevel] = useIntegerState(45, 'gtDurationStonesLevel',0, 45);
-    const [gtDurationLabLevel, setGTDurationLabLevel] = useIntegerState(0, 'gtDurationLabLevel', 0, GT_DURATION_LAB.length-1);
-    const [gtDurationSubstat, setGTDurationSubstat] = useIntegerState(GOLDEN_TOWER_SUBSTATS_DURATION.Ancestral, 'gtDurationSubstat',0, 7);
-    const [bhDurationStones, setBHDurationStones] = useIntegerState(0, 'bhDurationStones', 0, 30);
-    const [bhDurationSubstat, setBHDurationSubstat] = useIntegerState(BLACK_HOLE_SUBSTATS_DURATION.Ancestral, 'bhDurationSubstat',0,4);
-    const [bhPerk, setBHPerk] = useCheckboxState(false, 'bhPerk');
+    const [gtDurationLabLevel, setGTDurationLabLevel] = useIntegerState(20, 'gtDurationLabLevel', 0, GT_DURATION_LAB.length-1);
+    const [gtDurationSubstat, setGTDurationSubstat] = useIntegerState(GOLDEN_TOWER_SUBSTATS_DURATION.None, 'gtDurationSubstat',0, 7);
+    const [bhDurationStones, setBHDurationStones] = useIntegerState(30, 'bhDurationStones', 0, 30);
+    const [bhDurationSubstat, setBHDurationSubstat] = useIntegerState(BLACK_HOLE_SUBSTATS_DURATION.None, 'bhDurationSubstat',0,4);
+    const [bhPerk, setBHPerk] = useCheckboxState(true, 'bhPerk');
 
     const packageCheck = (wave) => {
         let rollPackage = Math.floor(Math.random() * 100);
