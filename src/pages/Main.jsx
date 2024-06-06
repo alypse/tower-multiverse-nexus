@@ -49,6 +49,8 @@ const Main = () => {
         averageCooldownwithMN = sum([averageCooldown, parseInt(mnEffect)]);
     }
 
+    console.log(gtCooldown)
+
     return (
         <div id='main'>
             <div className='nav'>
@@ -75,7 +77,7 @@ const Main = () => {
                         <label>GT CD
                         <select value={gtCooldown} onChange={e => setGtCooldown(e.target.value)}>
                             {gtCooldownValues.map((value, index) => (
-                                <option key={index} value={index}>{value}</option>
+                                <option key={index} value={value}>{value}</option>
                             ))}
                         </select></label>
                         <input type="checkbox" checked={gtEnabled} onChange={setGtEnabled}/>
