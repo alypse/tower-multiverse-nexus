@@ -101,7 +101,7 @@ export const PermaCalculator = ({props}) => {
             </div>
             <div className="controlGroup">
                 <div className="controls">
-                    <InputFromArrayShowValue controlName="GT Duration Stones" stateVariable={gtDurationStonesLevel}
+                    <InputFromArrayShowValue controlName="GT Dur Stones" stateVariable={gtDurationStonesLevel}
                                                 stateSetter={setGTDurationStonesLevel}/>
                     <div className="control">
                         <label>GT Duration Lab
@@ -109,14 +109,14 @@ export const PermaCalculator = ({props}) => {
                                value={GT_DURATION_LAB[gtDurationLabLevel]} onChange={setGTDurationLabLevel}/>
                         </label>
                     </div>
-                        <DropdownFromObjectShowKey controlName="GT Duration Stat" stateVariable={gtDurationSubstat}
+                        <DropdownFromObjectShowKey controlName="GT Dur Stat" stateVariable={gtDurationSubstat}
                                                    stateSetter={setGTDurationSubstat} objectData={GOLDEN_TOWER_SUBSTATS_DURATION}/>
                 </div>
             </div>
             <div className="controlGroup">
                 <div className="controls">
-                    <InputFromArrayShowValue controlName="BH Duration Stones" stateVariable={bhDurationStones} stateSetter={setBHDurationStones}/>
-                    <DropdownFromObjectShowKey controlName="BH CD Substat" stateVariable={bhDurationSubstat}
+                    <InputFromArrayShowValue controlName="BH Dur Stones" stateVariable={bhDurationStones} stateSetter={setBHDurationStones}/>
+                    <DropdownFromObjectShowKey controlName="BH Dur Substat" stateVariable={bhDurationSubstat}
                                                stateSetter={setBHDurationSubstat} objectData={BLACK_HOLE_SUBSTATS_COOLDOWN}/>
                     <div className="control">
                         <label>BH Perk
