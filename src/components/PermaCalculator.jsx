@@ -33,6 +33,7 @@ export const PermaCalculator = ({props}) => {
     const [bhDurationStones, setBHDurationStones] = useIntegerState(30, 'bhDurationStones', 0, 30);
     const [bhDurationSubstat, setBHDurationSubstat] = useIntegerState(BLACK_HOLE_SUBSTATS_DURATION.None, 'bhDurationSubstat',0,4);
     const [bhPerk, setBHPerk] = useCheckboxState(true, 'bhPerk');
+    const [isTournament, setIsTournament] = useCheckboxState(false, 'isTournament');
 
     const packageCheck = (wave) => {
         let rollPackage = Math.floor(Math.random() * 100);
@@ -61,7 +62,7 @@ export const PermaCalculator = ({props}) => {
         let waveCountBH = waves;
         let totalWavesTime = 0;
         while (waveCountBH > 0) {
-            totalWavesTime += getInGameWaveTime(waveCountBH, waveAcceleratorCard,false);
+            totalWavesTime += getInGameWaveTime(waveCountBH, waveAcceleratorCard, isTournament);
             waveCountBH--;
         }
         const cdReductionTotal = totalWavesTime + (packageCount * galaxyCompressorEffect);
@@ -121,6 +122,11 @@ export const PermaCalculator = ({props}) => {
                     <div className="control">
                         <label>BH Perk
                         <input type="checkbox" checked={bhPerk} onChange={setBHPerk}/>
+                    </label>
+                    </div>
+                    <div className="control">
+                        <label>Tournament
+                        <input type="checkbox" checked={isTournament} onChange={setIsTournament}/>
                     </label>
                     </div>
                 </div>
