@@ -11,7 +11,6 @@ import {
     InputFromArrayShowValue
 } from "../utils/utils";
 import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from "../utils/Values";
-import { useState } from "react";
 
 const GT_DURATION_LAB = integerRange(1,maxLevel("Golden Tower Duration")+1).map(i => LabValues["Golden Tower Duration"](i-1));
 
@@ -24,8 +23,8 @@ const BH_DURATION = (bhDurationStones, bhDurationSubstat, bhPerk) => {
 }
 
 export const PermaCalculator = ({props}) => {
-    const [waveAcceleratorCard, setWaveAcceleratorCard] = useState(WAVE_ACCELERATOR_CARD["7"]);
-    const [galaxyCompressorEffect, setGalaxyCompressorEffect] = useState(GALAXY_COMPRESSOR_EFFECT.Ancestral);
+    const [waveAcceleratorCard, setWaveAcceleratorCard] = useIntegerState(WAVE_ACCELERATOR_CARD["7"], 'waveAcceleratorCard', 0, 7);
+    const [galaxyCompressorEffect, setGalaxyCompressorEffect] = useIntegerState(GALAXY_COMPRESSOR_EFFECT.Ancestral, 'galaxyCompressorEffect', 0, 20);
     const [packageChance, setPackageChance] = useFloatState(80, 'packageChance', 0, 82);
     const [gtDurationStonesLevel, setGTDurationStonesLevel] = useIntegerState(45, 'gtDurationStonesLevel',0, 45);
     const [gtDurationLabLevel, setGTDurationLabLevel] = useIntegerState(20, 'gtDurationLabLevel', 0, GT_DURATION_LAB.length-1);
@@ -70,7 +69,8 @@ export const PermaCalculator = ({props}) => {
         const bhUptime = bhActivations * BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk);
         return (cdReductionTotal / totalWavesTime * bhUptime) >= (props.bhCooldown * bhActivations);
     }
-
+    console.log(waveAcceleratorCard);
+    console.log(galaxyCompressorEffect);
     const checkGTPermanent = (waves) => {
         let waveCountGT = waves;
         let totalWavesTime = 0;
@@ -89,10 +89,22 @@ export const PermaCalculator = ({props}) => {
             <div className="controls">
             <div className="controlGroup">
                 <div className="controls">
-                    <DropdownFromObjectShowKey controlName="GalComp Reduction" stateVariable={galaxyCompressorEffect}
-                                               stateSetter={setGalaxyCompressorEffect} objectData={GALAXY_COMPRESSOR_EFFECT}/>
-                    <DropdownFromObjectShowKey controlName="Wave Accelerator Card" stateVariable={waveAcceleratorCard}
-                                               stateSetter={setWaveAcceleratorCard} objectData={WAVE_ACCELERATOR_CARD}/>
+                    <div className="control">
+                        <label>Galaxy Compressor
+                        <select value={galaxyCompressorEffect} onChange={setGalaxyCompressorEffect}>
+                            {Object.entries(GALAXY_COMPRESSOR_EFFECT).map(([key, value]) => (
+                                <option key={key} value={value}>{key}</option>
+                            ))}
+                        </select></label>
+                    </div>
+                    <div className="control">
+                        <label>Wave Accelerator
+                        <select value={waveAcceleratorCard} onChange={setWaveAcceleratorCard}>
+                            {Object.entries(WAVE_ACCELERATOR_CARD).map((value,key) => (
+                                <option key={key} value={key}>{key}</option>
+                            ))}
+                        </select></label>
+                    </div>
                     <div className="control">
                         <label>Package Chance
                         <input type='number' min='0' max='82' step={0.2} value={packageChance} onChange={setPackageChance}/>
