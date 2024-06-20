@@ -17,15 +17,11 @@ body {
   justify-content: flex-start;
   align-items: stretch;
   .nav {
-    @include container($secondary);
     display: flex;
+    flex-wrap: wrap;
     button {
       width: 8rem;
       margin: 5px;
-    }
-
-    @media (max-width: 600px) {
-      flex-direction: column;
     }
   }
   .list {
@@ -98,10 +94,23 @@ body {
     padding: 10px;
     input, select {
       margin-left: 10px;
-      width: 5rem;
-    }
-    input[type='checkbox'] {
       width: auto;
+      padding: 0.1rem;
+      background-color: $background;
+      color: $white;
+      border: 1px solid $secondary;
+      border-radius: 3px;
+      text-align: center;
+      &:focus {
+        outline: none;
+        border-color: $secondary;
+      }
+    }
+    input[type='checkbox'],[type='radio'] {
+      width: auto;
+    }
+    input[type='number'] {
+      width: 3rem;
     }
   }
 }
