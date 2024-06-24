@@ -133,14 +133,6 @@ button {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  &:hover:enabled {
-    background-color: $secondary;
-    border-color: $secondary;
-    &:active {
-      background-color: $primary;
-      border-color: $primary;
-    }
-  }
   &:disabled {
     border-color: $disabled;
     background-color: $disabled;
