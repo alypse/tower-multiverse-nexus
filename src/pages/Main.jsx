@@ -71,6 +71,7 @@ const Main = () => {
             {value}
           </button>
         ))}
+        <p style={{fontWeight: 'bolder'}}>Note: Values are not yet updated for V24</p>
       </div>
       <div className='controls'>
         {view === VIEWS.CALCULATOR && (
