@@ -1,10 +1,10 @@
 import './Main.scss';
 import '../variables.scss';
 import { useInputState } from '../utils/hooks';
-import { Calculator } from '../components/Calculator.jsx';
-import { PermaCalculator } from '../components/PermaCalculator.jsx';
+import { Calculator } from '../components/Calculator';
+import { PermaCalculator } from '../components/PermaCalculator';
 import React, { useState } from 'react';
-import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_COOLDOWN } from '../utils/Values.js';
+import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_COOLDOWN } from '../utils/Values';
 import { DEATH_WAVE, BLACK_HOLE, GOLDEN_TOWER } from 'tower-idle-toolkit';
 import { sum, avg } from '../utils/utils';
 import { useCheckboxState } from '../utils/hooks';
