@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "types": ["node", "jest"],
-    "target": "ES2021",
+    "types": ["vite/client", "vite-plugin-svgr/client", "node", "jest"],
+    "target": "ESNext",
     "jsx": "react-jsx",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
-    "module": "es2022",
+    "module": "esnext",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
@@ -20,5 +20,5 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": false
   },
-  "include": ["src/**/*"]
+  "include": ["src"]
 }
