@@ -3,7 +3,7 @@ import '../variables.scss';
 import { useInputState, useIntegerState } from '../utils/hooks';
 import { Calculator } from '../components/Calculator';
 import { PermaCalculator } from '../components/PermaCalculator';
-import React, { useState } from 'react';
+import React from 'react';
 import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_COOLDOWN } from '../utils/Values';
 import { DEATH_WAVE, BLACK_HOLE, GOLDEN_TOWER } from 'tower-idle-toolkit';
 import { sum, avg } from '../utils/utils';
@@ -15,20 +15,21 @@ const bhCooldowns = BLACK_HOLE.upgrades.Cooldown.values;
 const mnEffects = Object.values(MULTIVERSE_NEXUS_EFFECT);
 
 const VIEWS = {
-  CALCULATOR: 'MN Calculator',
+  MVN_CALCULATOR: 'MVN Calculator',
   PERMA_CALCULATOR: 'Perma Calculator',
 };
 
 export const Main = () => {
-  const [view, setView] = useInputState(VIEWS.CALCULATOR, 'view');
+  const [view, setView] = useInputState(VIEWS.MVN_CALCULATOR, 'view');
 
   const [mnEffect, setMnEffect] = useIntegerState(mnEffects[mnEffects.length - 1], 'calcMvnEffect', -10, 20);
+  const [mnEnabled, setMnEnabled] = useCheckboxState(true, 'calcMvnEnabled')
   const [gtCooldown, setGtCooldown] = useIntegerState(gtCooldowns[gtCooldowns.length - 1].value, 'calcGtCooldown', 100, 300);
-  const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'gt');
+  const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'calcGtEnabled');
   const [dwCooldown, setDwCooldown] = useIntegerState(dwCooldowns[dwCooldowns.length - 1].value, 'calcDwCooldown', 300, 100);
-  const [dwEnabled, setDwEnabled] = useCheckboxState(true, 'dw');
+  const [dwEnabled, setDwEnabled] = useCheckboxState(true, 'calcDwEnabled');
   const [bhCooldown, setBhCooldown] = useIntegerState(bhCooldowns[bhCooldowns.length - 1].value, 'calcBhCooldown', 50, 200);
-  const [bhEnabled, setBhEnabled] = useCheckboxState(true, 'bh');
+  const [bhEnabled, setBhEnabled] = useCheckboxState(true, 'calcBhEnabled');
   const [gtCooldownSubstat, setGtCooldownSubstat] = useIntegerState(0, 'calcGtCooldownSubstat', 0, 12);
   const [dwCooldownSubstat, setDwCooldownSubstat] = useIntegerState(0, 'calcDwCooldownSubstat', 0, 13);
   const [bhCooldownSubstat, setBhCooldownSubstat] = useIntegerState(0, 'setBhCooldownSubstat', 0, 4);
@@ -72,10 +73,8 @@ export const Main = () => {
             {value}
           </button>
         ))}
-        <p style={{fontWeight: 'bolder'}}>Note: Values are not yet updated for V24</p>
       </div>
       <div className='controls'>
-        {view === VIEWS.CALCULATOR && (
           <div className='controlGroup'>
             <div className='control'>
               <label>
@@ -88,9 +87,9 @@ export const Main = () => {
                   ))}
                 </select>
               </label>
+              <input type='checkbox' checked={mnEnabled} onChange={setMnEnabled} />
             </div>
           </div>
-        )}
         <div className='controlGroup'>
           <div className='control'>
             <label>
@@ -118,7 +117,6 @@ export const Main = () => {
             </label>
           </div>
         </div>
-        {view === VIEWS.CALCULATOR && (
           <div className='controlGroup'>
             <div className='control'>
               <label>
@@ -146,7 +144,6 @@ export const Main = () => {
               </label>
             </div>
           </div>
-        )}
         <div className='controlGroup'>
           <div className='control'>
             <label>
@@ -175,7 +172,7 @@ export const Main = () => {
           </div>
         </div>
       </div>
-      {view === VIEWS.CALCULATOR && (
+      {view === VIEWS.MVN_CALCULATOR && (
         <Calculator
           props={{
             gtCooldown: gtCooldown - gtCooldownSubstat,

@@ -1,17 +1,17 @@
-import { getInGameWaveTime, LabValues, maxLevel, WAVE_ACCELERATOR_CARD } from 'tower-idle-toolkit';
+import { getInGameWaveTime, WAVE_ACCELERATOR_CARD } from 'tower-idle-toolkit';
 import { useCheckboxState, useIntegerState, useFloatState } from '../utils/hooks';
-import { DropdownFromObjectShowKey, integerRange, InputFromArrayShowValue } from '../utils/utils';
+import { integerRange } from '../utils/utils';
 import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from '../utils/Values';
 
-const GT_DURATION_LAB = integerRange(1, maxLevel('Golden Tower Duration') + 1).map(i => LabValues['Golden Tower Duration'](i - 1));
+const GT_DURATION_LAB = integerRange(0,20);
 
 export const PermaCalculator = ({ props }) => {
   const [waveAcceleratorCard, setWaveAcceleratorCard] = useIntegerState(WAVE_ACCELERATOR_CARD['7'], 'waveAcceleratorCard', 0, 7);
   const [galaxyCompressorEffect, setGalaxyCompressorEffect] = useIntegerState(GALAXY_COMPRESSOR_EFFECT.Ancestral, 'galaxyCompressorEffect', 0, 20);
   const [packageChance, setPackageChance] = useFloatState(80, 'packageChance', 0, 82);
   const [gtDurationStonesLevel, setGTDurationStonesLevel] = useIntegerState(45, 'gtDurationStonesLevel', 0, 45);
-  const [gtDurationLabLevel, setGTDurationLabLevel] = useIntegerState(20, 'gtDurationLabLevel', 0, GT_DURATION_LAB.length - 1);
-  const [gtDurationSubstat, setGTDurationSubstat] = useIntegerState(GOLDEN_TOWER_SUBSTATS_DURATION.None, 'gtDurationSubstat', 0, 7);
+  const [gtDurationLabLevel, setGTDurationLabLevel] = useIntegerState(20, 'gtDurationLabLevel', 0, 20);
+  const [gtDurationSubstat, setGTDurationSubstat] = useIntegerState(GOLDEN_TOWER_SUBSTATS_DURATION.None, 'gtDurationSubstat', 0, 53);
   const [bhDurationStones, setBHDurationStones] = useIntegerState(30, 'bhDurationStones', 0, 30);
   const [bhDurationSubstat, setBHDurationSubstat] = useIntegerState(BLACK_HOLE_SUBSTATS_DURATION.None, 'bhDurationSubstat', 0, 4);
   const [bhPerk, setBHPerk] = useCheckboxState(true, 'bhPerk');
@@ -111,28 +111,48 @@ export const PermaCalculator = ({ props }) => {
           </div>
         </div>
         <div className='controlGroup'>
-          <InputFromArrayShowValue controlName='GT Dur Stones' stateVariable={gtDurationStonesLevel} stateSetter={setGTDurationStonesLevel} />
+          <div className='control'>
+            <label>
+              GT Dur Stones
+              <select value={gtDurationStonesLevel} onChange={setGTDurationStonesLevel}>
+                {integerRange(0, 53).map(seconds => (
+                  <option key={seconds} value={seconds}></option>
+                ))}
+              </select>
+            </label>
+          </div>
           <div className='control'>
             <label>
               GT Dur Lab
-              <input type='number' min='0' max={GT_DURATION_LAB.length - 1} value={GT_DURATION_LAB[gtDurationLabLevel]} onChange={setGTDurationLabLevel} />
+              <input type='number' min={0} max={20} value={gtDurationLabLevel} onChange={setGTDurationLabLevel} />
             </label>
           </div>
-          <DropdownFromObjectShowKey
-            controlName='GT Dur Stat'
-            stateVariable={gtDurationSubstat}
-            stateSetter={setGTDurationSubstat}
-            objectData={GOLDEN_TOWER_SUBSTATS_DURATION}
-          />
+          <div className='control'>
+            <label>
+              GT Dur Stat
+              <select value={gtDurationSubstat} onChange={setGTDurationSubstat}>
+                {Object.entries(GOLDEN_TOWER_SUBSTATS_DURATION).map(([key, value]) => (
+                  <option id={key} key={key} value={value}>
+                    {key}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
         <div className='controlGroup'>
-          <InputFromArrayShowValue controlName='BH Dur Stones' stateVariable={bhDurationStones} stateSetter={setBHDurationStones} />
-          <DropdownFromObjectShowKey
-            controlName='BH Dur Stat'
-            stateVariable={bhDurationSubstat}
-            stateSetter={setBHDurationSubstat}
-            objectData={BLACK_HOLE_SUBSTATS_COOLDOWN}
-          />
+          <div className='control'>
+            <label>
+              BH Dur Stones
+              <select value={bhDurationSubstat} onChange={setBHDurationSubstat}>
+                {Object.entries(BLACK_HOLE_SUBSTATS_COOLDOWN).map(([key, value]) => (
+                  <option id={key} key={key} value={value}>
+                    {key}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
           <div className='control'>
             <label>
               Tournament
