@@ -9,10 +9,10 @@ export const PermaCalculator = ({ props }) => {
   const [waveAcceleratorCard, setWaveAcceleratorCard] = useIntegerState(WAVE_ACCELERATOR_CARD['7'], 'waveAcceleratorCard', 0, 7);
   const [galaxyCompressorEffect, setGalaxyCompressorEffect] = useIntegerState(GALAXY_COMPRESSOR_EFFECT.Ancestral, 'galaxyCompressorEffect', 0, 20);
   const [packageChance, setPackageChance] = useFloatState(80, 'packageChance', 0, 82);
-  const [gtDurationStonesLevel, setGTDurationStonesLevel] = useIntegerState(45, 'gtDurationStonesLevel', 0, 45);
+  const [gtDurationStonesLevel, setGTDurationStonesLevel] = useIntegerState(45, 'gtDurationStonesLevel', 0, 53);
   const [gtDurationLabLevel, setGTDurationLabLevel] = useIntegerState(20, 'gtDurationLabLevel', 0, 20);
-  const [gtDurationSubstat, setGTDurationSubstat] = useIntegerState(GOLDEN_TOWER_SUBSTATS_DURATION.None, 'gtDurationSubstat', 0, 53);
-  const [bhDurationStones, setBHDurationStones] = useIntegerState(30, 'bhDurationStones', 0, 30);
+  const [gtDurationSubstat, setGTDurationSubstat] = useIntegerState(GOLDEN_TOWER_SUBSTATS_DURATION.None, 'gtDurationSubstat', 0, 7);
+  const [bhDurationStones, setBHDurationStones] = useIntegerState(30, 'bhDurationStones', 0, 38);
   const [bhDurationSubstat, setBHDurationSubstat] = useIntegerState(BLACK_HOLE_SUBSTATS_DURATION.None, 'bhDurationSubstat', 0, 4);
   const [bhPerk, setBHPerk] = useCheckboxState(true, 'bhPerk');
   const [isTournament, setIsTournament] = useCheckboxState(false, 'isTournament');
@@ -116,7 +116,7 @@ export const PermaCalculator = ({ props }) => {
               GT Dur Stones
               <select value={gtDurationStonesLevel} onChange={setGTDurationStonesLevel}>
                 {integerRange(0, 53).map(seconds => (
-                  <option key={seconds} value={seconds}></option>
+                  <option key={seconds} value={seconds}>{seconds}</option>
                 ))}
               </select>
             </label>
@@ -124,7 +124,11 @@ export const PermaCalculator = ({ props }) => {
           <div className='control'>
             <label>
               GT Dur Lab
-              <input type='number' min={0} max={20} value={gtDurationLabLevel} onChange={setGTDurationLabLevel} />
+              <select value={gtDurationLabLevel} onChange={setGTDurationLabLevel}>
+                {integerRange(0,20).map(seconds =>(
+                  <option key={seconds} value={seconds}>{seconds}</option>
+                ))}
+              </select>
             </label>
           </div>
           <div className='control'>
@@ -145,7 +149,7 @@ export const PermaCalculator = ({ props }) => {
             <label>
               BH Dur Stones
               <select value={bhDurationSubstat} onChange={setBHDurationSubstat}>
-                {Object.entries(BLACK_HOLE_SUBSTATS_COOLDOWN).map(([key, value]) => (
+                {Object.entries(BLACK_HOLE_SUBSTATS_DURATION).map(([key, value]) => (
                   <option id={key} key={key} value={value}>
                     {key}
                   </option>
