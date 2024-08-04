@@ -4,7 +4,7 @@ import { useInputState, useIntegerState } from '../utils/hooks';
 import { Calculator } from '../components/Calculator';
 import { PermaCalculator } from '../components/PermaCalculator';
 import React from 'react';
-import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_COOLDOWN } from '../utils/Values';
+import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_COOLDOWN } from '../utils/values';
 import { DEATH_WAVE, BLACK_HOLE, GOLDEN_TOWER } from 'tower-idle-toolkit';
 import { sum, avg } from '../utils/utils';
 import { useCheckboxState } from '../utils/hooks';
@@ -26,7 +26,7 @@ export const Main = () => {
   const [mnEnabled, setMnEnabled] = useCheckboxState(true, 'calcMvnEnabled')
   const [gtCooldown, setGtCooldown] = useIntegerState(gtCooldowns[gtCooldowns.length - 1].value, 'calcGtCooldown', 100, 300);
   const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'calcGtEnabled');
-  const [dwCooldown, setDwCooldown] = useIntegerState(dwCooldowns[dwCooldowns.length - 1].value, 'calcDwCooldown', 300, 100);
+  const [dwCooldown, setDwCooldown] = useIntegerState(dwCooldowns[dwCooldowns.length - 1].value, 'calcDwCooldown', 100, 300);
   const [dwEnabled, setDwEnabled] = useCheckboxState(true, 'calcDwEnabled');
   const [bhCooldown, setBhCooldown] = useIntegerState(bhCooldowns[bhCooldowns.length - 1].value, 'calcBhCooldown', 50, 200);
   const [bhEnabled, setBhEnabled] = useCheckboxState(true, 'calcBhEnabled');

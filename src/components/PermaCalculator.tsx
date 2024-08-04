@@ -2,7 +2,7 @@ import { WAVE_ACCELERATOR_CARD } from 'tower-idle-toolkit';
 import { getInGameWaveTime} from '../utils/waveDuration';
 import { useCheckboxState, useIntegerState, useFloatState } from '../utils/hooks';
 import { integerRange, roundMidpointToEven } from '../utils/utils';
-import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from '../utils/Values';
+import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from '../utils/values';
 
 const GT_DURATION_LAB = integerRange(0,20);
 
