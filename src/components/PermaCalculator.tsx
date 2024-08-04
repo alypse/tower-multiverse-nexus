@@ -1,7 +1,7 @@
 import { WAVE_ACCELERATOR_CARD } from 'tower-idle-toolkit';
 import { getInGameWaveTime} from '../utils/waveDuration';
 import { useCheckboxState, useIntegerState, useFloatState } from '../utils/hooks';
-import { integerRange } from '../utils/utils';
+import { integerRange, roundMidpointToEven } from '../utils/utils';
 import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from '../utils/Values';
 
 const GT_DURATION_LAB = integerRange(0,20);
@@ -22,14 +22,14 @@ export const PermaCalculator = ({ props }) => {
     return gtDurationStonesLevel + GT_DURATION_LAB[gtDurationLabLevel] + gtDurationSubstat;
   };
 
-  const GT_COOLDOWN = props.mnEnabled ? props.averageCooldownwithMN : props.gtCooldown;
+  const GT_COOLDOWN = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.gtCooldown;
 
   const BH_DURATION = (bhDurationStones: number, bhDurationSubstat: number, bhPerk: boolean) => {
     const bhPerkDuration = bhPerk && !isTournament ? 12 : 0;
     return bhDurationStones + bhDurationSubstat + bhPerkDuration;
   };
 
-  const BH_COOLDOWN = props.mnEnabled ? props.averageCooldownwithMN : props.bhCooldown;
+  const BH_COOLDOWN = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.bhCooldown;
 
   const packageCheck = (wave: number) => {
     let rollPackage = Math.floor(Math.random() * 100);
