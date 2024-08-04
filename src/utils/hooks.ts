@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-const versionCache = '1.5';
+const versionCache = '24.02-0';
 
 export const useInputEvent = setState => useCallback(({ target: { value } }) => setState(value), [setState]);
 

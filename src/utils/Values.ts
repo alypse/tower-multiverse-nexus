@@ -1,5 +1,4 @@
 export const MULTIVERSE_NEXUS_EFFECT = {
-    "None": 0,
     "Epic": 20,
     "Legendary": 10,
     "Mythic": 1,

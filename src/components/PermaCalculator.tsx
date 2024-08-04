@@ -1,32 +1,37 @@
-import { getInGameWaveTime, LabValues, maxLevel, WAVE_ACCELERATOR_CARD } from 'tower-idle-toolkit';
+import { WAVE_ACCELERATOR_CARD } from 'tower-idle-toolkit';
+import { getInGameWaveTime} from '../utils/waveDuration';
 import { useCheckboxState, useIntegerState, useFloatState } from '../utils/hooks';
-import { DropdownFromObjectShowKey, integerRange, InputFromArrayShowValue } from '../utils/utils';
+import { integerRange, roundMidpointToEven } from '../utils/utils';
 import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from '../utils/Values';
 
-const GT_DURATION_LAB = integerRange(1, maxLevel('Golden Tower Duration') + 1).map(i => LabValues['Golden Tower Duration'](i - 1));
+const GT_DURATION_LAB = integerRange(0,20);
 
 export const PermaCalculator = ({ props }) => {
   const [waveAcceleratorCard, setWaveAcceleratorCard] = useIntegerState(WAVE_ACCELERATOR_CARD['7'], 'waveAcceleratorCard', 0, 7);
   const [galaxyCompressorEffect, setGalaxyCompressorEffect] = useIntegerState(GALAXY_COMPRESSOR_EFFECT.Ancestral, 'galaxyCompressorEffect', 0, 20);
   const [packageChance, setPackageChance] = useFloatState(80, 'packageChance', 0, 82);
-  const [gtDurationStonesLevel, setGTDurationStonesLevel] = useIntegerState(45, 'gtDurationStonesLevel', 0, 45);
-  const [gtDurationLabLevel, setGTDurationLabLevel] = useIntegerState(20, 'gtDurationLabLevel', 0, GT_DURATION_LAB.length - 1);
+  const [gtDurationStonesLevel, setGTDurationStonesLevel] = useIntegerState(45, 'gtDurationStonesLevel', 0, 53);
+  const [gtDurationLabLevel, setGTDurationLabLevel] = useIntegerState(20, 'gtDurationLabLevel', 0, 20);
   const [gtDurationSubstat, setGTDurationSubstat] = useIntegerState(GOLDEN_TOWER_SUBSTATS_DURATION.None, 'gtDurationSubstat', 0, 7);
-  const [bhDurationStones, setBHDurationStones] = useIntegerState(30, 'bhDurationStones', 0, 30);
+  const [bhDurationStones, setBHDurationStones] = useIntegerState(38, 'bhDurationStones', 0, 38);
   const [bhDurationSubstat, setBHDurationSubstat] = useIntegerState(BLACK_HOLE_SUBSTATS_DURATION.None, 'bhDurationSubstat', 0, 4);
   const [bhPerk, setBHPerk] = useCheckboxState(true, 'bhPerk');
   const [isTournament, setIsTournament] = useCheckboxState(false, 'isTournament');
 
-  const GT_DURATION = (gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat) => {
+  const GT_DURATION = (gtDurationStonesLevel: number, gtDurationLabLevel: number, gtDurationSubstat: number) => {
     return gtDurationStonesLevel + GT_DURATION_LAB[gtDurationLabLevel] + gtDurationSubstat;
   };
 
-  const BH_DURATION = (bhDurationStones, bhDurationSubstat, bhPerk) => {
+  const GT_COOLDOWN = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.gtCooldown;
+
+  const BH_DURATION = (bhDurationStones: number, bhDurationSubstat: number, bhPerk: boolean) => {
     const bhPerkDuration = bhPerk && !isTournament ? 12 : 0;
     return bhDurationStones + bhDurationSubstat + bhPerkDuration;
   };
 
-  const packageCheck = wave => {
+  const BH_COOLDOWN = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.bhCooldown;
+
+  const packageCheck = (wave: number) => {
     let rollPackage = Math.floor(Math.random() * 100);
     if (wave % 10 === 0) {
       return true;
@@ -36,7 +41,7 @@ export const PermaCalculator = ({ props }) => {
   };
 
   let packageCount = 0;
-  const rollPackagesForWaves = waves => {
+  const rollPackagesForWaves = (waves: number) => {
     let waveCount = waves;
     while (waveCount > 0) {
       if (packageCheck(waveCount)) {
@@ -47,32 +52,32 @@ export const PermaCalculator = ({ props }) => {
   };
 
   const wavesToTest = 999;
-  rollPackagesForWaves(wavesToTest);
+  isTournament ? packageCount = wavesToTest : rollPackagesForWaves(wavesToTest);
 
-  const checkBHPermanent = waves => {
+  const checkBHPermanent = (waves: number) => {
     let waveCountBH = waves;
     let totalWavesTime = 0;
     while (waveCountBH > 0) {
-      totalWavesTime += getInGameWaveTime(waveCountBH, waveAcceleratorCard, isTournament);
+      totalWavesTime += getInGameWaveTime(waveCountBH, waveAcceleratorCard);
       waveCountBH--;
     }
     const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
-    const bhActivations = totalWavesTime / props.bhCooldown;
+    const bhActivations = totalWavesTime / BH_COOLDOWN;
     const bhUptime = bhActivations * BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk);
-    return (cdReductionTotal / totalWavesTime) * bhUptime >= props.bhCooldown * bhActivations;
+    return (cdReductionTotal / totalWavesTime) * bhUptime >= BH_COOLDOWN * bhActivations;
   };
 
-  const checkGTPermanent = waves => {
+  const checkGTPermanent = (waves: number) => {
     let waveCountGT = waves;
     let totalWavesTime = 0;
     while (waveCountGT > 0) {
-      totalWavesTime += getInGameWaveTime(waveCountGT, waveAcceleratorCard, false);
+      totalWavesTime += getInGameWaveTime(waveCountGT, waveAcceleratorCard);
       waveCountGT--;
     }
     const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
-    const gtActivations = totalWavesTime / props.gtCooldown;
+    const gtActivations = totalWavesTime / GT_COOLDOWN;
     const gtUptime = gtActivations * GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat);
-    return (cdReductionTotal / totalWavesTime) * gtUptime >= props.gtCooldown * gtActivations;
+    return (cdReductionTotal / totalWavesTime) * gtUptime >= GT_COOLDOWN * gtActivations;
   };
 
   return (
@@ -111,28 +116,68 @@ export const PermaCalculator = ({ props }) => {
           </div>
         </div>
         <div className='controlGroup'>
-          <InputFromArrayShowValue controlName='GT Dur Stones' stateVariable={gtDurationStonesLevel} stateSetter={setGTDurationStonesLevel} />
+          <div className='control'>
+            <label>
+              GT Dur Stones
+              <select value={gtDurationStonesLevel} onChange={setGTDurationStonesLevel}>
+                {integerRange(0, 53).map(seconds => (
+                  <option key={seconds} value={seconds}>
+                    {seconds}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
           <div className='control'>
             <label>
               GT Dur Lab
-              <input type='number' min='0' max={GT_DURATION_LAB.length - 1} value={GT_DURATION_LAB[gtDurationLabLevel]} onChange={setGTDurationLabLevel} />
+              <select value={gtDurationLabLevel} onChange={setGTDurationLabLevel}>
+                {integerRange(0, 20).map(seconds => (
+                  <option key={seconds} value={seconds}>
+                    {seconds}
+                  </option>
+                ))}
+              </select>
             </label>
           </div>
-          <DropdownFromObjectShowKey
-            controlName='GT Dur Stat'
-            stateVariable={gtDurationSubstat}
-            stateSetter={setGTDurationSubstat}
-            objectData={GOLDEN_TOWER_SUBSTATS_DURATION}
-          />
+          <div className='control'>
+            <label>
+              GT Dur Stat
+              <select value={gtDurationSubstat} onChange={setGTDurationSubstat}>
+                {Object.entries(GOLDEN_TOWER_SUBSTATS_DURATION).map(([key, value]) => (
+                  <option id={key} key={key} value={value}>
+                    {key}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
         <div className='controlGroup'>
-          <InputFromArrayShowValue controlName='BH Dur Stones' stateVariable={bhDurationStones} stateSetter={setBHDurationStones} />
-          <DropdownFromObjectShowKey
-            controlName='BH Dur Stat'
-            stateVariable={bhDurationSubstat}
-            stateSetter={setBHDurationSubstat}
-            objectData={BLACK_HOLE_SUBSTATS_COOLDOWN}
-          />
+          <div className='control'>
+            <label>
+              BH Dur Stones
+              <select value={bhDurationStones} onChange={setBHDurationStones}>
+                {integerRange(0, 38).map(value => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className='control'>
+            <label>
+              BH Dur Stat
+              <select value={bhDurationSubstat} onChange={setBHDurationSubstat}>
+                {Object.entries(BLACK_HOLE_SUBSTATS_DURATION).map(([key, value]) => (
+                  <option id={key} key={key} value={value}>
+                    {key}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
           <div className='control'>
             <label>
               Tournament
@@ -151,21 +196,20 @@ export const PermaCalculator = ({ props }) => {
       </div>
       <div className='results'>
         <div className='result'>
-          <p>Packages:</p>
-          <p>
-            Total: {packageCount} from {wavesToTest} waves
-          </p>
+          <p>{props.mnEnabled ? 'MVN Enabled' : 'MVN Disabled'}</p>
+          <p>{packageCount} packages from {wavesToTest} waves</p>
+          <p>{isTournament ? 'Package each wave' : 'Package every 10 waves'}</p>
         </div>
         <div className='result'>
           <p>GT:</p>
           <p>Dur: {GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat)}</p>
-          <p>CD: {props.gtCooldown}</p>
+          <p>CD: {GT_COOLDOWN}</p>
           <p>Perma?: {checkGTPermanent(wavesToTest) ? 'Yes' : 'No'}</p>
         </div>
         <div className='result'>
           <p>BH:</p>
           <p>Dur: {BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk)}</p>
-          <p>CD: {props.bhCooldown}</p>
+          <p>CD: {BH_COOLDOWN}</p>
           <p>Perma?: {checkBHPermanent(wavesToTest) ? 'Yes' : 'No'}</p>
         </div>
       </div>

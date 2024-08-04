@@ -1,3 +1,4 @@
+import { roundMidpointToEven } from '../utils/utils';
 import './Calculator.scss';
 
 // For his skyeness
@@ -17,7 +18,7 @@ export function Calculator({props}) {
                 </div>
                 <div className="result">
                     <p>Average Cooldown with Effect</p>
-                    <p>{props.averageCooldownwithMN.toFixed(2)} seconds</p>
+                    <p>{roundMidpointToEven(props.averageCooldownwithMN)} seconds</p>
                 </div>
             </div>
         </div>

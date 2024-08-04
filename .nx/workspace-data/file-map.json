@@ -1,0 +1,202 @@
+{
+  "version": "6.0",
+  "nxVersion": "19.5.4",
+  "deps": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1",
+    "sass": "^1.77.2",
+    "tower-idle-toolkit": "^0.21.21-1",
+    "web-vitals": "^2.1.4",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-transform-private-property-in-object": "^7.24.5",
+    "prettier": "^3.3.2",
+    "nx": "19.5.4"
+  },
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {
+      "tower-mvn": [
+        {
+          "file": ".editorconfig",
+          "hash": "13643174808304971026"
+        },
+        {
+          "file": ".gitignore",
+          "hash": "1922211809207610136"
+        },
+        {
+          "file": ".idea/.gitignore",
+          "hash": "1749420185275071056"
+        },
+        {
+          "file": ".idea/codeStyles/Project.xml",
+          "hash": "8957145190455804033"
+        },
+        {
+          "file": ".idea/codeStyles/codeStyleConfig.xml",
+          "hash": "10911911431176787330"
+        },
+        {
+          "file": ".idea/material_theme_project_new.xml",
+          "hash": "18308953854851346411"
+        },
+        {
+          "file": ".idea/misc.xml",
+          "hash": "14673648824698332012"
+        },
+        {
+          "file": ".idea/modules.xml",
+          "hash": "13481492990656927617"
+        },
+        {
+          "file": ".idea/prettier.xml",
+          "hash": "17101858346474841415"
+        },
+        {
+          "file": ".idea/vcs.xml",
+          "hash": "10702585895602644957"
+        },
+        {
+          "file": ".prettierrc.json",
+          "hash": "17780019047079180149"
+        },
+        {
+          "file": "README.md",
+          "hash": "12693309541405176852"
+        },
+        {
+          "file": "nx.json",
+          "hash": "9512620839076408601"
+        },
+        {
+          "file": "package-lock.json",
+          "hash": "3553391052706176607"
+        },
+        {
+          "file": "package.json",
+          "hash": "1548051795956409120",
+          "deps": [
+            "npm:@babel/plugin-proposal-private-property-in-object",
+            "npm:@babel/plugin-transform-private-property-in-object",
+            "npm:prettier",
+            "npm:@testing-library/jest-dom",
+            "npm:@testing-library/react",
+            "npm:@testing-library/user-event",
+            "npm:react",
+            "npm:react-dom",
+            "npm:react-scripts",
+            "npm:sass",
+            "npm:tower-idle-toolkit",
+            "npm:web-vitals"
+          ]
+        },
+        {
+          "file": "public/favicon.ico",
+          "hash": "2949791817221603359"
+        },
+        {
+          "file": "public/index.html",
+          "hash": "18126607233504696126"
+        },
+        {
+          "file": "public/logo192.png",
+          "hash": "7585273181698778288"
+        },
+        {
+          "file": "public/logo512.png",
+          "hash": "9339365414554387981"
+        },
+        {
+          "file": "public/manifest.json",
+          "hash": "1447645250373428393"
+        },
+        {
+          "file": "public/robots.txt",
+          "hash": "2790380794362165217"
+        },
+        {
+          "file": "src/App.js",
+          "hash": "11882478976711642965"
+        },
+        {
+          "file": "src/App.scss",
+          "hash": "3835628923750238168"
+        },
+        {
+          "file": "src/App.test.js",
+          "hash": "3770917940002253103"
+        },
+        {
+          "file": "src/App2.scss",
+          "hash": "5142794919132722459"
+        },
+        {
+          "file": "src/components/Calculator.jsx",
+          "hash": "14121995066530597741"
+        },
+        {
+          "file": "src/components/Calculator.scss",
+          "hash": "7546638615769026849"
+        },
+        {
+          "file": "src/components/PermaCalculator.jsx",
+          "hash": "17425892305363212076"
+        },
+        {
+          "file": "src/index.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/index.js",
+          "hash": "15758069054619625625"
+        },
+        {
+          "file": "src/logo.svg",
+          "hash": "5137778160416929466"
+        },
+        {
+          "file": "src/pages/Main.jsx",
+          "hash": "17280203089310895815"
+        },
+        {
+          "file": "src/pages/Main.scss",
+          "hash": "12763633544120128594"
+        },
+        {
+          "file": "src/reportWebVitals.js",
+          "hash": "17211204261118952438"
+        },
+        {
+          "file": "src/setupTests.js",
+          "hash": "56515321623462775"
+        },
+        {
+          "file": "src/utils/Values.js",
+          "hash": "8923818988185505289"
+        },
+        {
+          "file": "src/utils/hooks.js",
+          "hash": "6374877997507104126"
+        },
+        {
+          "file": "src/utils/utils.js",
+          "hash": "14158898728365996163"
+        },
+        {
+          "file": "src/variables.scss",
+          "hash": "1938456111338696246"
+        },
+        {
+          "file": "tower-multiverse-nexus.iml",
+          "hash": "6282839632432047905"
+        }
+      ]
+    },
+    "nonProjectFiles": []
+  }
+}
