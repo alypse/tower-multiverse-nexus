@@ -75,21 +75,23 @@ export const Main = () => {
         ))}
       </div>
       <div className='controls'>
-          <div className='controlGroup'>
-            <div className='control'>
-              <label>
-                MN Effect
-                <select value={mnEffect} onChange={setMnEffect}>
-                  {Object.entries(MULTIVERSE_NEXUS_EFFECT).map(([key, value]) => (
-                    <option key={key} value={value}>
-                      {key}
-                    </option>
-                  ))}
-                </select>
-              </label>
+        <div className='controlGroup'>
+          <div className='control'>
+            <label>
+              MN Effect
+              <select value={mnEffect} onChange={setMnEffect}>
+                {Object.entries(MULTIVERSE_NEXUS_EFFECT).map(([key, value]) => (
+                  <option key={key} value={value}>
+                    {key}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {view === VIEWS.PERMA_CALCULATOR && (
               <input type='checkbox' checked={mnEnabled} onChange={setMnEnabled} />
-            </div>
+            )}
           </div>
+        </div>
         <div className='controlGroup'>
           <div className='control'>
             <label>
@@ -117,33 +119,33 @@ export const Main = () => {
             </label>
           </div>
         </div>
-          <div className='controlGroup'>
-            <div className='control'>
-              <label>
-                DW CD
-                <select value={dwCooldown} onChange={setDwCooldown}>
-                  {dwCooldownValues.map((value, index) => (
-                    <option key={index} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <input type='checkbox' checked={dwEnabled} onChange={setDwEnabled} />
-            </div>
-            <div className='control'>
-              <label>
-                DW CD Stat
-                <select value={dwCooldownSubstat} onChange={setDwCooldownSubstat}>
-                  {Object.entries(DEATH_WAVE_SUBSTATS_COOLDOWN).map(([key, value]) => (
-                    <option key={key} value={value}>
-                      {key}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
+        <div className='controlGroup'>
+          <div className='control'>
+            <label>
+              DW CD
+              <select value={dwCooldown} onChange={setDwCooldown}>
+                {dwCooldownValues.map((value, index) => (
+                  <option key={index} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <input type='checkbox' checked={dwEnabled} onChange={setDwEnabled} />
           </div>
+          <div className='control'>
+            <label>
+              DW CD Stat
+              <select value={dwCooldownSubstat} onChange={setDwCooldownSubstat}>
+                {Object.entries(DEATH_WAVE_SUBSTATS_COOLDOWN).map(([key, value]) => (
+                  <option key={key} value={value}>
+                    {key}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        </div>
         <div className='controlGroup'>
           <div className='control'>
             <label>
@@ -175,9 +177,6 @@ export const Main = () => {
       {view === VIEWS.MVN_CALCULATOR && (
         <Calculator
           props={{
-            gtCooldown: gtCooldown - gtCooldownSubstat,
-            dwCooldown: dwCooldown - dwCooldownSubstat,
-            bhCooldown: bhCooldown - bhCooldownSubstat,
             totalCooldown,
             averageCooldown,
             averageCooldownwithMN,
@@ -188,9 +187,9 @@ export const Main = () => {
         <PermaCalculator
           props={{
             gtCooldown: gtCooldown - gtCooldownSubstat,
+            dwCooldown: dwCooldown - dwCooldownSubstat,
             bhCooldown: bhCooldown - bhCooldownSubstat,
-            totalCooldown,
-            averageCooldown,
+            mnEnabled,
             averageCooldownwithMN,
           }}
         />
