@@ -51,33 +51,41 @@ export const PermaCalculator = ({ props }) => {
     }
   };
 
-  const wavesToTest = 999;
+  const wavesToTest = 1000;
   isTournament ? packageCount = wavesToTest : rollPackagesForWaves(wavesToTest);
 
   const checkBHPermanent = (waves: number) => {
     let waveCountBH = waves;
     let totalWavesTime = 0;
     while (waveCountBH > 0) {
-      totalWavesTime += getInGameWaveTime(waveCountBH, waveAcceleratorCard);
+      totalWavesTime += getInGameWaveTime(waveAcceleratorCard, isTournament);
       waveCountBH--;
     }
     const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
     const bhActivations = totalWavesTime / BH_COOLDOWN;
     const bhUptime = bhActivations * BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk);
-    return (cdReductionTotal / totalWavesTime) * bhUptime >= BH_COOLDOWN * bhActivations;
+
+    const adjustedUptimeBH = (cdReductionTotal / totalWavesTime) * bhUptime ;
+    const baseUptimeBH = BH_COOLDOWN * bhActivations;
+
+    return adjustedUptimeBH >= baseUptimeBH;
   };
 
   const checkGTPermanent = (waves: number) => {
     let waveCountGT = waves;
     let totalWavesTime = 0;
     while (waveCountGT > 0) {
-      totalWavesTime += getInGameWaveTime(waveCountGT, waveAcceleratorCard);
+      totalWavesTime += getInGameWaveTime(waveAcceleratorCard, isTournament);
       waveCountGT--;
     }
     const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
     const gtActivations = totalWavesTime / GT_COOLDOWN;
     const gtUptime = gtActivations * GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat);
-    return (cdReductionTotal / totalWavesTime) * gtUptime >= GT_COOLDOWN * gtActivations;
+
+    const adjustedUptimeGT = (cdReductionTotal / totalWavesTime) * gtUptime
+    const baseUptimeGT = GT_COOLDOWN * gtActivations
+
+    return adjustedUptimeGT >= baseUptimeGT ;
   };
 
   return (
