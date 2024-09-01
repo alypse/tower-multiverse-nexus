@@ -51,7 +51,7 @@ export const PermaCalculator = ({ props }) => {
     }
   };
 
-  const wavesToTest = 1000;
+  const wavesToTest = 10000;
   isTournament ? packageCount = wavesToTest : rollPackagesForWaves(wavesToTest);
 
   const checkBHPermanent = (waves: number) => {
@@ -206,7 +206,7 @@ export const PermaCalculator = ({ props }) => {
         <div className='result'>
           <p>{props.mnEnabled ? 'MVN Enabled' : 'MVN Disabled'}</p>
           <p>{packageCount} packages from {wavesToTest} waves</p>
-          <p>{isTournament ? 'Package each wave' : 'Package on roll & boss'}</p>
+          <p>{isTournament ? 'Package each wave' : 'Simulated packages received'}</p>
         </div>
         <div className='result'>
           <p>GT:</p>
