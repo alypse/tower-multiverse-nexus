@@ -1,13 +1,13 @@
 import './Main.scss';
 import '../variables.scss';
-import { useInputState, useIntegerState } from '../utils/hooks';
+import logo from '../assets/mvn.webp';
+import { useInputState, useIntegerState, useCheckboxState } from '../utils/hooks';
 import { Calculator } from '../components/Calculator';
 import { PermaCalculator } from '../components/PermaCalculator';
 import React from 'react';
 import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_COOLDOWN } from '../utils/values';
 import { DEATH_WAVE, BLACK_HOLE, GOLDEN_TOWER } from 'tower-idle-toolkit';
 import { sum, avg } from '../utils/utils';
-import { useCheckboxState } from '../utils/hooks';
 
 const gtCooldowns = GOLDEN_TOWER.upgrades.Cooldown.values;
 const dwCooldowns = DEATH_WAVE.upgrades.Cooldown.values;
@@ -61,18 +61,21 @@ export const Main = () => {
 
   return (
     <div id='main'>
-      <div className='nav'>
-        {Object.entries(VIEWS).map(([key, value]) => (
-          <button
-            style={view === value ? { border: '1px solid rgb(10, 200, 255)' } : { border: '1px solid rgb(100, 100, 120)' }}
-            key={key}
-            type='button'
-            value={value}
-            onClick={setView}
-          >
-            {value}
-          </button>
-        ))}
+      <div className='header'>
+        <div className='nav'>
+          {Object.entries(VIEWS).map(([key, value]) => (
+            <button
+              style={view === value ? { border: '1px solid rgb(10, 200, 255)' } : { border: '1px solid rgb(100, 100, 120)' }}
+              key={key}
+              type='button'
+              value={value}
+              onClick={setView}
+            >
+              {value}
+            </button>
+          ))}
+        </div>
+        <img src={logo} alt="MVN Logo" />
       </div>
       <div className='controls'>
         <div className='controlGroup'>

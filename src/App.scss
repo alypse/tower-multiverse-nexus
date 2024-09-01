@@ -16,6 +16,11 @@ body {
   padding: 5px;
   justify-content: flex-start;
   align-items: stretch;
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
   .nav {
     display: flex;
     flex-wrap: wrap;
