@@ -51,7 +51,7 @@ export const PermaCalculator = ({ props }) => {
     }
   };
 
-  const wavesToTest = 10000;
+  const wavesToTest = 1000;
   isTournament ? packageCount = wavesToTest : rollPackagesForWaves(wavesToTest);
 
   const checkBHPermanent = (waves: number) => {
