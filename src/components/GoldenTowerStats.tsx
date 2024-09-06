@@ -4,6 +4,9 @@ import { getInGameWaveTime } from '../utils/waveDuration';
 export const GoldenTowerStats = ({ props }) => {
 
   const {
+    packageCount,
+    GT_COOLDOWN,
+    GT_DURATION,
     isTournament,
     waveAcceleratorCard,
     galaxyCompressorEffect,
@@ -20,12 +23,12 @@ export const GoldenTowerStats = ({ props }) => {
       totalWavesTime += getInGameWaveTime(waveAcceleratorCard, isTournament);
       waveCountGT--;
     }
-    const cdReductionTotal = totalWavesTime + props.packageCount * galaxyCompressorEffect;
-    const gtActivations = totalWavesTime / props.GT_COOLDOWN;
-    const gtUptime = gtActivations * props.GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat);
+    const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
+    const gtActivations = totalWavesTime / GT_COOLDOWN;
+    const gtUptime = gtActivations * GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat);
 
     const adjustedUptimeGT = (cdReductionTotal / totalWavesTime) * gtUptime
-    const baseUptimeGT = props.GT_COOLDOWN * gtActivations
+    const baseUptimeGT = GT_COOLDOWN * gtActivations
     const isPermenant = adjustedUptimeGT >= baseUptimeGT
 
     return {
@@ -39,6 +42,8 @@ export const GoldenTowerStats = ({ props }) => {
     return GTPermanence(wavesToTest)
   }, 
     [
+      packageCount,
+      GT_COOLDOWN,
       isTournament,
       waveAcceleratorCard,
       galaxyCompressorEffect,

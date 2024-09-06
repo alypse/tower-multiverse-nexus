@@ -99,13 +99,14 @@ export const Main = () => {
           <div className='control'>
             <label>
               GT CD
-              <select value={gtCooldown} onChange={setGtCooldown}>
-                {gtCooldownValues.map((value, index) => (
-                  <option key={index} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </select>
+              <input 
+                type='number'
+                min='100'
+                max='300'
+                step={10}
+                value={gtCooldown}
+                onChange={setGtCooldown}>
+              </input>
             </label>
             <input type='checkbox' checked={gtEnabled} onChange={setGtEnabled} />
           </div>
@@ -126,13 +127,14 @@ export const Main = () => {
           <div className='control'>
             <label>
               DW CD
-              <select value={dwCooldown} onChange={setDwCooldown}>
-                {dwCooldownValues.map((value, index) => (
-                  <option key={index} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </select>
+              <input 
+                type='number'
+                min='100'
+                max='300'
+                step={10}
+                value={dwCooldown}
+                onChange={setDwCooldown}>
+              </input>
             </label>
             <input type='checkbox' checked={dwEnabled} onChange={setDwEnabled} />
           </div>
@@ -153,13 +155,14 @@ export const Main = () => {
           <div className='control'>
             <label>
               BH CD
-              <select value={bhCooldown} onChange={setBhCooldown}>
-                {bhCooldownValues.map((value, index) => (
-                  <option key={index} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </select>
+              <input 
+                type='number'
+                min='50'
+                max='200'
+                step={10}
+                value={bhCooldown}
+                onChange={setBhCooldown}>
+              </input>
             </label>
             <input type='checkbox' checked={bhEnabled} onChange={setBhEnabled} />
           </div>
