@@ -14,7 +14,10 @@ const defaultCooldowns = {
   defaultGoldenTowerCD: 100,
   defaultDeathWaveCD: 100,
   defaultBlackHoleCD: 50
-}
+};
+
+const cooldownRangeDWGT = Array.from({ length: 21 }, (_, index) => 100 + index * 10); // 100 to 300 in steps of 10
+const cooldownRangeBH = Array.from({ length: 16 }, (_, index) => 50 + index * 10); // 50 to 200 in steps of 10
 
 const VIEWS = {
   MVN_CALCULATOR: 'MVN Calculator',
@@ -89,14 +92,13 @@ export const Main = () => {
           <div className='control'>
             <label>
               GT CD
-              <input
-                type='number'
-                min='100'
-                max='300'
-                step={10}
-                value={gtCooldown}
-                onChange={setGtCooldown}>
-              </input>
+              <select value={gtCooldown} onChange={setGtCooldown}>
+                {cooldownRangeDWGT.map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
             </label>
             <input type='checkbox' checked={gtEnabled} onChange={setGtEnabled} />
           </div>
@@ -117,14 +119,13 @@ export const Main = () => {
           <div className='control'>
             <label>
               DW CD
-              <input
-                type='number'
-                min='100'
-                max='300'
-                step={10}
-                value={dwCooldown}
-                onChange={setDwCooldown}>
-              </input>
+              <select value={dwCooldown} onChange={setDwCooldown}>
+                {cooldownRangeDWGT.map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
             </label>
             <input type='checkbox' checked={dwEnabled} onChange={setDwEnabled} />
           </div>
@@ -145,14 +146,13 @@ export const Main = () => {
           <div className='control'>
             <label>
               BH CD
-              <input
-                type='number'
-                min='50'
-                max='200'
-                step={10}
-                value={bhCooldown}
-                onChange={setBhCooldown}>
-              </input>
+              <select value={bhCooldown} onChange={setBhCooldown}>
+                {cooldownRangeBH.map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
             </label>
             <input type='checkbox' checked={bhEnabled} onChange={setBhEnabled} />
           </div>

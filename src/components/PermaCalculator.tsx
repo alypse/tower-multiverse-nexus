@@ -172,7 +172,7 @@ export const PermaCalculator = ({ props }) => {
       <div className='results'>
         <div className='result'>
           <p>{props.mnEnabled ? 'MVN Enabled' : 'MVN Disabled'}</p>
-          <p>{ (packageCount / wavesToTest).toFixed(3)} packages/wave</p>
+          <p>{ (packageCount / wavesToTest).toLocaleString('en-US')} packages/wave</p>
           <p>{isTournament ? 'Package each wave' : 'Simulated packages received'}</p>
         </div>
         <div className='result'>
