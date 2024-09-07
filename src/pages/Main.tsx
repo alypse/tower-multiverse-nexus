@@ -6,13 +6,15 @@ import { Calculator } from '../components/Calculator';
 import { PermaCalculator } from '../components/PermaCalculator';
 import React from 'react';
 import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_COOLDOWN } from '../utils/values';
-import { DEATH_WAVE, BLACK_HOLE, GOLDEN_TOWER } from 'tower-idle-toolkit';
 import { sum, avg } from '../utils/utils';
 
-const gtCooldowns = GOLDEN_TOWER.upgrades.Cooldown.values;
-const dwCooldowns = DEATH_WAVE.upgrades.Cooldown.values;
-const bhCooldowns = BLACK_HOLE.upgrades.Cooldown.values;
 const mnEffects = Object.values(MULTIVERSE_NEXUS_EFFECT);
+
+const defaultCooldowns = {
+  defaultGoldenTowerCD: 100,
+  defaultDeathWaveCD: 100,
+  defaultBlackHoleCD: 50
+}
 
 const VIEWS = {
   MVN_CALCULATOR: 'MVN Calculator',
@@ -24,26 +26,15 @@ export const Main = () => {
 
   const [mnEffect, setMnEffect] = useIntegerState(mnEffects[mnEffects.length - 1], 'calcMvnEffect', -10, 20);
   const [mnEnabled, setMnEnabled] = useCheckboxState(true, 'calcMvnEnabled')
-  const [gtCooldown, setGtCooldown] = useIntegerState(gtCooldowns[gtCooldowns.length - 1].value, 'calcGtCooldown', 100, 300);
+  const [gtCooldown, setGtCooldown] = useIntegerState(defaultCooldowns.defaultGoldenTowerCD, 'calcGtCooldown', 100, 300);
   const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'calcGtEnabled');
-  const [dwCooldown, setDwCooldown] = useIntegerState(dwCooldowns[dwCooldowns.length - 1].value, 'calcDwCooldown', 100, 300);
+  const [dwCooldown, setDwCooldown] = useIntegerState(defaultCooldowns.defaultDeathWaveCD, 'calcDwCooldown', 100, 300);
   const [dwEnabled, setDwEnabled] = useCheckboxState(true, 'calcDwEnabled');
-  const [bhCooldown, setBhCooldown] = useIntegerState(bhCooldowns[bhCooldowns.length - 1].value, 'calcBhCooldown', 50, 200);
+  const [bhCooldown, setBhCooldown] = useIntegerState(defaultCooldowns.defaultBlackHoleCD, 'calcBhCooldown', 50, 200);
   const [bhEnabled, setBhEnabled] = useCheckboxState(true, 'calcBhEnabled');
   const [gtCooldownSubstat, setGtCooldownSubstat] = useIntegerState(0, 'calcGtCooldownSubstat', 0, 12);
   const [dwCooldownSubstat, setDwCooldownSubstat] = useIntegerState(0, 'calcDwCooldownSubstat', 0, 13);
   const [bhCooldownSubstat, setBhCooldownSubstat] = useIntegerState(0, 'setBhCooldownSubstat', 0, 4);
-
-
-  const gtCooldownValues = gtCooldowns.map((levels, index) => {
-    return levels.value;
-  });
-  const dwCooldownValues = dwCooldowns.map((levels, index) => {
-    return levels.value;
-  });
-  const bhCooldownValues = bhCooldowns.map((levels, index) => {
-    return levels.value;
-  });
 
 
   const cds: number[] = [];
@@ -99,7 +90,7 @@ export const Main = () => {
           <div className='control'>
             <label>
               GT CD
-              <input 
+              <input
                 type='number'
                 min='100'
                 max='300'
@@ -127,7 +118,7 @@ export const Main = () => {
           <div className='control'>
             <label>
               DW CD
-              <input 
+              <input
                 type='number'
                 min='100'
                 max='300'
@@ -155,7 +146,7 @@ export const Main = () => {
           <div className='control'>
             <label>
               BH CD
-              <input 
+              <input
                 type='number'
                 min='50'
                 max='200'

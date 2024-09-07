@@ -4,6 +4,7 @@ import { useCheckboxState, useIntegerState, useFloatState } from '../utils/hooks
 import { integerRange, roundMidpointToEven } from '../utils/utils';
 import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from '../utils/values';
 import { GoldenTowerStats } from './GoldenTowerStats';
+import { BlackHoleStats } from './BlackHoleStats'
 
 const GT_DURATION_LAB = integerRange(0, 20);
 
@@ -54,44 +55,6 @@ export const PermaCalculator = ({ props }) => {
 
   const wavesToTest = 1000;
   isTournament ? packageCount = wavesToTest : rollPackagesForWaves(wavesToTest);
-
-  const isBHPermanent = (waves: number) => {
-    let waveCountBH = waves;
-    let totalWavesTime = 0;
-    while (waveCountBH > 0) {
-      totalWavesTime += getInGameWaveTime(waveAcceleratorCard, isTournament);
-      waveCountBH--;
-    }
-    const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
-    const bhActivations = totalWavesTime / BH_COOLDOWN;
-    const bhUptime = bhActivations * BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk);
-
-    const adjustedUptimeBH = (cdReductionTotal / totalWavesTime) * bhUptime;
-    const baseUptimeBH = BH_COOLDOWN * bhActivations;
-
-    return adjustedUptimeBH >= baseUptimeBH;
-  };
-
-  // const GTPermanence = (waves: number) => {
-  //   let waveCountGT = waves;
-  //   let totalWavesTime = 0;
-  //   while (waveCountGT > 0) {
-  //     totalWavesTime += getInGameWaveTime(waveAcceleratorCard, isTournament);
-  //     waveCountGT--;
-  //   }
-  //   const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
-  //   const gtActivations = totalWavesTime / GT_COOLDOWN;
-  //   const gtUptime = gtActivations * GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat);
-
-  //   const adjustedUptimeGT = (cdReductionTotal / totalWavesTime) * gtUptime
-  //   const baseUptimeGT = GT_COOLDOWN * gtActivations
-
-  //   return { 
-  //     adjustedUptimeGT, 
-  //     baseUptimeGT, 
-  //     isPermenant: adjustedUptimeGT >= baseUptimeGT 
-  //   };
-  // };
 
   return (
     <div className='main'>
@@ -210,14 +173,11 @@ export const PermaCalculator = ({ props }) => {
       <div className='results'>
         <div className='result'>
           <p>{props.mnEnabled ? 'MVN Enabled' : 'MVN Disabled'}</p>
-          <p>{packageCount} packages from {wavesToTest} waves</p>
+          <p>{ (packageCount / wavesToTest).toFixed(3)} packages/wave</p>
           <p>{isTournament ? 'Package each wave' : 'Simulated packages received'}</p>
         </div>
         <div className='result'>
-          <p>GT:</p>
-          <p>Dur: {GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat)}</p>
-          <p>CD: {GT_COOLDOWN}</p>
-          <GoldenTowerStats 
+          <GoldenTowerStats
             props={{
               wavesToTest,
               packageCount,
@@ -233,10 +193,20 @@ export const PermaCalculator = ({ props }) => {
           />
         </div>
         <div className='result'>
-          <p>BH:</p>
-          <p>Dur: {BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk)}</p>
-          <p>CD: {BH_COOLDOWN}</p>
-          <p>Perma?: {isBHPermanent(wavesToTest) ? 'Yes' : 'No'}</p>
+          <BlackHoleStats
+            props={{
+              wavesToTest,
+              packageCount,
+              BH_COOLDOWN,
+              BH_DURATION,
+              isTournament,
+              waveAcceleratorCard,
+              galaxyCompressorEffect,
+              bhDurationStones,
+              bhDurationSubstat,
+              bhPerk,
+            }}
+            />
         </div>
       </div>
     </div>

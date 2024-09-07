@@ -16,7 +16,7 @@ export const GoldenTowerStats = ({ props }) => {
     wavesToTest
   } = props;
 
-  const GTPermanence = (waves: number) => {
+  const GoldenTowerPermanence = (waves: number) => {
     let waveCountGT = waves;
     let totalWavesTime = 0;
     while (waveCountGT > 0) {
@@ -29,18 +29,18 @@ export const GoldenTowerStats = ({ props }) => {
 
     const adjustedUptimeGT = (cdReductionTotal / totalWavesTime) * gtUptime
     const baseUptimeGT = GT_COOLDOWN * gtActivations
-    const isPermenant = adjustedUptimeGT >= baseUptimeGT
+    const isPermanentGT = adjustedUptimeGT >= baseUptimeGT
 
     return {
       adjustedUptimeGT,
       totalWavesTime,
-      isPermenant
+      isPermanentGT
     };
   };
 
-  const GTStatsMemo = useMemo(() => {
-    return GTPermanence(wavesToTest)
-  }, 
+  const GoldenTowerStats = useMemo(() => {
+    return GoldenTowerPermanence(wavesToTest)
+  },
     [
       packageCount,
       GT_COOLDOWN,
@@ -54,9 +54,12 @@ export const GoldenTowerStats = ({ props }) => {
 
   return (
     <>
-      <p>Total Waves Time: {Math.round(GTStatsMemo.totalWavesTime)}</p>
-      <p>Adjusted Uptime: {Math.round(GTStatsMemo.adjustedUptimeGT * 100) / 100}</p>
-      <p>Perma?: {GTStatsMemo.isPermenant ? 'Yes' : 'No'}</p>
+      <p>GT:</p>
+      <p>Dur: {GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat)}</p>
+      <p>CD: {GT_COOLDOWN}</p>
+      <p>Wave Time: {GoldenTowerStats.totalWavesTime.toLocaleString("en-US", { maximumSignificantDigits: 10 })}</p>
+      <p>Uptime: {GoldenTowerStats.adjustedUptimeGT.toLocaleString("en-US", { maximumSignificantDigits: 10 })}</p>
+      <p>Perma?: {GoldenTowerStats.isPermanentGT ? 'Yes' : 'No'}</p>
     </>
   )
 }
