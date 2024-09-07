@@ -1,8 +1,7 @@
 import { WAVE_ACCELERATOR_CARD } from 'tower-idle-toolkit';
-import { getInGameWaveTime } from '../utils/waveDuration';
 import { useCheckboxState, useIntegerState, useFloatState } from '../utils/hooks';
 import { integerRange, roundMidpointToEven } from '../utils/utils';
-import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from '../utils/values';
+import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from '../utils/values';
 import { GoldenTowerStats } from './GoldenTowerStats';
 import { BlackHoleStats } from './BlackHoleStats'
 
@@ -177,6 +176,7 @@ export const PermaCalculator = ({ props }) => {
           <p>{isTournament ? 'Package each wave' : 'Simulated packages received'}</p>
         </div>
         <div className='result'>
+          {props.gtEnabled ?
           <GoldenTowerStats
             props={{
               wavesToTest,
@@ -191,8 +191,10 @@ export const PermaCalculator = ({ props }) => {
               gtDurationSubstat
             }}
           />
+            : <p>Golden Tower Disabled</p>}
         </div>
         <div className='result'>
+          {props.bhEnabled ?
           <BlackHoleStats
             props={{
               wavesToTest,
@@ -207,6 +209,7 @@ export const PermaCalculator = ({ props }) => {
               bhPerk,
             }}
             />
+            : <p>Black Hole Disabled</p>}
         </div>
       </div>
     </div>

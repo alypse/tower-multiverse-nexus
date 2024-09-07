@@ -24,8 +24,8 @@ const VIEWS = {
 export const Main = () => {
   const [view, setView] = useInputState(VIEWS.MVN_CALCULATOR, 'view');
 
-  const [mnEffect, setMnEffect] = useIntegerState(mnEffects[mnEffects.length - 1], 'calcMvnEffect', -10, 20);
-  const [mnEnabled, setMnEnabled] = useCheckboxState(true, 'calcMvnEnabled')
+  const [MultiverseNexusEffect, setMultiverseNexusEffect] = useIntegerState(mnEffects[mnEffects.length - 1], 'calcMvnEffect', -10, 20);
+  const [MultiverseNexusEnabled, setMultiverseNexusEnabled] = useCheckboxState(true, 'calcMvnEnabled')
   const [gtCooldown, setGtCooldown] = useIntegerState(defaultCooldowns.defaultGoldenTowerCD, 'calcGtCooldown', 100, 300);
   const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'calcGtEnabled');
   const [dwCooldown, setDwCooldown] = useIntegerState(defaultCooldowns.defaultDeathWaveCD, 'calcDwCooldown', 100, 300);
@@ -35,7 +35,6 @@ export const Main = () => {
   const [gtCooldownSubstat, setGtCooldownSubstat] = useIntegerState(0, 'calcGtCooldownSubstat', 0, 12);
   const [dwCooldownSubstat, setDwCooldownSubstat] = useIntegerState(0, 'calcDwCooldownSubstat', 0, 13);
   const [bhCooldownSubstat, setBhCooldownSubstat] = useIntegerState(0, 'setBhCooldownSubstat', 0, 4);
-
 
   const cds: number[] = [];
   if (gtEnabled) cds.push(gtCooldown - gtCooldownSubstat);
@@ -47,7 +46,7 @@ export const Main = () => {
   let averageCooldownwithMN = 0;
   if (cds.length > 0) {
     averageCooldown = avg(cds);
-    averageCooldownwithMN = sum([averageCooldown, mnEffect]);
+    averageCooldownwithMN = sum([averageCooldown, MultiverseNexusEffect]);
   }
 
   return (
@@ -73,7 +72,7 @@ export const Main = () => {
           <div className='control'>
             <label>
               MN Effect
-              <select value={mnEffect} onChange={setMnEffect}>
+              <select value={MultiverseNexusEffect} onChange={setMultiverseNexusEffect}>
                 {Object.entries(MULTIVERSE_NEXUS_EFFECT).map(([key, value]) => (
                   <option key={key} value={value}>
                     {key}
@@ -82,7 +81,7 @@ export const Main = () => {
               </select>
             </label>
             {view === VIEWS.PERMA_CALCULATOR && (
-              <input type='checkbox' checked={mnEnabled} onChange={setMnEnabled} />
+              <input type='checkbox' checked={MultiverseNexusEnabled} onChange={setMultiverseNexusEnabled} />
             )}
           </div>
         </div>
@@ -186,8 +185,10 @@ export const Main = () => {
             gtCooldown: gtCooldown - gtCooldownSubstat,
             dwCooldown: dwCooldown - dwCooldownSubstat,
             bhCooldown: bhCooldown - bhCooldownSubstat,
-            mnEnabled,
+            mnEnabled: MultiverseNexusEnabled,
             averageCooldownwithMN,
+            gtEnabled,
+            bhEnabled
           }}
         />
       )}
