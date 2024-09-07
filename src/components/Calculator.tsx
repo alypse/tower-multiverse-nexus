@@ -1,9 +1,6 @@
 import { roundMidpointToEven } from '../utils/utils';
 import './Calculator.scss';
 
-// For his skyeness
-// if (totalCooldown === 300) { console.log("cds nutz. gottem."); }
-
 export function Calculator({props}) {
     return (
         <div className="main">

@@ -6,13 +6,15 @@ import { Calculator } from '../components/Calculator';
 import { PermaCalculator } from '../components/PermaCalculator';
 import React from 'react';
 import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_COOLDOWN } from '../utils/values';
-import { DEATH_WAVE, BLACK_HOLE, GOLDEN_TOWER } from 'tower-idle-toolkit';
 import { sum, avg } from '../utils/utils';
 
-const gtCooldowns = GOLDEN_TOWER.upgrades.Cooldown.values;
-const dwCooldowns = DEATH_WAVE.upgrades.Cooldown.values;
-const bhCooldowns = BLACK_HOLE.upgrades.Cooldown.values;
 const mnEffects = Object.values(MULTIVERSE_NEXUS_EFFECT);
+
+const defaultCooldowns = {
+  defaultGoldenTowerCD: 100,
+  defaultDeathWaveCD: 100,
+  defaultBlackHoleCD: 50
+}
 
 const VIEWS = {
   MVN_CALCULATOR: 'MVN Calculator',
@@ -22,29 +24,17 @@ const VIEWS = {
 export const Main = () => {
   const [view, setView] = useInputState(VIEWS.MVN_CALCULATOR, 'view');
 
-  const [mnEffect, setMnEffect] = useIntegerState(mnEffects[mnEffects.length - 1], 'calcMvnEffect', -10, 20);
-  const [mnEnabled, setMnEnabled] = useCheckboxState(true, 'calcMvnEnabled')
-  const [gtCooldown, setGtCooldown] = useIntegerState(gtCooldowns[gtCooldowns.length - 1].value, 'calcGtCooldown', 100, 300);
+  const [MultiverseNexusEffect, setMultiverseNexusEffect] = useIntegerState(mnEffects[mnEffects.length - 1], 'calcMvnEffect', -10, 20);
+  const [MultiverseNexusEnabled, setMultiverseNexusEnabled] = useCheckboxState(true, 'calcMvnEnabled')
+  const [gtCooldown, setGtCooldown] = useIntegerState(defaultCooldowns.defaultGoldenTowerCD, 'calcGtCooldown', 100, 300);
   const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'calcGtEnabled');
-  const [dwCooldown, setDwCooldown] = useIntegerState(dwCooldowns[dwCooldowns.length - 1].value, 'calcDwCooldown', 100, 300);
+  const [dwCooldown, setDwCooldown] = useIntegerState(defaultCooldowns.defaultDeathWaveCD, 'calcDwCooldown', 100, 300);
   const [dwEnabled, setDwEnabled] = useCheckboxState(true, 'calcDwEnabled');
-  const [bhCooldown, setBhCooldown] = useIntegerState(bhCooldowns[bhCooldowns.length - 1].value, 'calcBhCooldown', 50, 200);
+  const [bhCooldown, setBhCooldown] = useIntegerState(defaultCooldowns.defaultBlackHoleCD, 'calcBhCooldown', 50, 200);
   const [bhEnabled, setBhEnabled] = useCheckboxState(true, 'calcBhEnabled');
   const [gtCooldownSubstat, setGtCooldownSubstat] = useIntegerState(0, 'calcGtCooldownSubstat', 0, 12);
   const [dwCooldownSubstat, setDwCooldownSubstat] = useIntegerState(0, 'calcDwCooldownSubstat', 0, 13);
   const [bhCooldownSubstat, setBhCooldownSubstat] = useIntegerState(0, 'setBhCooldownSubstat', 0, 4);
-
-
-  const gtCooldownValues = gtCooldowns.map((levels, index) => {
-    return levels.value;
-  });
-  const dwCooldownValues = dwCooldowns.map((levels, index) => {
-    return levels.value;
-  });
-  const bhCooldownValues = bhCooldowns.map((levels, index) => {
-    return levels.value;
-  });
-
 
   const cds: number[] = [];
   if (gtEnabled) cds.push(gtCooldown - gtCooldownSubstat);
@@ -56,7 +46,7 @@ export const Main = () => {
   let averageCooldownwithMN = 0;
   if (cds.length > 0) {
     averageCooldown = avg(cds);
-    averageCooldownwithMN = sum([averageCooldown, mnEffect]);
+    averageCooldownwithMN = sum([averageCooldown, MultiverseNexusEffect]);
   }
 
   return (
@@ -82,7 +72,7 @@ export const Main = () => {
           <div className='control'>
             <label>
               MN Effect
-              <select value={mnEffect} onChange={setMnEffect}>
+              <select value={MultiverseNexusEffect} onChange={setMultiverseNexusEffect}>
                 {Object.entries(MULTIVERSE_NEXUS_EFFECT).map(([key, value]) => (
                   <option key={key} value={value}>
                     {key}
@@ -91,7 +81,7 @@ export const Main = () => {
               </select>
             </label>
             {view === VIEWS.PERMA_CALCULATOR && (
-              <input type='checkbox' checked={mnEnabled} onChange={setMnEnabled} />
+              <input type='checkbox' checked={MultiverseNexusEnabled} onChange={setMultiverseNexusEnabled} />
             )}
           </div>
         </div>
@@ -99,13 +89,14 @@ export const Main = () => {
           <div className='control'>
             <label>
               GT CD
-              <select value={gtCooldown} onChange={setGtCooldown}>
-                {gtCooldownValues.map((value, index) => (
-                  <option key={index} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </select>
+              <input
+                type='number'
+                min='100'
+                max='300'
+                step={10}
+                value={gtCooldown}
+                onChange={setGtCooldown}>
+              </input>
             </label>
             <input type='checkbox' checked={gtEnabled} onChange={setGtEnabled} />
           </div>
@@ -126,13 +117,14 @@ export const Main = () => {
           <div className='control'>
             <label>
               DW CD
-              <select value={dwCooldown} onChange={setDwCooldown}>
-                {dwCooldownValues.map((value, index) => (
-                  <option key={index} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </select>
+              <input
+                type='number'
+                min='100'
+                max='300'
+                step={10}
+                value={dwCooldown}
+                onChange={setDwCooldown}>
+              </input>
             </label>
             <input type='checkbox' checked={dwEnabled} onChange={setDwEnabled} />
           </div>
@@ -153,13 +145,14 @@ export const Main = () => {
           <div className='control'>
             <label>
               BH CD
-              <select value={bhCooldown} onChange={setBhCooldown}>
-                {bhCooldownValues.map((value, index) => (
-                  <option key={index} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </select>
+              <input
+                type='number'
+                min='50'
+                max='200'
+                step={10}
+                value={bhCooldown}
+                onChange={setBhCooldown}>
+              </input>
             </label>
             <input type='checkbox' checked={bhEnabled} onChange={setBhEnabled} />
           </div>
@@ -192,8 +185,10 @@ export const Main = () => {
             gtCooldown: gtCooldown - gtCooldownSubstat,
             dwCooldown: dwCooldown - dwCooldownSubstat,
             bhCooldown: bhCooldown - bhCooldownSubstat,
-            mnEnabled,
+            mnEnabled: MultiverseNexusEnabled,
             averageCooldownwithMN,
+            gtEnabled,
+            bhEnabled
           }}
         />
       )}

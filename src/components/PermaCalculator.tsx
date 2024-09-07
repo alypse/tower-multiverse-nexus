@@ -1,10 +1,11 @@
 import { WAVE_ACCELERATOR_CARD } from 'tower-idle-toolkit';
-import { getInGameWaveTime} from '../utils/waveDuration';
 import { useCheckboxState, useIntegerState, useFloatState } from '../utils/hooks';
 import { integerRange, roundMidpointToEven } from '../utils/utils';
-import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from '../utils/values';
+import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from '../utils/values';
+import { GoldenTowerStats } from './GoldenTowerStats';
+import { BlackHoleStats } from './BlackHoleStats'
 
-const GT_DURATION_LAB = integerRange(0,20);
+const GT_DURATION_LAB = integerRange(0, 20);
 
 export const PermaCalculator = ({ props }) => {
   const [waveAcceleratorCard, setWaveAcceleratorCard] = useIntegerState(WAVE_ACCELERATOR_CARD['7'], 'waveAcceleratorCard', 0, 7);
@@ -53,40 +54,6 @@ export const PermaCalculator = ({ props }) => {
 
   const wavesToTest = 1000;
   isTournament ? packageCount = wavesToTest : rollPackagesForWaves(wavesToTest);
-
-  const checkBHPermanent = (waves: number) => {
-    let waveCountBH = waves;
-    let totalWavesTime = 0;
-    while (waveCountBH > 0) {
-      totalWavesTime += getInGameWaveTime(waveAcceleratorCard, isTournament);
-      waveCountBH--;
-    }
-    const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
-    const bhActivations = totalWavesTime / BH_COOLDOWN;
-    const bhUptime = bhActivations * BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk);
-
-    const adjustedUptimeBH = (cdReductionTotal / totalWavesTime) * bhUptime ;
-    const baseUptimeBH = BH_COOLDOWN * bhActivations;
-
-    return adjustedUptimeBH >= baseUptimeBH;
-  };
-
-  const checkGTPermanent = (waves: number) => {
-    let waveCountGT = waves;
-    let totalWavesTime = 0;
-    while (waveCountGT > 0) {
-      totalWavesTime += getInGameWaveTime(waveAcceleratorCard, isTournament);
-      waveCountGT--;
-    }
-    const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
-    const gtActivations = totalWavesTime / GT_COOLDOWN;
-    const gtUptime = gtActivations * GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat);
-
-    const adjustedUptimeGT = (cdReductionTotal / totalWavesTime) * gtUptime
-    const baseUptimeGT = GT_COOLDOWN * gtActivations
-
-    return adjustedUptimeGT >= baseUptimeGT ;
-  };
 
   return (
     <div className='main'>
@@ -205,20 +172,44 @@ export const PermaCalculator = ({ props }) => {
       <div className='results'>
         <div className='result'>
           <p>{props.mnEnabled ? 'MVN Enabled' : 'MVN Disabled'}</p>
-          <p>{packageCount} packages from {wavesToTest} waves</p>
+          <p>{ (packageCount / wavesToTest).toFixed(3)} packages/wave</p>
           <p>{isTournament ? 'Package each wave' : 'Simulated packages received'}</p>
         </div>
         <div className='result'>
-          <p>GT:</p>
-          <p>Dur: {GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat)}</p>
-          <p>CD: {GT_COOLDOWN}</p>
-          <p>Perma?: {checkGTPermanent(wavesToTest) ? 'Yes' : 'No'}</p>
+          {props.gtEnabled ?
+          <GoldenTowerStats
+            props={{
+              wavesToTest,
+              packageCount,
+              GT_COOLDOWN,
+              GT_DURATION,
+              isTournament,
+              waveAcceleratorCard,
+              galaxyCompressorEffect,
+              gtDurationStonesLevel,
+              gtDurationLabLevel,
+              gtDurationSubstat
+            }}
+          />
+            : <p>Golden Tower Disabled</p>}
         </div>
         <div className='result'>
-          <p>BH:</p>
-          <p>Dur: {BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk)}</p>
-          <p>CD: {BH_COOLDOWN}</p>
-          <p>Perma?: {checkBHPermanent(wavesToTest) ? 'Yes' : 'No'}</p>
+          {props.bhEnabled ?
+          <BlackHoleStats
+            props={{
+              wavesToTest,
+              packageCount,
+              BH_COOLDOWN,
+              BH_DURATION,
+              isTournament,
+              waveAcceleratorCard,
+              galaxyCompressorEffect,
+              bhDurationStones,
+              bhDurationSubstat,
+              bhPerk,
+            }}
+            />
+            : <p>Black Hole Disabled</p>}
         </div>
       </div>
     </div>
