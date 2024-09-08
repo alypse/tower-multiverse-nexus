@@ -48,7 +48,9 @@ export const PermaCalculator = ({ props }) => {
 
   const rollPackagesForWaves = (waves: number): number => {
     if (packageChanceFixed) {
-      return waves * packageChance / 100 + Math.floor(wavesToTest / 10);
+      const bossWavePackages =  Math.floor(wavesToTest / BOSSWAVE_INTERVAL);
+      const fixedPackages = (waves - bossWavePackages) * packageChance / 100;
+      return bossWavePackages + fixedPackages;
     }
     let packageCount = 0;
     let waveCount = waves;
