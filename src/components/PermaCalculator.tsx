@@ -5,12 +5,15 @@ import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SU
 import { GoldenTowerStats } from './GoldenTowerStats';
 import { BlackHoleStats } from './BlackHoleStats'
 
-const GT_DURATION_LAB = integerRange(0, 20);
+const GT_DURATION_LAB: number[] = integerRange(0, 20);
+const BOSSWAVE_INTERVAL: number = 10;
+const wavesToTest: number = 1000;
 
 export const PermaCalculator = ({ props }) => {
   const [waveAcceleratorCard, setWaveAcceleratorCard] = useIntegerState(WAVE_ACCELERATOR_CARD['7'], 'waveAcceleratorCard', 0, 7);
   const [galaxyCompressorEffect, setGalaxyCompressorEffect] = useIntegerState(GALAXY_COMPRESSOR_EFFECT.Ancestral, 'galaxyCompressorEffect', 0, 20);
   const [packageChance, setPackageChance] = useFloatState(80, 'packageChance', 0, 82);
+  const [packageChanceFixed, setPackageChanceFixed] = useCheckboxState(true, 'packageChanceFixed');
   const [gtDurationStonesLevel, setGTDurationStonesLevel] = useIntegerState(45, 'gtDurationStonesLevel', 0, 53);
   const [gtDurationLabLevel, setGTDurationLabLevel] = useIntegerState(20, 'gtDurationLabLevel', 0, 20);
   const [gtDurationSubstat, setGTDurationSubstat] = useIntegerState(GOLDEN_TOWER_SUBSTATS_DURATION.None, 'gtDurationSubstat', 0, 7);
@@ -19,22 +22,22 @@ export const PermaCalculator = ({ props }) => {
   const [bhPerk, setBHPerk] = useCheckboxState(true, 'bhPerk');
   const [isTournament, setIsTournament] = useCheckboxState(false, 'isTournament');
 
-  const GT_DURATION = (gtDurationStonesLevel: number, gtDurationLabLevel: number, gtDurationSubstat: number) => {
+  const GT_DURATION = (gtDurationStonesLevel: number, gtDurationLabLevel: number, gtDurationSubstat: number): number | undefined => {
     return gtDurationStonesLevel + GT_DURATION_LAB[gtDurationLabLevel] + gtDurationSubstat;
   };
 
-  const GT_COOLDOWN = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.gtCooldown;
+  const GT_COOLDOWN: number | undefined = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.gtCooldown;
 
-  const BH_DURATION = (bhDurationStones: number, bhDurationSubstat: number, bhPerk: boolean) => {
+  const BH_DURATION = (bhDurationStones: number, bhDurationSubstat: number, bhPerk: boolean): number | undefined => {
     const bhPerkDuration = bhPerk && !isTournament ? 12 : 0;
     return bhDurationStones + bhDurationSubstat + bhPerkDuration;
   };
 
-  const BH_COOLDOWN = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.bhCooldown;
+  const BH_COOLDOWN: number | undefined = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.bhCooldown;
 
-  const packageCheck = (wave: number) => {
+  const packageCheck = (wave: number): boolean => {
     let rollPackage = Math.floor(Math.random() * 100);
-    if (wave % 10 === 0) {
+    if (wave % BOSSWAVE_INTERVAL === 0) {
       return true;
     } else if (packageChance === 0) {
       return false;
@@ -42,7 +45,12 @@ export const PermaCalculator = ({ props }) => {
   };
 
   let packageCount = 0;
-  const rollPackagesForWaves = (waves: number) => {
+
+  const rollPackagesForWaves = (waves: number): number => {
+    if (packageChanceFixed) {
+      return waves * packageChance / 100 + Math.floor(wavesToTest / 10);
+    }
+    let packageCount = 0;
     let waveCount = waves;
     while (waveCount > 0) {
       if (packageCheck(waveCount)) {
@@ -50,10 +58,10 @@ export const PermaCalculator = ({ props }) => {
       }
       waveCount--;
     }
+    return packageCount;
   };
 
-  const wavesToTest = 1000;
-  isTournament ? packageCount = wavesToTest : rollPackagesForWaves(wavesToTest);
+  packageCount = isTournament ? wavesToTest : rollPackagesForWaves(wavesToTest);
 
   return (
     <div className='main'>
@@ -75,7 +83,7 @@ export const PermaCalculator = ({ props }) => {
             <label>
               WA Card
               <select value={waveAcceleratorCard} onChange={setWaveAcceleratorCard}>
-                {Object.entries(WAVE_ACCELERATOR_CARD).map((value, key) => (
+                {Object.keys(WAVE_ACCELERATOR_CARD).map((key) => (
                   <option key={key} value={key}>
                     {key}
                   </option>
@@ -87,6 +95,8 @@ export const PermaCalculator = ({ props }) => {
             <label>
               PKG Chance
               <input type='number' min='0' max='82' step={0.2} value={packageChance} onChange={setPackageChance} />
+              <span style={{ marginLeft: '10px' }}>Fixed rate</span>
+              <input type='checkbox' value={packageChanceFixed} onChange={setPackageChanceFixed} />
             </label>
           </div>
         </div>
