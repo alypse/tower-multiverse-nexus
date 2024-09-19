@@ -28,7 +28,7 @@ export const Main = () => {
   const [view, setView] = useInputState(VIEWS.MVN_CALCULATOR, 'view');
 
   const [MultiverseNexusEffect, setMultiverseNexusEffect] = useIntegerState(mnEffects[mnEffects.length - 1], 'calcMvnEffect', -10, 20);
-  const [MultiverseNexusEnabled, setMultiverseNexusEnabled] = useCheckboxState(true, 'calcMvnEnabled')
+  const [MultiverseNexusEnabled, setMultiverseNexusEnabled] = useCheckboxState(true, 'calcMvnEnabled');
   const [gtCooldown, setGtCooldown] = useIntegerState(defaultCooldowns.defaultGoldenTowerCD, 'calcGtCooldown', 100, 300);
   const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'calcGtEnabled');
   const [dwCooldown, setDwCooldown] = useIntegerState(defaultCooldowns.defaultDeathWaveCD, 'calcDwCooldown', 100, 300);
@@ -68,18 +68,18 @@ export const Main = () => {
             </button>
           ))}
         </div>
-              <a href="https://thetower.tools" target="_blank" rel="noopener noreferrer">
-                <img
-                  src={logo}
-                  alt="MVN Logo"
-                  style={{
-                    transition: 'filter 0.3s ease-in-out',
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.5) drop-shadow(0 0 10px rgba(255, 255, 255, 0.7))'}
-                  onMouseLeave={(e) => e.currentTarget.style.filter = 'none'}
-                />
-              </a>
-        </div>
+        <a href='https://thetower.tools' target='_blank' rel='noopener noreferrer'>
+          <img
+            src={logo}
+            alt='MVN Logo'
+            style={{
+              transition: 'filter 0.3s ease-in-out',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.5) drop-shadow(0 0 10px rgba(255, 255, 255, 0.7))')}
+            onMouseLeave={e => (e.currentTarget.style.filter = 'none')}
+          />
+        </a>
+      </div>
       <div className='controls'>
         <div className='controlGroup'>
           <div className='control'>
@@ -93,9 +93,7 @@ export const Main = () => {
                 ))}
               </select>
             </label>
-            {view === VIEWS.PERMA_CALCULATOR && (
-              <input type='checkbox' checked={MultiverseNexusEnabled} onChange={setMultiverseNexusEnabled} />
-            )}
+            {view === VIEWS.PERMA_CALCULATOR && <input type='checkbox' checked={MultiverseNexusEnabled} onChange={setMultiverseNexusEnabled} />}
           </div>
         </div>
         <div className='controlGroup'>
@@ -103,7 +101,7 @@ export const Main = () => {
             <label>
               GT CD
               <select value={gtCooldown} onChange={setGtCooldown}>
-                {cooldownRangeDWGT.map((value) => (
+                {cooldownRangeDWGT.map(value => (
                   <option key={value} value={value}>
                     {value}
                   </option>
@@ -130,7 +128,7 @@ export const Main = () => {
             <label>
               DW CD
               <select value={dwCooldown} onChange={setDwCooldown}>
-                {cooldownRangeDWGT.map((value) => (
+                {cooldownRangeDWGT.map(value => (
                   <option key={value} value={value}>
                     {value}
                   </option>
@@ -157,7 +155,7 @@ export const Main = () => {
             <label>
               BH CD
               <select value={bhCooldown} onChange={setBhCooldown}>
-                {cooldownRangeBH.map((value) => (
+                {cooldownRangeBH.map(value => (
                   <option key={value} value={value}>
                     {value}
                   </option>
@@ -198,10 +196,11 @@ export const Main = () => {
             mnEnabled: MultiverseNexusEnabled,
             averageCooldownwithMN,
             gtEnabled,
-            bhEnabled
+            bhEnabled,
           }}
         />
       )}
+      <p style={ { margin:'10px', fontSize:'smaller' } }>Inspired by Skye, created by Alypse. Thank you, Skye!</p>
     </div>
   );
 };
