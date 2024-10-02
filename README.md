@@ -1,5 +1,7 @@
 # Tower - Multiverse Nexus Cooldown Calculator
 
+[Published on Netlify](https://mvn.thetower.tools/)
+
 _A React app inspired by the  Multiverse Nexus after the rework in The Tower V0.23.5._
 
 * Calculate cooldowns of Black Hole, Golden Tower and Death Wave, given all possible variables.
