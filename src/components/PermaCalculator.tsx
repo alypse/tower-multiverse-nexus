@@ -3,11 +3,13 @@ import { useCheckboxState, useIntegerState, useFloatState } from '../utils/hooks
 import { integerRange, roundMidpointToEven } from '../utils/utils';
 import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from '../utils/values';
 import { GoldenTowerStats } from './GoldenTowerStats';
-import { BlackHoleStats } from './BlackHoleStats'
+import { BlackHoleStats } from './BlackHoleStats';
+import { DeathWaveStats } from './DeathWaveStats';
 
 const GT_DURATION_LAB: number[] = integerRange(0, 20);
 const BOSSWAVE_INTERVAL: number = 10;
 const wavesToTest: number = 1000;
+const DW_EFFECT_WAVE_INTERVAL: number = 4;
 
 export const PermaCalculator = ({ props }) => {
   const [waveAcceleratorCard, setWaveAcceleratorCard] = useIntegerState(WAVE_ACCELERATOR_CARD['7'], 'waveAcceleratorCard', 0, 7);
@@ -17,6 +19,7 @@ export const PermaCalculator = ({ props }) => {
   const [gtDurationStonesLevel, setGTDurationStonesLevel] = useIntegerState(45, 'gtDurationStonesLevel', 0, 53);
   const [gtDurationLabLevel, setGTDurationLabLevel] = useIntegerState(20, 'gtDurationLabLevel', 0, 20);
   const [gtDurationSubstat, setGTDurationSubstat] = useIntegerState(GOLDEN_TOWER_SUBSTATS_DURATION.None, 'gtDurationSubstat', 0, 7);
+  const [dwQuantity, setDwQuantity] = useIntegerState(1, 'dwQuantity', 1, 9);
   const [bhDurationStones, setBHDurationStones] = useIntegerState(38, 'bhDurationStones', 0, 38);
   const [bhDurationSubstat, setBHDurationSubstat] = useIntegerState(BLACK_HOLE_SUBSTATS_DURATION.None, 'bhDurationSubstat', 0, 4);
   const [bhPerk, setBHPerk] = useCheckboxState(true, 'bhPerk');
@@ -34,6 +37,12 @@ export const PermaCalculator = ({ props }) => {
   };
 
   const BH_COOLDOWN: number | undefined = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.bhCooldown;
+
+  const DW_COOLDOWN: number | undefined = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.dwCooldown;
+
+  const DW_DURATION = (dwQuantity: number, dwEffectWaveInterval: number): number | undefined => {
+    return dwQuantity * dwEffectWaveInterval;
+  };
 
   const packageCheck = (wave: number): boolean => {
     let rollPackage = Math.floor(Math.random() * 100);
@@ -141,6 +150,22 @@ export const PermaCalculator = ({ props }) => {
           </div>
         </div>
         <div className='controlGroup'>
+          {props.dwEnabled && (
+            <div className="control">
+              <label>
+                DW Quantity
+                <select value={dwQuantity} onChange={setDwQuantity}>
+                  {integerRange(1, 9).map(value => (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          )}
+        </div>
+        <div className='controlGroup'>
           <div className='control'>
             <label>
               BH Dur Stones
@@ -205,6 +230,23 @@ export const PermaCalculator = ({ props }) => {
           />
             : <p>Golden Tower Disabled</p>}
         </div>
+        <div className={'result'}>
+          {props.dwEnabled ?
+            <DeathWaveStats
+              props={{
+                wavesToTest,
+                packageCount,
+                DW_COOLDOWN,
+                DW_DURATION,
+                DW_EFFECT_WAVE_INTERVAL,
+                isTournament,
+                waveAcceleratorCard,
+                galaxyCompressorEffect,
+                dwQuantity,
+              }}
+            />
+            : <p>Death Wave Disabled</p>}
+          </div>
         <div className='result'>
           {props.bhEnabled ?
           <BlackHoleStats

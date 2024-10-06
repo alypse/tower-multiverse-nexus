@@ -196,6 +196,7 @@ export const Main = () => {
             mnEnabled: MultiverseNexusEnabled,
             averageCooldownwithMN,
             gtEnabled,
+            dwEnabled,
             bhEnabled,
           }}
         />
