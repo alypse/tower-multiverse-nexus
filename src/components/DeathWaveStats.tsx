@@ -29,11 +29,13 @@ export const DeathWaveStats = ({ props }) => {
     const adjustedUptimeDW = (cdReductionTotal / totalWavesTime) * dwUptime;
     const baseUptimeDW = DW_COOLDOWN * dwActivations;
     const isPermanentDW = adjustedUptimeDW >= baseUptimeDW;
+    const uptimePctDW = (adjustedUptimeDW / baseUptimeDW) * 100;
 
     return {
       adjustedUptimeDW,
       totalWavesTime,
       isPermanentDW,
+      uptimePctDW,
     };
   };
 
@@ -57,6 +59,7 @@ export const DeathWaveStats = ({ props }) => {
       <p>Wave Time: {DeathWaveStats.totalWavesTime.toLocaleString('en-US', { maximumSignificantDigits: 7 })}</p>
       <p>Uptime: {DeathWaveStats.adjustedUptimeDW.toLocaleString('en-US', { maximumSignificantDigits: 7 })}</p>
       <p>Perma?: {DeathWaveStats.isPermanentDW ? 'Yes' : 'No'}</p>
+      <p>Uptime: {DeathWaveStats.uptimePctDW.toLocaleString('en-US', { maximumSignificantDigits: 5 })}%</p>
     </>
   );
 }
