@@ -57,8 +57,8 @@ export const BlackHoleStats = ({ props }) => {
       <p>BH:</p>
       <p>Dur: {BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk)}</p>
       <p>CD: {BH_COOLDOWN}</p>
-      <p>Wave Time: {BlackHoleStats.totalWavesTime.toLocaleString('en-US', { maximumSignificantDigits: 10 })}</p>
-      <p>Uptime: {BlackHoleStats.adjustedUptimeBH.toLocaleString('en-US', { maximumSignificantDigits: 10 })}</p>
+      <p>Wave Time: {BlackHoleStats.totalWavesTime.toLocaleString('en-US', { maximumSignificantDigits: 7 })}</p>
+      <p>Uptime: {BlackHoleStats.adjustedUptimeBH.toLocaleString('en-US', { maximumSignificantDigits: 7 })}</p>
       <p>Perma?: {BlackHoleStats.isPermanentBH ? 'Yes' : 'No'}</p>
     </>
   );
