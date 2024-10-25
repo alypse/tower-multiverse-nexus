@@ -7,7 +7,6 @@ import { BlackHoleStats } from './BlackHoleStats';
 import { DeathWaveStats } from './DeathWaveStats';
 
 const GT_DURATION_LAB: number[] = integerRange(0, 20);
-const BOSSWAVE_INTERVAL: number = 10;
 const WAVES_TO_TEST: number = 1000;
 const DEATH_WAVE_INTERVAL: number = 4;
 
@@ -24,6 +23,7 @@ export const PermaCalculator = ({ props }) => {
   const [bhDurationSubstat, setBHDurationSubstat] = useIntegerState(BLACK_HOLE_SUBSTATS_DURATION.None, 'bhDurationSubstat', 0, 4);
   const [bhPerk, setBHPerk] = useCheckboxState(true, 'bhPerk');
   const [isTournament, setIsTournament] = useCheckboxState(false, 'isTournament');
+  const [bossWaveInterval, setBossWaveInterval] = useIntegerState(10,'bossWaveInterval', 1, 10)
 
   const GT_DURATION = (gtDurationStonesLevel: number, gtDurationLabLevel: number, gtDurationSubstat: number): number | undefined => {
     return gtDurationStonesLevel + GT_DURATION_LAB[gtDurationLabLevel] + gtDurationSubstat;
@@ -46,7 +46,7 @@ export const PermaCalculator = ({ props }) => {
 
   const packageCheck = (wave: number): boolean => {
     let rollPackage = Math.floor(Math.random() * 100);
-    if (wave % BOSSWAVE_INTERVAL === 0) {
+    if (wave % bossWaveInterval === 0) {
       return true;
     } else if (packageChance === 0) {
       return false;
@@ -57,7 +57,7 @@ export const PermaCalculator = ({ props }) => {
 
   const rollPackagesForWaves = (waves: number): number => {
     if (packageChanceFixed) {
-      const bossWavePackages =  Math.floor(WAVES_TO_TEST / BOSSWAVE_INTERVAL);
+      const bossWavePackages =  Math.floor(WAVES_TO_TEST / bossWaveInterval);
       const fixedPackages = (waves - bossWavePackages) * packageChance / 100;
       return bossWavePackages + fixedPackages;
     }
@@ -72,12 +72,19 @@ export const PermaCalculator = ({ props }) => {
     return packageCount;
   };
 
-  packageCount = isTournament ? WAVES_TO_TEST : rollPackagesForWaves(WAVES_TO_TEST);
+  packageCount = rollPackagesForWaves(WAVES_TO_TEST);
 
   return (
     <div className='main'>
       <div className='controls'>
         <div className='controlGroup'>
+          <div className='control'>
+            <label>
+              Waves Per Boss
+              <select value={bossWaveInterval} onChange={setBossWaveInterval}>
+                {integerRange(1,10).map(waves => <option key={waves} value={waves}>{waves}</option> )}</select>
+            </label>
+          </div>
           <div className='control'>
             <label>
               Compressor
