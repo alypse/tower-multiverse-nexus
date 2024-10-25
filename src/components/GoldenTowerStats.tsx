@@ -57,8 +57,8 @@ export const GoldenTowerStats = ({ props }) => {
       <p>GT:</p>
       <p>Dur: {GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat)}</p>
       <p>CD: {GT_COOLDOWN}</p>
-      <p>Wave Time: {GoldenTowerStats.totalWavesTime.toLocaleString("en-US", { maximumSignificantDigits: 10 })}</p>
-      <p>Uptime: {GoldenTowerStats.adjustedUptimeGT.toLocaleString("en-US", { maximumSignificantDigits: 10 })}</p>
+      <p>Wave Time: {GoldenTowerStats.totalWavesTime.toLocaleString("en-US", { maximumSignificantDigits: 7 })}</p>
+      <p>Uptime: {GoldenTowerStats.adjustedUptimeGT.toLocaleString("en-US", { maximumSignificantDigits: 7 })}</p>
       <p>Perma?: {GoldenTowerStats.isPermanentGT ? 'Yes' : 'No'}</p>
     </>
   )

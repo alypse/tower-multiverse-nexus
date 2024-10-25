@@ -196,11 +196,12 @@ export const Main = () => {
             mnEnabled: MultiverseNexusEnabled,
             averageCooldownwithMN,
             gtEnabled,
-            bhEnabled,
+            dwEnabled,
+            bhEnabled
           }}
         />
       )}
-      <p style={ { margin:'10px', fontSize:'smaller' } }>Inspired by Skye, created by Alypse. Thank you, Skye!</p>
+      <p style={ { margin:'10px', fontSize:'smaller', fontWeight:'bold' } }>Inspired by Skye, created by Alypse. Thank you, Skye!</p>
     </div>
   );
 };
