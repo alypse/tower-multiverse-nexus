@@ -27,7 +27,7 @@ const VIEWS = {
 export const Main = () => {
   const [view, setView] = useInputState(VIEWS.MVN_CALCULATOR, 'view');
 
-  const [MultiverseNexusEffect, setMultiverseNexusEffect] = useIntegerState(mnEffects[mnEffects.length - 1], 'calcMvnEffect', -10, 20);
+  const [MultiverseNexusEffect, setMultiverseNexusEffect] = useIntegerState(mnEffects[mnEffects.length - 1], 'calcMnEffect', -10, 20);
   const [MultiverseNexusEnabled, setMultiverseNexusEnabled] = useCheckboxState(true, 'calcMvnEnabled');
   const [gtCooldown, setGtCooldown] = useIntegerState(defaultCooldowns.defaultGoldenTowerCD, 'calcGtCooldown', 100, 300);
   const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'calcGtEnabled');
