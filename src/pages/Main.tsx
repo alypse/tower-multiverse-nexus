@@ -16,8 +16,9 @@ const defaultCooldowns = {
   defaultBlackHoleCD: 50
 };
 
-const cooldownRangeDWGT = Array.from({ length: 21 }, (_, index) => 100 + index * 10); // 100 to 300 in steps of 10
+const cooldownRangeGT = Array.from({ length: 21 }, (_, index) => 100 + index * 10); // 100 to 300 in steps of 10
 const cooldownRangeBH = Array.from({ length: 16 }, (_, index) => 50 + index * 10); // 50 to 200 in steps of 10
+const cooldownRangeDW = Array.from({ length: 21 }, (_, index) => 50 + index * 10); // 50 to 200 in steps of 10
 
 const VIEWS = {
   MVN_CALCULATOR: 'MVN Calculator',
@@ -31,7 +32,7 @@ export const Main = () => {
   const [MultiverseNexusEnabled, setMultiverseNexusEnabled] = useCheckboxState(true, 'calcMvnEnabled');
   const [gtCooldown, setGtCooldown] = useIntegerState(defaultCooldowns.defaultGoldenTowerCD, 'calcGtCooldown', 100, 300);
   const [gtEnabled, setGtEnabled] = useCheckboxState(true, 'calcGtEnabled');
-  const [dwCooldown, setDwCooldown] = useIntegerState(defaultCooldowns.defaultDeathWaveCD, 'calcDwCooldown', 100, 300);
+  const [dwCooldown, setDwCooldown] = useIntegerState(defaultCooldowns.defaultDeathWaveCD, 'calcDwCooldown', 50, 300);
   const [dwEnabled, setDwEnabled] = useCheckboxState(true, 'calcDwEnabled');
   const [bhCooldown, setBhCooldown] = useIntegerState(defaultCooldowns.defaultBlackHoleCD, 'calcBhCooldown', 50, 200);
   const [bhEnabled, setBhEnabled] = useCheckboxState(true, 'calcBhEnabled');
@@ -101,7 +102,7 @@ export const Main = () => {
             <label>
               GT CD
               <select value={gtCooldown} onChange={setGtCooldown}>
-                {cooldownRangeDWGT.map(value => (
+                {cooldownRangeGT.map(value => (
                   <option key={value} value={value}>
                     {value}
                   </option>
@@ -128,7 +129,7 @@ export const Main = () => {
             <label>
               DW CD
               <select value={dwCooldown} onChange={setDwCooldown}>
-                {cooldownRangeDWGT.map(value => (
+                {cooldownRangeDW.map(value => (
                   <option key={value} value={value}>
                     {value}
                   </option>
