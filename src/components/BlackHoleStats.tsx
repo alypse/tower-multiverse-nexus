@@ -44,6 +44,7 @@ export const BlackHoleStats = ({ props }) => {
     [
       packageCount,
       BH_COOLDOWN,
+      BH_DURATION,
       isTournament,
       waveAcceleratorCard,
       galaxyCompressorEffect,
