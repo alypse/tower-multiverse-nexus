@@ -18,7 +18,7 @@ const defaultCooldowns = {
 
 const cooldownRangeGT = Array.from({ length: 21 }, (_, index) => 100 + index * 10); // 100 to 300 in steps of 10
 const cooldownRangeBH = Array.from({ length: 16 }, (_, index) => 50 + index * 10); // 50 to 200 in steps of 10
-const cooldownRangeDW = Array.from({ length: 21 }, (_, index) => 50 + index * 10); // 50 to 200 in steps of 10
+const cooldownRangeDW = Array.from({ length: 26 }, (_, index) => 50 + index * 10); // 50 to 200 in steps of 10
 
 const VIEWS = {
   MVN_CALCULATOR: 'MVN Calculator',
