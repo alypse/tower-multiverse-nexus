@@ -14,7 +14,7 @@ const DEATH_WAVE_INTERVAL: number = 4;
 export const PermaCalculator = ({ props }) => {
   const [waveAcceleratorCard, setWaveAcceleratorCard] = useIntegerState(WAVE_ACCELERATOR_CARD['7'], 'waveAcceleratorCard', 0, 7);
   const [galaxyCompressorEffect, setGalaxyCompressorEffect] = useIntegerState(GALAXY_COMPRESSOR_EFFECT.Ancestral, 'galaxyCompressorEffect', 0, 20);
-  const [packageChance, setPackageChance] = useFloatState(80, 'packageChance', 0, 82);
+  const [packageChance, setPackageChance] = useFloatState(80, 'packageChance', 0, 100);
   const [packageChanceFixed, setPackageChanceFixed] = useCheckboxState(true, 'packageChanceFixed');
   const [gtDurationStonesLevel, setGTDurationStonesLevel] = useIntegerState(45, 'gtDurationStonesLevel', 0, 53);
   const [gtDurationLabLevel, setGTDurationLabLevel] = useIntegerState(20, 'gtDurationLabLevel', 0, 20);
