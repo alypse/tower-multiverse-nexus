@@ -141,7 +141,7 @@ export const PermaCalculator = ({ props }) => {
           <div className='control'>
             <label>
               PKG Chance
-              <input type='number' min='0' max='82' step={0.2} value={packageChance} onChange={setPackageChance} />
+              <input type='number' min='0' max='100' step={0.2} value={packageChance} onChange={setPackageChance} />
               <span style={{ marginLeft: '10px' }}>Fixed rate</span>
               <input type='checkbox' value={packageChanceFixed} onChange={setPackageChanceFixed} />
             </label>
