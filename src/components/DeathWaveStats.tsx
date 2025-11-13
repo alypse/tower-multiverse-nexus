@@ -13,7 +13,13 @@ export const DeathWaveStats = ({ props }) => {
     isTournament,
     waveAcceleratorCard,
     galaxyCompressorEffect,
+    assistDwQuantitySubstat,
+    substatEfficiency,
   } = props;
+
+  // Calculate total DW quantity with assist module contribution (rounded down)
+  const assistDwQuantityContribution = Math.floor(assistDwQuantitySubstat * substatEfficiency / 100);
+  const totalDwQuantity = dwEffectWavesCount + assistDwQuantityContribution;
 
   const DeathWavePermanence = (waves: number) => {
     let waveCountDW = waves;
@@ -24,7 +30,7 @@ export const DeathWaveStats = ({ props }) => {
     }
     const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
     const dwActivations = totalWavesTime / DW_COOLDOWN;
-    const dwUptime = dwActivations * DW_DURATION(dwEffectWavesCount, DEATH_WAVE_INTERVAL);
+    const dwUptime = dwActivations * DW_DURATION(totalDwQuantity, DEATH_WAVE_INTERVAL);
 
     const adjustedUptimeDW = (cdReductionTotal / totalWavesTime) * dwUptime;
     const baseUptimeDW = DW_COOLDOWN * dwActivations;
@@ -49,12 +55,14 @@ export const DeathWaveStats = ({ props }) => {
       waveAcceleratorCard,
       galaxyCompressorEffect,
       dwEffectWavesCount,
+      assistDwQuantitySubstat,
+      substatEfficiency,
     ])
 
   return (
     <>
       <p>DW:</p>
-      <p>Dur: {DW_DURATION(dwEffectWavesCount, DEATH_WAVE_INTERVAL)}</p>
+      <p>Dur: {DW_DURATION(totalDwQuantity, DEATH_WAVE_INTERVAL)}</p>
       <p>CD: {DW_COOLDOWN}</p>
       <p>Wave Time: {DeathWaveStats.totalWavesTime.toLocaleString('en-US', { maximumSignificantDigits: 7 })}</p>
       <p>Uptime: {DeathWaveStats.adjustedUptimeDW.toLocaleString('en-US', { maximumSignificantDigits: 7 })}</p>

@@ -1,7 +1,7 @@
 import { WAVE_ACCELERATOR_CARD } from 'tower-idle-toolkit';
 import { useCheckboxState, useIntegerState, useFloatState } from '../utils/hooks';
 import { integerRange, roundMidpointToEven } from '../utils/utils';
-import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION } from '../utils/values';
+import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION, DEATH_WAVE_SUBSTATS_QUANTITY } from '../utils/values';
 import { GoldenTowerStats } from './GoldenTowerStats';
 import { BlackHoleStats } from './BlackHoleStats';
 import { DeathWaveStats } from './DeathWaveStats';
@@ -27,8 +27,17 @@ export const PermaCalculator = ({ props }) => {
   const [isUwBc, setIsUwBc] = useState(true);
   const [bossWaveInterval, setBossWaveInterval] = useIntegerState(10,'bossWaveInterval', 1, 10);
 
-  const GT_DURATION = (gtDurationStonesLevel: number, gtDurationLabLevel: number, gtDurationSubstat: number): number | undefined => {
-    return gtDurationStonesLevel + GT_DURATION_LAB[gtDurationLabLevel] + gtDurationSubstat;
+  // Assist module substats for duration/quantity (editable in Perma Calculator)
+  const [assistGtDurationSubstat, setAssistGtDurationSubstat] = useIntegerState(0, 'assistGtDurationSubstat', 0, 7);
+  const [assistDwQuantitySubstat, setAssistDwQuantitySubstat] = useIntegerState(0, 'assistDwQuantitySubstat', 0, 3);
+  const [assistBhDurationSubstat, setAssistBhDurationSubstat] = useIntegerState(0, 'assistBhDurationSubstat', 0, 4);
+
+  // Substat efficiency from props
+  const substatEfficiency = props.substatEfficiency;
+
+  const GT_DURATION = (gtDurationStonesLevel: number, gtDurationLabLevel: number, gtDurationSubstat: number, assistGtDurationSubstat: number, substatEfficiency: number): number | undefined => {
+    const assistGtDurationContribution = assistGtDurationSubstat * substatEfficiency / 100;
+    return gtDurationStonesLevel + GT_DURATION_LAB[gtDurationLabLevel] + gtDurationSubstat + assistGtDurationContribution;
   };
 
   const GT_COOLDOWN: number | undefined = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.gtCooldown;
@@ -39,14 +48,15 @@ export const PermaCalculator = ({ props }) => {
 
   const DW_COOLDOWN: number | undefined = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.dwCooldown;
 
-  const BH_DURATION = (bhDurationStones: number, bhDurationSubstat: number, bhPerk: boolean, isUwBc: boolean): number => {
+  const BH_DURATION = (bhDurationStones: number, bhDurationSubstat: number, bhPerk: boolean, isUwBc: boolean, assistBhDurationSubstat: number, substatEfficiency: number): number => {
     const bhPerkDuration = bhPerk && !isTournament ? 12 : 0;
     const bhDurationUwc = isUwBc ? -10 : 0
+    const assistBhDurationContribution = assistBhDurationSubstat * substatEfficiency / 100;
     console.log('isUwBc',isUwBc)
     console.log('tourney',isTournament)
     console.log('bhperk', bhPerk)
     console.log('bhDuration', bhDurationUwc)
-    return bhDurationStones + bhDurationSubstat + bhPerkDuration + bhDurationUwc;
+    return bhDurationStones + bhDurationSubstat + bhPerkDuration + bhDurationUwc + assistBhDurationContribution;
   };
 
   // const BH_DURATION = useCallback((bhDurationStones: number, bhDurationSubstat: number, bhPerk: boolean, isUwc: boolean): number =>{
@@ -174,21 +184,47 @@ export const PermaCalculator = ({ props }) => {
               </select>
             </label>
           </div>
+          <div className='control'>
+            <label>
+              Assist GT Dur Stat
+              <select value={assistGtDurationSubstat} onChange={setAssistGtDurationSubstat}>
+                {Object.entries(GOLDEN_TOWER_SUBSTATS_DURATION).map(([key, value]) => (
+                  <option id={key} key={key} value={value}>
+                    {key}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
         <div className='controlGroup'>
           {props.dwEnabled && (
-            <div className='control'>
-              <label>
-                DW Waves
-                <select value={dwEffectWavesCount} onChange={setDWEffectWavesCount}>
-                  {integerRange(0, 9).map(value => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
+            <>
+              <div className='control'>
+                <label>
+                  DW Waves
+                  <select value={dwEffectWavesCount} onChange={setDWEffectWavesCount}>
+                    {integerRange(0, 9).map(value => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <div className='control'>
+                <label>
+                  Assist DW Qty Stat
+                  <select value={assistDwQuantitySubstat} onChange={setAssistDwQuantitySubstat}>
+                    {Object.entries(DEATH_WAVE_SUBSTATS_QUANTITY).map(([key, value]) => (
+                      <option id={key} key={key} value={value}>
+                        {key}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+            </>
           )}
         </div>
         <div className='controlGroup'>
@@ -208,6 +244,18 @@ export const PermaCalculator = ({ props }) => {
             <label>
               BH Dur Stat
               <select value={bhDurationSubstat} onChange={setBHDurationSubstat}>
+                {Object.entries(BLACK_HOLE_SUBSTATS_DURATION).map(([key, value]) => (
+                  <option id={key} key={key} value={value}>
+                    {key}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className='control'>
+            <label>
+              Assist BH Dur Stat
+              <select value={assistBhDurationSubstat} onChange={setAssistBhDurationSubstat}>
                 {Object.entries(BLACK_HOLE_SUBSTATS_DURATION).map(([key, value]) => (
                   <option id={key} key={key} value={value}>
                     {key}
@@ -268,6 +316,8 @@ export const PermaCalculator = ({ props }) => {
                 gtDurationStonesLevel,
                 gtDurationLabLevel,
                 gtDurationSubstat,
+                assistGtDurationSubstat,
+                substatEfficiency,
               }}
             />
           ) : (
@@ -287,6 +337,8 @@ export const PermaCalculator = ({ props }) => {
                 galaxyCompressorEffect,
                 DEATH_WAVE_INTERVAL,
                 dwEffectWavesCount,
+                assistDwQuantitySubstat,
+                substatEfficiency,
               }}
             />
           ) : (
@@ -307,6 +359,9 @@ export const PermaCalculator = ({ props }) => {
                 bhDurationStones,
                 bhDurationSubstat,
                 bhPerk,
+                isUwBc,
+                assistBhDurationSubstat,
+                substatEfficiency,
               }}
             />
           ) : (

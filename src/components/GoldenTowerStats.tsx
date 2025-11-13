@@ -13,7 +13,9 @@ export const GoldenTowerStats = ({ props }) => {
     gtDurationStonesLevel,
     gtDurationLabLevel,
     gtDurationSubstat,
-    wavesToTest
+    wavesToTest,
+    assistGtDurationSubstat,
+    substatEfficiency
   } = props;
 
   const GoldenTowerPermanence = (waves: number) => {
@@ -25,7 +27,7 @@ export const GoldenTowerStats = ({ props }) => {
     }
     const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
     const gtActivations = totalWavesTime / GT_COOLDOWN;
-    const gtUptime = gtActivations * GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat);
+    const gtUptime = gtActivations * GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat, assistGtDurationSubstat, substatEfficiency);
 
     const adjustedUptimeGT = (cdReductionTotal / totalWavesTime) * gtUptime
     const baseUptimeGT = GT_COOLDOWN * gtActivations
@@ -49,13 +51,15 @@ export const GoldenTowerStats = ({ props }) => {
       galaxyCompressorEffect,
       gtDurationStonesLevel,
       gtDurationLabLevel,
-      gtDurationSubstat
+      gtDurationSubstat,
+      assistGtDurationSubstat,
+      substatEfficiency
     ])
 
   return (
     <>
       <p>GT:</p>
-      <p>Dur: {GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat)}</p>
+      <p>Dur: {GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat, assistGtDurationSubstat, substatEfficiency)}</p>
       <p>CD: {GT_COOLDOWN}</p>
       <p>Wave Time: {GoldenTowerStats.totalWavesTime.toLocaleString("en-US", { maximumSignificantDigits: 7 })}</p>
       <p>Uptime: {GoldenTowerStats.adjustedUptimeGT.toLocaleString("en-US", { maximumSignificantDigits: 7 })}</p>
