@@ -32,11 +32,13 @@ export const GoldenTowerStats = ({ props }) => {
     const adjustedUptimeGT = (cdReductionTotal / totalWavesTime) * gtUptime
     const baseUptimeGT = GT_COOLDOWN * gtActivations
     const isPermanentGT = adjustedUptimeGT >= baseUptimeGT
+    const uptimePctGT = (adjustedUptimeGT / baseUptimeGT) * 100
 
     return {
       adjustedUptimeGT,
       totalWavesTime,
-      isPermanentGT
+      isPermanentGT,
+      uptimePctGT
     };
   };
 
@@ -64,6 +66,7 @@ export const GoldenTowerStats = ({ props }) => {
       <p>Wave Time: {GoldenTowerStats.totalWavesTime.toLocaleString("en-US", { maximumSignificantDigits: 7 })}</p>
       <p>Uptime: {GoldenTowerStats.adjustedUptimeGT.toLocaleString("en-US", { maximumSignificantDigits: 7 })}</p>
       <p>Perma?: {GoldenTowerStats.isPermanentGT ? 'Yes' : 'No'}</p>
+      <p>Uptime: {GoldenTowerStats.uptimePctGT.toLocaleString('en-US', { maximumSignificantDigits: 5 })}%</p>
     </>
   )
 }

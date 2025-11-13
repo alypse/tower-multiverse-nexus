@@ -33,11 +33,13 @@ export const BlackHoleStats = ({ props }) => {
     const adjustedUptimeBH = (cdReductionTotal / totalWavesTime) * bhUptime;
     const baseUptimeBH = BH_COOLDOWN * bhActivations;
     const isPermanentBH = adjustedUptimeBH >= baseUptimeBH;
+    const uptimePctBH = (adjustedUptimeBH / baseUptimeBH) * 100;
 
     return {
       adjustedUptimeBH,
       totalWavesTime,
       isPermanentBH,
+      uptimePctBH,
     };
   };
 
@@ -67,6 +69,7 @@ export const BlackHoleStats = ({ props }) => {
       <p>Wave Time: {BlackHoleStats.totalWavesTime.toLocaleString('en-US', { maximumSignificantDigits: 7 })}</p>
       <p>Uptime: {BlackHoleStats.adjustedUptimeBH.toLocaleString('en-US', { maximumSignificantDigits: 7 })}</p>
       <p>Perma?: {BlackHoleStats.isPermanentBH ? 'Yes' : 'No'}</p>
+      <p>Uptime: {BlackHoleStats.uptimePctBH.toLocaleString('en-US', { maximumSignificantDigits: 5 })}%</p>
     </>
   );
 }
