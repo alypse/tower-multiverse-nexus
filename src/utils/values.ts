@@ -12,6 +12,13 @@ export const DEATH_WAVE_SUBSTATS_COOLDOWN = {
     "Ancestral": 13,
 };
 
+export const DEATH_WAVE_SUBSTATS_QUANTITY = {
+    "None": 0,
+    "Legendary": 1,
+    "Mythic": 2,
+    "Ancestral": 3,
+};
+
 export const GOLDEN_TOWER_SUBSTATS_COOLDOWN = {
     "None": 0,
     "Legendary": 5,

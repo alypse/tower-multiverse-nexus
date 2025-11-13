@@ -14,6 +14,9 @@ export const BlackHoleStats = ({ props }) => {
     bhDurationStones,
     bhDurationSubstat,
     bhPerk,
+    isUwBc,
+    assistBhDurationSubstat,
+    substatEfficiency,
   } = props;
 
   const BlackHolePermanence = (waves: number) => {
@@ -25,16 +28,18 @@ export const BlackHoleStats = ({ props }) => {
     }
     const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
     const bhActivations = totalWavesTime / BH_COOLDOWN;
-    const bhUptime = bhActivations * BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk);
+    const bhUptime = bhActivations * BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk, isUwBc, assistBhDurationSubstat, substatEfficiency);
 
     const adjustedUptimeBH = (cdReductionTotal / totalWavesTime) * bhUptime;
     const baseUptimeBH = BH_COOLDOWN * bhActivations;
     const isPermanentBH = adjustedUptimeBH >= baseUptimeBH;
+    const uptimePctBH = (adjustedUptimeBH / baseUptimeBH) * 100;
 
     return {
       adjustedUptimeBH,
       totalWavesTime,
       isPermanentBH,
+      uptimePctBH,
     };
   };
 
@@ -50,17 +55,21 @@ export const BlackHoleStats = ({ props }) => {
       galaxyCompressorEffect,
       bhDurationStones,
       bhDurationSubstat,
-      bhPerk
+      bhPerk,
+      isUwBc,
+      assistBhDurationSubstat,
+      substatEfficiency,
     ])
 
   return (
     <>
       <p>BH:</p>
-      <p>Dur: {BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk)}</p>
+      <p>Dur: {BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk, isUwBc, assistBhDurationSubstat, substatEfficiency)}</p>
       <p>CD: {BH_COOLDOWN}</p>
       <p>Wave Time: {BlackHoleStats.totalWavesTime.toLocaleString('en-US', { maximumSignificantDigits: 7 })}</p>
       <p>Uptime: {BlackHoleStats.adjustedUptimeBH.toLocaleString('en-US', { maximumSignificantDigits: 7 })}</p>
       <p>Perma?: {BlackHoleStats.isPermanentBH ? 'Yes' : 'No'}</p>
+      <p>Uptime: {BlackHoleStats.uptimePctBH.toLocaleString('en-US', { maximumSignificantDigits: 5 })}%</p>
     </>
   );
 }
