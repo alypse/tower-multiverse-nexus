@@ -26,8 +26,14 @@ export const renderIfElse = (condition, render, elseRender) => (condition ? rend
 
 export const unique = array => [...new Set(array)];
 
-export const removeDuplicates = (array: any[]) => array.filter((value, index, self) => self.indexOf(value) === index);
+export const removeDuplicates = <T,>(array: T[]) => array.filter((value, index, self) => self.indexOf(value) === index);
 
 // Objects //
 
-export const objectFromEntries = entries => entries.reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+export const objectFromEntries = entries => {
+  const result = {};
+  for (const [key, value] of entries) {
+    result[key] = value;
+  }
+  return result;
+};

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { getInGameWaveTime } from '../utils/waveDuration';
 
 export const GoldenTowerStats = ({ props }) => {
@@ -17,29 +17,44 @@ export const GoldenTowerStats = ({ props }) => {
     substatEfficiency,
   } = props;
 
-  const GoldenTowerPermanence = (waves: number) => {
-    let waveCountGT = waves;
-    let totalWavesTime = 0;
-    while (waveCountGT > 0) {
-      totalWavesTime += getInGameWaveTime(waveAcceleratorCard, isTournament);
-      waveCountGT--;
-    }
-    const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
-    const gtActivations = totalWavesTime / GT_COOLDOWN;
-    const gtUptime = gtActivations * GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat, assistGtDurationSubstat, substatEfficiency);
+  const GoldenTowerPermanence = useCallback(
+    (waves: number) => {
+      let waveCountGT = waves;
+      let totalWavesTime = 0;
+      while (waveCountGT > 0) {
+        totalWavesTime += getInGameWaveTime(waveAcceleratorCard, isTournament);
+        waveCountGT--;
+      }
+      const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
+      const gtActivations = totalWavesTime / GT_COOLDOWN;
+      const gtUptime = gtActivations * GT_DURATION(gtDurationStonesLevel, gtDurationLabLevel, gtDurationSubstat, assistGtDurationSubstat, substatEfficiency);
 
-    const adjustedUptimeGT = (cdReductionTotal / totalWavesTime) * gtUptime;
-    const baseUptimeGT = GT_COOLDOWN * gtActivations;
-    const isPermanentGT = adjustedUptimeGT >= baseUptimeGT;
-    const uptimePctGT = (adjustedUptimeGT / baseUptimeGT) * 100;
+      const adjustedUptimeGT = (cdReductionTotal / totalWavesTime) * gtUptime;
+      const baseUptimeGT = GT_COOLDOWN * gtActivations;
+      const isPermanentGT = adjustedUptimeGT >= baseUptimeGT;
+      const uptimePctGT = (adjustedUptimeGT / baseUptimeGT) * 100;
 
-    return {
-      adjustedUptimeGT,
-      totalWavesTime,
-      isPermanentGT,
-      uptimePctGT,
-    };
-  };
+      return {
+        adjustedUptimeGT,
+        totalWavesTime,
+        isPermanentGT,
+        uptimePctGT,
+      };
+    },
+    [
+      waveAcceleratorCard,
+      isTournament,
+      packageCount,
+      galaxyCompressorEffect,
+      GT_COOLDOWN,
+      GT_DURATION,
+      gtDurationStonesLevel,
+      gtDurationLabLevel,
+      gtDurationSubstat,
+      assistGtDurationSubstat,
+      substatEfficiency,
+    ],
+  );
 
   const GoldenTowerStats = useMemo(() => {
     return GoldenTowerPermanence(wavesToTest);

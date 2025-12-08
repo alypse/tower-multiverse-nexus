@@ -108,7 +108,7 @@ export const TOURNAMENT_COOLDOWN_MODIFIER = 0.5;
  * @returns number - The cooldown time, before game speed is applied, and without accounting for Device Frame Drift
  */
 export const getWaveCooldown = (waveAccelerator: number, tournament: boolean) => {
-  const waModifier = 1 - ((WAVE_ACCELERATOR_CARD as any)[waveAccelerator] || 0) / 100;
+  const waModifier = 1 - ((WAVE_ACCELERATOR_CARD as Record<number, number>)[waveAccelerator] || 0) / 100;
   const tournamentModifier = tournament ? TOURNAMENT_COOLDOWN_MODIFIER : 1;
   return WAVE_COOLDOWN * waModifier * tournamentModifier;
 };

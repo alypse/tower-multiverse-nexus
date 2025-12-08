@@ -90,8 +90,12 @@ export const Main = () => {
             style={{
               transition: 'filter 0.3s ease-in-out',
             }}
-            onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.5) drop-shadow(0 0 10px rgba(255, 255, 255, 0.7))')}
-            onMouseLeave={e => (e.currentTarget.style.filter = 'none')}
+            onMouseEnter={e => {
+              e.currentTarget.style.filter = 'brightness(1.5) drop-shadow(0 0 10px rgba(255, 255, 255, 0.7))';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.filter = 'none';
+            }}
           />
         </a>
       </div>

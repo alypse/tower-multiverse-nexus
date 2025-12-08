@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { getInGameWaveTime } from '../utils/waveDuration';
 
 export const DeathWaveStats = ({ props }) => {
@@ -23,29 +23,32 @@ export const DeathWaveStats = ({ props }) => {
   const dwPerkQuantity = dwPerk ? 1 : 0;
   const totalDwQuantity = dwEffectWavesCount + dwQuantitySubstat + dwPerkQuantity + assistDwQuantityContribution;
 
-  const DeathWavePermanence = (waves: number) => {
-    let waveCountDW = waves;
-    let totalWavesTime = 0;
-    while (waveCountDW > 0) {
-      totalWavesTime += getInGameWaveTime(waveAcceleratorCard, isTournament);
-      waveCountDW--;
-    }
-    const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
-    const dwActivations = totalWavesTime / DW_COOLDOWN;
-    const dwUptime = dwActivations * DW_DURATION(totalDwQuantity, DEATH_WAVE_INTERVAL);
+  const DeathWavePermanence = useCallback(
+    (waves: number) => {
+      let waveCountDW = waves;
+      let totalWavesTime = 0;
+      while (waveCountDW > 0) {
+        totalWavesTime += getInGameWaveTime(waveAcceleratorCard, isTournament);
+        waveCountDW--;
+      }
+      const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
+      const dwActivations = totalWavesTime / DW_COOLDOWN;
+      const dwUptime = dwActivations * DW_DURATION(totalDwQuantity, DEATH_WAVE_INTERVAL);
 
-    const adjustedUptimeDW = (cdReductionTotal / totalWavesTime) * dwUptime;
-    const baseUptimeDW = DW_COOLDOWN * dwActivations;
-    const isPermanentDW = adjustedUptimeDW >= baseUptimeDW;
-    const uptimePctDW = (adjustedUptimeDW / baseUptimeDW) * 100;
+      const adjustedUptimeDW = (cdReductionTotal / totalWavesTime) * dwUptime;
+      const baseUptimeDW = DW_COOLDOWN * dwActivations;
+      const isPermanentDW = adjustedUptimeDW >= baseUptimeDW;
+      const uptimePctDW = (adjustedUptimeDW / baseUptimeDW) * 100;
 
-    return {
-      adjustedUptimeDW,
-      totalWavesTime,
-      isPermanentDW,
-      uptimePctDW,
-    };
-  };
+      return {
+        adjustedUptimeDW,
+        totalWavesTime,
+        isPermanentDW,
+        uptimePctDW,
+      };
+    },
+    [waveAcceleratorCard, isTournament, packageCount, galaxyCompressorEffect, DW_COOLDOWN, DW_DURATION, totalDwQuantity, DEATH_WAVE_INTERVAL],
+  );
 
   const DeathWaveStats = useMemo(() => {
     return DeathWavePermanence(wavesToTest);
