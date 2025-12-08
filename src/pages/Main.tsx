@@ -5,7 +5,15 @@ import { useInputState, useIntegerState, useCheckboxState } from '../utils/hooks
 import { Calculator } from '../components/Calculator';
 import { PermaCalculator } from '../components/PermaCalculator';
 import React from 'react';
-import { MULTIVERSE_NEXUS_EFFECT, DEATH_WAVE_SUBSTATS_COOLDOWN, DEATH_WAVE_SUBSTATS_QUANTITY, GOLDEN_TOWER_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_DURATION, BLACK_HOLE_SUBSTATS_COOLDOWN, BLACK_HOLE_SUBSTATS_DURATION } from '../utils/values';
+import {
+  MULTIVERSE_NEXUS_EFFECT,
+  DEATH_WAVE_SUBSTATS_COOLDOWN,
+  DEATH_WAVE_SUBSTATS_QUANTITY,
+  GOLDEN_TOWER_SUBSTATS_COOLDOWN,
+  GOLDEN_TOWER_SUBSTATS_DURATION,
+  BLACK_HOLE_SUBSTATS_COOLDOWN,
+  BLACK_HOLE_SUBSTATS_DURATION,
+} from '../utils/values';
 import { sum, avg } from '../utils/utils';
 
 const mnEffects = Object.values(MULTIVERSE_NEXUS_EFFECT);
@@ -13,7 +21,7 @@ const mnEffects = Object.values(MULTIVERSE_NEXUS_EFFECT);
 const defaultCooldowns = {
   defaultGoldenTowerCD: 100,
   defaultDeathWaveCD: 100,
-  defaultBlackHoleCD: 50
+  defaultBlackHoleCD: 50,
 };
 
 const cooldownRangeGT = Array.from({ length: 21 }, (_, index) => 100 + index * 10); // 100 to 300 in steps of 10
@@ -41,7 +49,7 @@ export const Main = () => {
   const [bhCooldownSubstat, setBhCooldownSubstat] = useIntegerState(0, 'setBhCooldownSubstat', 0, 4);
 
   // Assist Module substats
-  const [substatEfficiency, setSubstatEfficiency] = useIntegerState(1, 'substatEfficiency', 0, 75);
+  const [substatEfficiency, setSubstatEfficiency] = useIntegerState(1, 'substatEfficiency', 0, 100);
   const [assistGtCooldownSubstat, setAssistGtCooldownSubstat] = useIntegerState(0, 'assistGtCooldownSubstat', 0, 12);
   const [assistGtDurationSubstat, setAssistGtDurationSubstat] = useIntegerState(0, 'assistGtDurationSubstat', 0, 7);
   const [assistDwCooldownSubstat, setAssistDwCooldownSubstat] = useIntegerState(0, 'assistDwCooldownSubstat', 0, 13);
@@ -51,9 +59,9 @@ export const Main = () => {
 
   // Calculate assist module contributions with efficiency
   // Only round down for integer stats (DW quantity), NOT for cooldown/duration
-  const assistGtCooldownContribution = assistGtCooldownSubstat * substatEfficiency / 100;
-  const assistDwCooldownContribution = assistDwCooldownSubstat * substatEfficiency / 100;
-  const assistBhCooldownContribution = assistBhCooldownSubstat * substatEfficiency / 100;
+  const assistGtCooldownContribution = (assistGtCooldownSubstat * substatEfficiency) / 100;
+  const assistDwCooldownContribution = (assistDwCooldownSubstat * substatEfficiency) / 100;
+  const assistBhCooldownContribution = (assistBhCooldownSubstat * substatEfficiency) / 100;
 
   const cds: number[] = [];
   if (gtEnabled) cds.push(gtCooldown - gtCooldownSubstat - assistGtCooldownContribution);
@@ -114,7 +122,7 @@ export const Main = () => {
           <div className='control'>
             <label>
               Substat Efficiency
-              <input type='number' min='0' max='75' step={1} value={substatEfficiency} onChange={setSubstatEfficiency} style={{ width: '60px' }} />
+              <input type='number' min='0' max='100' step={1} value={substatEfficiency} onChange={setSubstatEfficiency} style={{ width: '60px' }} />
               <span>%</span>
             </label>
           </div>
@@ -257,11 +265,11 @@ export const Main = () => {
             gtEnabled,
             dwEnabled,
             bhEnabled,
-            substatEfficiency
+            substatEfficiency,
           }}
         />
       )}
-      <p style={ { margin:'10px', fontSize:'smaller', fontWeight:'bold' } }>Inspired by Skye, created by Alypse. Thank you, Skye!</p>
+      <p style={{ margin: '10px', fontSize: 'smaller', fontWeight: 'bold' }}>Inspired by Skye, created by Alypse. Thank you, Skye!</p>
     </div>
   );
 };

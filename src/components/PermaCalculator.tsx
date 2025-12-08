@@ -20,12 +20,14 @@ export const PermaCalculator = ({ props }) => {
   const [gtDurationLabLevel, setGTDurationLabLevel] = useIntegerState(20, 'gtDurationLabLevel', 0, 20);
   const [gtDurationSubstat, setGTDurationSubstat] = useIntegerState(GOLDEN_TOWER_SUBSTATS_DURATION.None, 'gtDurationSubstat', 0, 7);
   const [dwEffectWavesCount, setDWEffectWavesCount] = useIntegerState(1, 'dwEffectWavesCount', 0, 9);
+  const [dwQuantitySubstat, setDWQuantitySubstat] = useIntegerState(DEATH_WAVE_SUBSTATS_QUANTITY.None, 'dwQuantitySubstat', 0, 3);
+  const [dwPerk, setDWPerk] = useCheckboxState(false, 'dwPerk');
   const [bhDurationStones, setBHDurationStones] = useIntegerState(38, 'bhDurationStones', 0, 38);
   const [bhDurationSubstat, setBHDurationSubstat] = useIntegerState(BLACK_HOLE_SUBSTATS_DURATION.None, 'bhDurationSubstat', 0, 4);
   const [bhPerk, setBHPerk] = useCheckboxState(true, 'bhPerk');
   const [isTournament, setIsTournament] = useCheckboxState(false, 'isTournament');
   const [isUwBc, setIsUwBc] = useState(true);
-  const [bossWaveInterval, setBossWaveInterval] = useIntegerState(10,'bossWaveInterval', 1, 10);
+  const [bossWaveInterval, setBossWaveInterval] = useIntegerState(10, 'bossWaveInterval', 1, 10);
 
   // Assist module substats for duration/quantity (editable in Perma Calculator)
   const [assistGtDurationSubstat, setAssistGtDurationSubstat] = useIntegerState(0, 'assistGtDurationSubstat', 0, 7);
@@ -35,27 +37,40 @@ export const PermaCalculator = ({ props }) => {
   // Substat efficiency from props
   const substatEfficiency = props.substatEfficiency;
 
-  const GT_DURATION = (gtDurationStonesLevel: number, gtDurationLabLevel: number, gtDurationSubstat: number, assistGtDurationSubstat: number, substatEfficiency: number): number | undefined => {
-    const assistGtDurationContribution = assistGtDurationSubstat * substatEfficiency / 100;
+  const GT_DURATION = (
+    gtDurationStonesLevel: number,
+    gtDurationLabLevel: number,
+    gtDurationSubstat: number,
+    assistGtDurationSubstat: number,
+    substatEfficiency: number,
+  ): number | undefined => {
+    const assistGtDurationContribution = (assistGtDurationSubstat * substatEfficiency) / 100;
     return gtDurationStonesLevel + GT_DURATION_LAB[gtDurationLabLevel] + gtDurationSubstat + assistGtDurationContribution;
   };
 
   const GT_COOLDOWN: number | undefined = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.gtCooldown;
 
   const DW_DURATION = (dwEffectWavesCount: number, DEATH_WAVE_INTERVAL: number): number | undefined => {
-    return dwEffectWavesCount * DEATH_WAVE_INTERVAL ;
+    return dwEffectWavesCount * DEATH_WAVE_INTERVAL;
   };
 
   const DW_COOLDOWN: number | undefined = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.dwCooldown;
 
-  const BH_DURATION = (bhDurationStones: number, bhDurationSubstat: number, bhPerk: boolean, isUwBc: boolean, assistBhDurationSubstat: number, substatEfficiency: number): number => {
+  const BH_DURATION = (
+    bhDurationStones: number,
+    bhDurationSubstat: number,
+    bhPerk: boolean,
+    isUwBc: boolean,
+    assistBhDurationSubstat: number,
+    substatEfficiency: number,
+  ): number => {
     const bhPerkDuration = bhPerk && !isTournament ? 12 : 0;
-    const bhDurationUwc = isUwBc ? -10 : 0
-    const assistBhDurationContribution = assistBhDurationSubstat * substatEfficiency / 100;
-    console.log('isUwBc',isUwBc)
-    console.log('tourney',isTournament)
-    console.log('bhperk', bhPerk)
-    console.log('bhDuration', bhDurationUwc)
+    const bhDurationUwc = isUwBc ? -10 : 0;
+    const assistBhDurationContribution = (assistBhDurationSubstat * substatEfficiency) / 100;
+    console.log('isUwBc', isUwBc);
+    console.log('tourney', isTournament);
+    console.log('bhperk', bhPerk);
+    console.log('bhDuration', bhDurationUwc);
     return bhDurationStones + bhDurationSubstat + bhPerkDuration + bhDurationUwc + assistBhDurationContribution;
   };
 
@@ -81,8 +96,8 @@ export const PermaCalculator = ({ props }) => {
 
   const rollPackagesForWaves = (waves: number): number => {
     if (packageChanceFixed) {
-      const bossWavePackages =  Math.floor(WAVES_TO_TEST / bossWaveInterval);
-      const fixedPackages = (waves - bossWavePackages) * packageChance / 100;
+      const bossWavePackages = Math.floor(WAVES_TO_TEST / bossWaveInterval);
+      const fixedPackages = ((waves - bossWavePackages) * packageChance) / 100;
       return bossWavePackages + fixedPackages;
     }
     let packageCount = 0;
@@ -204,9 +219,21 @@ export const PermaCalculator = ({ props }) => {
                 <label>
                   DW Waves
                   <select value={dwEffectWavesCount} onChange={setDWEffectWavesCount}>
-                    {integerRange(0, 9).map(value => (
+                    {integerRange(0, 5).map(value => (
                       <option key={value} value={value}>
                         {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <div className='control'>
+                <label>
+                  DW Qty Stat
+                  <select value={dwQuantitySubstat} onChange={setDWQuantitySubstat}>
+                    {Object.entries(DEATH_WAVE_SUBSTATS_QUANTITY).map(([key, value]) => (
+                      <option id={key} key={key} value={value}>
+                        {key}
                       </option>
                     ))}
                   </select>
@@ -222,6 +249,12 @@ export const PermaCalculator = ({ props }) => {
                       </option>
                     ))}
                   </select>
+                </label>
+              </div>
+              <div className='control'>
+                <label>
+                  DW Perk
+                  <input type='checkbox' checked={dwPerk} onChange={setDWPerk} />
                 </label>
               </div>
             </>
@@ -271,29 +304,23 @@ export const PermaCalculator = ({ props }) => {
             </label>
           </div>
 
-            <div className='control'>
-              <label>
-                BH Perk
-                <input type='checkbox' checked={bhPerk} onChange={setBHPerk} />
-              </label>
-            </div>
+          <div className='control'>
+            <label>
+              BH Perk
+              <input type='checkbox' checked={bhPerk} onChange={setBHPerk} />
+            </label>
+          </div>
 
           {/*{console.log('isUwBc in render', isUwBc)}*/}
 
-            <div className='control'>
-              <label>
-                UW BC
-                <input type='checkbox'
-                       checked={isUwBc}
-                       onChange={() =>
-                          setIsUwBc(isUwBc === true ? false : true
-                          )}
-                />
-              </label>
-            </div>
+          <div className='control'>
+            <label>
+              UW BC
+              <input type='checkbox' checked={isUwBc} onChange={() => setIsUwBc(isUwBc === true ? false : true)} />
+            </label>
+          </div>
 
           {/*{console.log('isUwBc in render', isUwBc)}*/}
-
         </div>
       </div>
       <div className='results'>
@@ -337,6 +364,8 @@ export const PermaCalculator = ({ props }) => {
                 galaxyCompressorEffect,
                 DEATH_WAVE_INTERVAL,
                 dwEffectWavesCount,
+                dwQuantitySubstat,
+                dwPerk,
                 assistDwQuantitySubstat,
                 substatEfficiency,
               }}
