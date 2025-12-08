@@ -10,7 +10,7 @@ export const useUpdatedState = (initial, key) => {
   try {
     const valueFromStorage = localStorage.getItem(cacheKey);
     if (valueFromStorage) fromStorage = JSON.parse(valueFromStorage);
-  } catch (e) {
+  } catch (_e) {
     // no storage;
   }
   const initialValue = fromStorage === null || fromStorage === undefined ? initial : fromStorage;
@@ -22,13 +22,13 @@ export const useUpdatedState = (initial, key) => {
         const setValue = typeof newValue === 'function' ? newValue(oldValue) : newValue;
         try {
           if (key) localStorage.setItem(cacheKey, JSON.stringify(setValue));
-        } catch (e) {
+        } catch (_e) {
           // no storage;
         }
         return setValue;
       });
     },
-    [key, cacheKey, setState],
+    [key, cacheKey],
   );
   return [state, updateState];
 };

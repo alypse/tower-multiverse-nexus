@@ -7,10 +7,7 @@ import { WAVE_ACCELERATOR_CARD } from 'tower-idle-toolkit';
  * @param introSprint - boolean - if the intro sprint card is currently active
  * @returns number - the actual game speed multiplier to use for math
  */
-export const getRealGameSpeed = (
-  displayedGameSpeed: number,
-  introSprint: boolean = false,
-) => {
+export const getRealGameSpeed = (displayedGameSpeed: number, introSprint: boolean = false) => {
   let realGameSpeed = 1;
   if (displayedGameSpeed <= 1) {
     realGameSpeed = introSprint ? 6.07999992371 : 1.07000005245;
@@ -110,12 +107,8 @@ export const TOURNAMENT_COOLDOWN_MODIFIER = 0.5;
  * @param tournament - boolean - If a tournament is active, speed up the cooldown by the tournament modifier
  * @returns number - The cooldown time, before game speed is applied, and without accounting for Device Frame Drift
  */
-export const getWaveCooldown = (
-  waveAccelerator: number,
-  tournament: boolean,
-) => {
-  const waModifier =
-    1 - ((WAVE_ACCELERATOR_CARD as any)[waveAccelerator] || 0) / 100;
+export const getWaveCooldown = (waveAccelerator: number, tournament: boolean) => {
+  const waModifier = 1 - ((WAVE_ACCELERATOR_CARD as any)[waveAccelerator] || 0) / 100;
   const tournamentModifier = tournament ? TOURNAMENT_COOLDOWN_MODIFIER : 1;
   return WAVE_COOLDOWN * waModifier * tournamentModifier;
 };
@@ -127,10 +120,7 @@ export const getWaveCooldown = (
  * @param tournament - boolean - If a tournament is active, it speeds up the cooldown portion
  * @returns number - The number of "in game seconds" the wave lasts for.
  */
-export const getInGameWaveTime = (
-  waveAccelerator: number,
-  tournament: boolean,
-) => {
+export const getInGameWaveTime = (waveAccelerator: number, tournament: boolean) => {
   return WAVE_DURATION + getWaveCooldown(waveAccelerator, tournament);
 };
 

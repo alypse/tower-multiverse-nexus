@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { getInGameWaveTime } from '../utils/waveDuration';
 
 export const BlackHoleStats = ({ props }) => {
-
   const {
     wavesToTest,
     packageCount,
@@ -44,22 +43,8 @@ export const BlackHoleStats = ({ props }) => {
   };
 
   const BlackHoleStats = useMemo(() => {
-      return BlackHolePermanence(wavesToTest)
-    },
-    [
-      packageCount,
-      BH_COOLDOWN,
-      BH_DURATION,
-      isTournament,
-      waveAcceleratorCard,
-      galaxyCompressorEffect,
-      bhDurationStones,
-      bhDurationSubstat,
-      bhPerk,
-      isUwBc,
-      assistBhDurationSubstat,
-      substatEfficiency,
-    ])
+    return BlackHolePermanence(wavesToTest);
+  }, [BlackHolePermanence, wavesToTest]);
 
   return (
     <>
@@ -72,4 +57,4 @@ export const BlackHoleStats = ({ props }) => {
       <p>Uptime: {BlackHoleStats.uptimePctBH.toLocaleString('en-US', { maximumSignificantDigits: 5 })}%</p>
     </>
   );
-}
+};

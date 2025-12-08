@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { getInGameWaveTime } from '../utils/waveDuration';
 
 export const DeathWaveStats = ({ props }) => {
-
   const {
     wavesToTest,
     packageCount,
@@ -20,7 +19,7 @@ export const DeathWaveStats = ({ props }) => {
   } = props;
 
   // Calculate total DW quantity with assist module contribution (rounded down) and perk
-  const assistDwQuantityContribution = Math.floor(assistDwQuantitySubstat * substatEfficiency / 100);
+  const assistDwQuantityContribution = Math.floor((assistDwQuantitySubstat * substatEfficiency) / 100);
   const dwPerkQuantity = dwPerk ? 1 : 0;
   const totalDwQuantity = dwEffectWavesCount + dwQuantitySubstat + dwPerkQuantity + assistDwQuantityContribution;
 
@@ -49,20 +48,8 @@ export const DeathWaveStats = ({ props }) => {
   };
 
   const DeathWaveStats = useMemo(() => {
-      return DeathWavePermanence(wavesToTest)
-    },
-    [
-      packageCount,
-      DW_COOLDOWN,
-      isTournament,
-      waveAcceleratorCard,
-      galaxyCompressorEffect,
-      dwEffectWavesCount,
-      dwQuantitySubstat,
-      dwPerk,
-      assistDwQuantitySubstat,
-      substatEfficiency,
-    ])
+    return DeathWavePermanence(wavesToTest);
+  }, [DeathWavePermanence, wavesToTest]);
 
   return (
     <>
@@ -75,4 +62,4 @@ export const DeathWaveStats = ({ props }) => {
       <p>Uptime: {DeathWaveStats.uptimePctDW.toLocaleString('en-US', { maximumSignificantDigits: 5 })}%</p>
     </>
   );
-}
+};
