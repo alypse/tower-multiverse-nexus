@@ -67,10 +67,6 @@ export const PermaCalculator = ({ props }) => {
     const bhPerkDuration = bhPerk && !isTournament ? 12 : 0;
     const bhDurationUwc = isUwBc ? -10 : 0;
     const assistBhDurationContribution = (assistBhDurationSubstat * substatEfficiency) / 100;
-    console.log('isUwBc', isUwBc);
-    console.log('tourney', isTournament);
-    console.log('bhperk', bhPerk);
-    console.log('bhDuration', bhDurationUwc);
     return bhDurationStones + bhDurationSubstat + bhPerkDuration + bhDurationUwc + assistBhDurationContribution;
   };
 
