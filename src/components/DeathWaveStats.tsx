@@ -10,6 +10,8 @@ export const DeathWaveStats = ({ props }) => {
     DW_DURATION,
     DEATH_WAVE_INTERVAL,
     dwEffectWavesCount,
+    dwQuantitySubstat,
+    dwPerk,
     isTournament,
     waveAcceleratorCard,
     galaxyCompressorEffect,
@@ -17,9 +19,10 @@ export const DeathWaveStats = ({ props }) => {
     substatEfficiency,
   } = props;
 
-  // Calculate total DW quantity with assist module contribution (rounded down)
+  // Calculate total DW quantity with assist module contribution (rounded down) and perk
   const assistDwQuantityContribution = Math.floor(assistDwQuantitySubstat * substatEfficiency / 100);
-  const totalDwQuantity = dwEffectWavesCount + assistDwQuantityContribution;
+  const dwPerkQuantity = dwPerk ? 1 : 0;
+  const totalDwQuantity = dwEffectWavesCount + dwQuantitySubstat + dwPerkQuantity + assistDwQuantityContribution;
 
   const DeathWavePermanence = (waves: number) => {
     let waveCountDW = waves;
@@ -55,6 +58,8 @@ export const DeathWaveStats = ({ props }) => {
       waveAcceleratorCard,
       galaxyCompressorEffect,
       dwEffectWavesCount,
+      dwQuantitySubstat,
+      dwPerk,
       assistDwQuantitySubstat,
       substatEfficiency,
     ])
