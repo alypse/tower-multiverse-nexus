@@ -7,17 +7,10 @@
         "root": ".",
         "sourceRoot": ".",
         "name": "tower-mvn",
-        "tags": [
-          "npm:private"
-        ],
+        "tags": ["npm:private"],
         "metadata": {
           "targetGroups": {
-            "NPM Scripts": [
-              "start",
-              "build",
-              "test",
-              "eject"
-            ]
+            "NPM Scripts": ["start", "build", "test", "eject"]
           }
         },
         "targets": {
@@ -44,9 +37,7 @@
             },
             "configurations": {},
             "parallelism": true,
-            "outputs": [
-              "{projectRoot}/build"
-            ],
+            "outputs": ["{projectRoot}/build"],
             "cache": true
           },
           "test": {

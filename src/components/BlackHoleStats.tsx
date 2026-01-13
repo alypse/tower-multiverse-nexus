@@ -1,8 +1,7 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { getInGameWaveTime } from '../utils/waveDuration';
 
 export const BlackHoleStats = ({ props }) => {
-
   const {
     wavesToTest,
     packageCount,
@@ -19,47 +18,49 @@ export const BlackHoleStats = ({ props }) => {
     substatEfficiency,
   } = props;
 
-  const BlackHolePermanence = (waves: number) => {
-    let waveCountBH = waves;
-    let totalWavesTime = 0;
-    while (waveCountBH > 0) {
-      totalWavesTime += getInGameWaveTime(waveAcceleratorCard, isTournament);
-      waveCountBH--;
-    }
-    const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
-    const bhActivations = totalWavesTime / BH_COOLDOWN;
-    const bhUptime = bhActivations * BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk, isUwBc, assistBhDurationSubstat, substatEfficiency);
+  const BlackHolePermanence = useCallback(
+    (waves: number) => {
+      let waveCountBH = waves;
+      let totalWavesTime = 0;
+      while (waveCountBH > 0) {
+        totalWavesTime += getInGameWaveTime(waveAcceleratorCard, isTournament);
+        waveCountBH--;
+      }
+      const cdReductionTotal = totalWavesTime + packageCount * galaxyCompressorEffect;
+      const bhActivations = totalWavesTime / BH_COOLDOWN;
+      const bhUptime = bhActivations * BH_DURATION(bhDurationStones, bhDurationSubstat, bhPerk, isUwBc, assistBhDurationSubstat, substatEfficiency);
 
-    const adjustedUptimeBH = (cdReductionTotal / totalWavesTime) * bhUptime;
-    const baseUptimeBH = BH_COOLDOWN * bhActivations;
-    const isPermanentBH = adjustedUptimeBH >= baseUptimeBH;
-    const uptimePctBH = (adjustedUptimeBH / baseUptimeBH) * 100;
+      const adjustedUptimeBH = (cdReductionTotal / totalWavesTime) * bhUptime;
+      const baseUptimeBH = BH_COOLDOWN * bhActivations;
+      const isPermanentBH = adjustedUptimeBH >= baseUptimeBH;
+      const uptimePctBH = (adjustedUptimeBH / baseUptimeBH) * 100;
 
-    return {
-      adjustedUptimeBH,
-      totalWavesTime,
-      isPermanentBH,
-      uptimePctBH,
-    };
-  };
-
-  const BlackHoleStats = useMemo(() => {
-      return BlackHolePermanence(wavesToTest)
+      return {
+        adjustedUptimeBH,
+        totalWavesTime,
+        isPermanentBH,
+        uptimePctBH,
+      };
     },
     [
+      waveAcceleratorCard,
+      isTournament,
       packageCount,
+      galaxyCompressorEffect,
       BH_COOLDOWN,
       BH_DURATION,
-      isTournament,
-      waveAcceleratorCard,
-      galaxyCompressorEffect,
       bhDurationStones,
       bhDurationSubstat,
       bhPerk,
       isUwBc,
       assistBhDurationSubstat,
       substatEfficiency,
-    ])
+    ],
+  );
+
+  const BlackHoleStats = useMemo(() => {
+    return BlackHolePermanence(wavesToTest);
+  }, [BlackHolePermanence, wavesToTest]);
 
   return (
     <>
@@ -72,4 +73,4 @@ export const BlackHoleStats = ({ props }) => {
       <p>Uptime: {BlackHoleStats.uptimePctBH.toLocaleString('en-US', { maximumSignificantDigits: 5 })}%</p>
     </>
   );
-}
+};

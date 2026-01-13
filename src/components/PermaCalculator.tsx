@@ -1,11 +1,11 @@
+import { useState } from 'react';
 import { WAVE_ACCELERATOR_CARD } from 'tower-idle-toolkit';
-import { useCheckboxState, useIntegerState, useFloatState } from '../utils/hooks';
+import { useCheckboxState, useFloatState, useIntegerState } from '../utils/hooks';
 import { integerRange, roundMidpointToEven } from '../utils/utils';
-import { GALAXY_COMPRESSOR_EFFECT, BLACK_HOLE_SUBSTATS_DURATION, GOLDEN_TOWER_SUBSTATS_DURATION, DEATH_WAVE_SUBSTATS_QUANTITY } from '../utils/values';
-import { GoldenTowerStats } from './GoldenTowerStats';
+import { BLACK_HOLE_SUBSTATS_DURATION, DEATH_WAVE_SUBSTATS_QUANTITY, GALAXY_COMPRESSOR_EFFECT, GOLDEN_TOWER_SUBSTATS_DURATION } from '../utils/values';
 import { BlackHoleStats } from './BlackHoleStats';
 import { DeathWaveStats } from './DeathWaveStats';
-import { useState } from 'react';
+import { GoldenTowerStats } from './GoldenTowerStats';
 
 const GT_DURATION_LAB: number[] = integerRange(0, 20);
 const WAVES_TO_TEST: number = 1000;
@@ -67,10 +67,6 @@ export const PermaCalculator = ({ props }) => {
     const bhPerkDuration = bhPerk && !isTournament ? 12 : 0;
     const bhDurationUwc = isUwBc ? -10 : 0;
     const assistBhDurationContribution = (assistBhDurationSubstat * substatEfficiency) / 100;
-    console.log('isUwBc', isUwBc);
-    console.log('tourney', isTournament);
-    console.log('bhperk', bhPerk);
-    console.log('bhDuration', bhDurationUwc);
     return bhDurationStones + bhDurationSubstat + bhPerkDuration + bhDurationUwc + assistBhDurationContribution;
   };
 
@@ -84,7 +80,7 @@ export const PermaCalculator = ({ props }) => {
   const BH_COOLDOWN: number | undefined = props.mnEnabled ? roundMidpointToEven(props.averageCooldownwithMN) : props.bhCooldown;
 
   const packageCheck = (wave: number): boolean => {
-    let rollPackage = Math.floor(Math.random() * 100);
+    const rollPackage = Math.floor(Math.random() * 100);
     if (wave % bossWaveInterval === 0) {
       return true;
     } else if (packageChance === 0) {
@@ -316,7 +312,7 @@ export const PermaCalculator = ({ props }) => {
           <div className='control'>
             <label>
               UW BC
-              <input type='checkbox' checked={isUwBc} onChange={() => setIsUwBc(isUwBc === true ? false : true)} />
+              <input type='checkbox' checked={isUwBc} onChange={() => setIsUwBc(isUwBc !== true)} />
             </label>
           </div>
 

@@ -1,20 +1,11 @@
 import './Main.scss';
 import '../variables.scss';
 import logo from '../assets/mvn.webp';
-import { useInputState, useIntegerState, useCheckboxState } from '../utils/hooks';
 import { Calculator } from '../components/Calculator';
 import { PermaCalculator } from '../components/PermaCalculator';
-import React from 'react';
-import {
-  MULTIVERSE_NEXUS_EFFECT,
-  DEATH_WAVE_SUBSTATS_COOLDOWN,
-  DEATH_WAVE_SUBSTATS_QUANTITY,
-  GOLDEN_TOWER_SUBSTATS_COOLDOWN,
-  GOLDEN_TOWER_SUBSTATS_DURATION,
-  BLACK_HOLE_SUBSTATS_COOLDOWN,
-  BLACK_HOLE_SUBSTATS_DURATION,
-} from '../utils/values';
-import { sum, avg } from '../utils/utils';
+import { useCheckboxState, useInputState, useIntegerState } from '../utils/hooks';
+import { avg, sum } from '../utils/utils';
+import { BLACK_HOLE_SUBSTATS_COOLDOWN, DEATH_WAVE_SUBSTATS_COOLDOWN, GOLDEN_TOWER_SUBSTATS_COOLDOWN, MULTIVERSE_NEXUS_EFFECT } from '../utils/values';
 
 const mnEffects = Object.values(MULTIVERSE_NEXUS_EFFECT);
 
@@ -51,11 +42,11 @@ export const Main = () => {
   // Assist Module substats
   const [substatEfficiency, setSubstatEfficiency] = useIntegerState(1, 'substatEfficiency', 0, 100);
   const [assistGtCooldownSubstat, setAssistGtCooldownSubstat] = useIntegerState(0, 'assistGtCooldownSubstat', 0, 12);
-  const [assistGtDurationSubstat, setAssistGtDurationSubstat] = useIntegerState(0, 'assistGtDurationSubstat', 0, 7);
+  const [_assistGtDurationSubstat, _setAssistGtDurationSubstat] = useIntegerState(0, 'assistGtDurationSubstat', 0, 7);
   const [assistDwCooldownSubstat, setAssistDwCooldownSubstat] = useIntegerState(0, 'assistDwCooldownSubstat', 0, 13);
-  const [assistDwQuantitySubstat, setAssistDwQuantitySubstat] = useIntegerState(0, 'assistDwQuantitySubstat', 0, 3);
+  const [_assistDwQuantitySubstat, _setAssistDwQuantitySubstat] = useIntegerState(0, 'assistDwQuantitySubstat', 0, 3);
   const [assistBhCooldownSubstat, setAssistBhCooldownSubstat] = useIntegerState(0, 'assistBhCooldownSubstat', 0, 4);
-  const [assistBhDurationSubstat, setAssistBhDurationSubstat] = useIntegerState(0, 'assistBhDurationSubstat', 0, 4);
+  const [_assistBhDurationSubstat, _setAssistBhDurationSubstat] = useIntegerState(0, 'assistBhDurationSubstat', 0, 4);
 
   // Calculate assist module contributions with efficiency
   // Only round down for integer stats (DW quantity), NOT for cooldown/duration
@@ -99,8 +90,12 @@ export const Main = () => {
             style={{
               transition: 'filter 0.3s ease-in-out',
             }}
-            onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.5) drop-shadow(0 0 10px rgba(255, 255, 255, 0.7))')}
-            onMouseLeave={e => (e.currentTarget.style.filter = 'none')}
+            onMouseEnter={e => {
+              e.currentTarget.style.filter = 'brightness(1.5) drop-shadow(0 0 10px rgba(255, 255, 255, 0.7))';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.filter = 'none';
+            }}
           />
         </a>
       </div>

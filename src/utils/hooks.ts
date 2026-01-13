@@ -2,15 +2,18 @@ import { useCallback, useState } from 'react';
 
 const versionCache = '27.0-01';
 
-export const useInputEvent = setState => useCallback(({ target: { value } }) => setState(value), [setState]);
+export const useInputEvent =
+  setState =>
+  ({ target: { value } }) =>
+    setState(value);
 
 export const useUpdatedState = (initial, key) => {
-  let fromStorage;
+  let fromStorage: unknown;
   const cacheKey = `${key}-${versionCache}`;
   try {
     const valueFromStorage = localStorage.getItem(cacheKey);
     if (valueFromStorage) fromStorage = JSON.parse(valueFromStorage);
-  } catch (e) {
+  } catch (_e) {
     // no storage;
   }
   const initialValue = fromStorage === null || fromStorage === undefined ? initial : fromStorage;
@@ -22,13 +25,13 @@ export const useUpdatedState = (initial, key) => {
         const setValue = typeof newValue === 'function' ? newValue(oldValue) : newValue;
         try {
           if (key) localStorage.setItem(cacheKey, JSON.stringify(setValue));
-        } catch (e) {
+        } catch (_e) {
           // no storage;
         }
         return setValue;
       });
     },
-    [key, cacheKey, setState],
+    [key, cacheKey],
   );
   return [state, updateState];
 };
@@ -39,7 +42,10 @@ export const useInputState = (initial, key) => {
   return [state, updateState, setState];
 };
 
-export const useCheckboxEvent = setState => useCallback(({ target: { checked } }) => setState(checked), [setState]);
+export const useCheckboxEvent =
+  setState =>
+  ({ target: { checked } }) =>
+    setState(checked);
 
 export const useCheckboxState = (initial, key) => {
   const [state, setState] = useUpdatedState(initial, key);
@@ -81,7 +87,10 @@ export const useFloatState = (initial, key, min, max) => {
   return [state, updateState, setState];
 };
 
-export const useSelectEvent = setState => useCallback(({ target: { value } }) => setState(value), [setState]);
+export const useSelectEvent =
+  setState =>
+  ({ target: { value } }) =>
+    setState(value);
 
 export const useSelectState = (initial, key) => {
   const [state, setState] = useUpdatedState(initial, key);
@@ -89,7 +98,10 @@ export const useSelectState = (initial, key) => {
   return [state, updateState, setState];
 };
 
-export const useDropDownEvent = setState => useCallback(({ target: { value } }) => setState(value), [setState]);
+export const useDropDownEvent =
+  setState =>
+  ({ target: { value } }) =>
+    setState(value);
 
 export const useDropDownState = (initial, key) => {
   const [state, setState] = useUpdatedState(initial, key);

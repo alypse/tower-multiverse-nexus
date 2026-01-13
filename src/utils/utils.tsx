@@ -9,11 +9,10 @@ export const integerRange = (start: number, end: number) => Array.from({ length:
  * Returns a supplied numeric expression rounded to the nearest integer while rounding halves to even.
  */
 export const roundMidpointToEven = (x: number) => {
-  const n = x >= 0 ? 1 : -1 // n describes the adjustment on an odd rounding from midpoint
-  const r = n * Math.round(n * x) // multiplying n will fix negative rounding
-  return Math.abs(x) % 1 === 0.5 && r % 2 !== 0 ? r - n : r // we adjust by n if we deal with a half on an odd rounded number
-}
-
+  const n = x >= 0 ? 1 : -1; // n describes the adjustment on an odd rounding from midpoint
+  const r = n * Math.round(n * x); // multiplying n will fix negative rounding
+  return Math.abs(x) % 1 === 0.5 && r % 2 !== 0 ? r - n : r; // we adjust by n if we deal with a half on an odd rounded number
+};
 
 // Strings //
 export const capitalize = (string: string) => (!string?.length ? '' : string.charAt(0).toUpperCase() + string.substring(1).toLowerCase());
@@ -27,8 +26,14 @@ export const renderIfElse = (condition, render, elseRender) => (condition ? rend
 
 export const unique = array => [...new Set(array)];
 
-export const removeDuplicates = (array: any[]) => array.filter((value, index, self) => self.indexOf(value) === index);
+export const removeDuplicates = <T,>(array: T[]) => array.filter((value, index, self) => self.indexOf(value) === index);
 
 // Objects //
 
-export const objectFromEntries = entries => entries.reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+export const objectFromEntries = entries => {
+  const result = {};
+  for (const [key, value] of entries) {
+    result[key] = value;
+  }
+  return result;
+};
